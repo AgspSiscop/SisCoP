@@ -1,0 +1,19 @@
+<div class="navbar">
+    
+        <div class="navbar_logo">
+            <a href="/"><img src="/img/agsp_4.png" style=" height: 77px; width: 54px;"/></a>
+            <div class="navbar_title">
+                <h3>SisCoP</h3>
+            </div>               
+        </div>
+        {{#if user}}
+        <div class="navbar_profile">
+            <!--<div class="navbar_profile_button ">
+                <img class="navbar_image_user" src="/img/user.png">
+            </div>-->
+            <p>{{name}}</p>
+            <p>|</p>
+            <a href="/logout" class="navbar_logout"><p>logout</p></a>
+        </div>
+        {{/if}}    
+</div>

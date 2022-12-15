@@ -1,0 +1,358 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body{
+    background-color: rgb(45, 47, 49);
+        
+}
+
+hr{
+    border: solid 1px rgb(218, 218, 218);    
+    margin:10px auto 20px auto
+}
+select{
+    margin-bottom: 10px;
+}
+.navbar{
+    background-color: rgb(64, 69, 73);
+    padding: 10px, 0px, 10px 0px;
+    border-bottom: 1px solid rgb(25, 26, 27);
+    display: flex;
+    justify-content: space-between;
+}
+.navbar_logo{    
+    margin-left: 30px;
+    padding-top: 10px;  
+    padding-bottom: 10px;    
+    display: flex;
+    justify-content: flex-start;      
+}
+.navbar_title{
+    color: rgb(234,243,230);    
+    margin-left: 10px;
+}
+.navbar_profile{
+    color: rgb(234,243,230);
+    padding-top: 60px; 
+    margin-right: 35px;
+    display: flex;
+    justify-content: flex-start;
+}
+.navbar_profile p{
+    margin-top: 5px;
+    margin-left: 7px;
+    font-size: 14px;
+}
+.navbar_profile_button{    
+    background-image: linear-gradient( to right, rgb(79, 84, 88), rgb(74, 75, 77));
+    border: 1px solid rgb(54, 54, 54);
+    border-radius: 5px;
+    height: 25px;
+    width: 25px;    
+}
+.navbar_image_user{
+    height: 25px;
+    width: 25px;    
+}
+.navbar_logout{
+    text-decoration: none;
+    color: rgb(255, 255, 255); 
+}
+.navbar_logout:hover{    
+    color: rgb(184, 184, 184); 
+}
+.lateral_bar{
+    background-image: linear-gradient( to right, rgb(58, 61, 61), rgb(59, 62, 65));
+    background-size: 250px, auto;
+    background-repeat: repeat-y;
+    
+}
+.leftbar{    
+    color: rgb(255, 255, 255);        
+    width: 250px;
+    background-image: linear-gradient( to right, rgb(58, 61, 61), rgb(59, 62, 65));
+    background-size: 250px, auto;
+    background-repeat: repeat-y;
+    height:100vh;     
+}
+.leftbar_itens{
+    padding:30px;
+    font-size: 12px;
+    font-weight: bold;    
+    border-bottom: 1px solid rgb(19, 19, 19);      
+}
+.leftbar_itens a{
+    text-decoration: none;
+    color: rgb(255, 255, 255); 
+}
+
+/*
+.leftbar{    
+    color: rgb(255, 255, 255);        
+    width: 250px;
+    background-image: linear-gradient( to right, rgb(49, 51, 53),  rgb(43, 48, 48));
+    background-size: 250px, auto;
+    background-repeat: repeat-y;
+    height:100vh;
+}
+.leftbar_itens{
+    padding:30px;
+    font-size: 14px;
+    font-weight: bold;    
+    border-bottom: 1px solid rgb(112, 112, 112);
+    
+}*/
+.leftbar_itens:hover{
+    background-image: linear-gradient(to right, rgb(136, 194, 42), rgb(118, 168, 36));
+    cursor: pointer;
+    
+}
+
+
+
+/*****************************************************************************windows-*/
+.mainwindow{
+    background-color:  rgb(233, 236, 232);;    
+    color: rgb(105, 105, 105);
+    border-radius: 2px;
+    min-height: 300px;
+    width: 1000px;    ;
+    box-shadow: 6px 6px 10px 1px rgb(24, 24, 24);
+    margin-bottom: 30px;
+}
+.logwindow{
+    background-color:  rgb(233, 236, 232);;    
+    color: rgb(105, 105, 105);
+    border-radius: 2px;
+    min-height: 200px;
+    width: 500px;    ;
+    box-shadow: 6px 6px 10px 1px rgb(24, 24, 24);
+    margin-bottom: 30px;
+}
+.imagewindow{
+    background-color: rgb(212, 212, 211);
+    padding-bottom: 10px;
+    border-radius: 30px;
+    margin: 20px 0px 40px 0px;
+    text-align: center;
+    cursor: pointer; 
+}
+.content_window{
+    margin:0px 70px 0px 15px;
+    padding: 20px 0px 20px 0px;       
+}
+.content_window input[type = text]{
+    margin-bottom: 15px;
+    margin-right: 10px;
+    background-color: rgb(224, 230, 228);
+    color: rgb(70, 70, 70);
+    border: 1px solid rgb(185, 184, 184);
+    padding: 1px; 
+    border-radius: 3px;
+}
+.content_window input[type = password]{
+    margin-bottom: 15px;
+    margin-right: 10px;
+    background-color: rgb(224, 230, 228);
+    color: rgb(70, 70, 70);
+    border: 1px solid rgb(185, 184, 184);
+    padding: 1px; 
+    border-radius: 3px;
+}
+.imagewindow:hover{
+    background-color: rgb(210, 210, 228);
+    color: aliceblue;
+    transition: 0.3s; 
+}
+.content_window label{
+    margin-right: 15px;
+}
+.content_window select{
+    background-color: rgb(224, 230, 228);
+    border-radius: 3px;
+    border: 1px solid rgb(185, 184, 184);
+    padding: 1px;
+    color: rgb(70, 70, 70);
+}
+.area{
+    margin-left: 10px;
+}
+
+.area_send{    
+    text-align: right;
+    margin-top: 5px;
+}
+
+/***************************************************************************Display Align*/
+.bodyorientation{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+    box-sizing: border-box;
+}
+.bodyguides{
+    display: inline;
+}
+.bodyguides button{
+    background-color: rgb(77, 77, 77);
+    color:rgb(255, 255, 255);    
+    border: none;
+    padding: 6px;
+    margin-left: -2px;
+    border-radius: 1px 1px 0px 0px;
+}
+.bodyguides button:hover{
+    background-color: rgb(88, 88, 88);    
+}
+.display-column-end{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;    
+}
+.display-flex-start{
+    display: flex;
+    align-items:stretch;
+    justify-content:flex-start    
+}
+
+/********************************************************************************Components*/
+.basebord{
+    padding: 10px 10px 10px 10px;    
+    height: 50px;
+    background-color: rgb(31, 31, 31);background-color: rgb(45, 47, 49);
+    margin-top: 10px;    
+}
+.imageselector{
+    padding: 80px;
+    margin-bottom: -44px;
+}
+.imageselector:hover{
+    filter: brightness(1.46);
+    transition: 0.3s;
+}
+.content input{    
+    margin-bottom: 20px;
+}
+.content h4{
+    margin-bottom: 10px
+}
+.content textarea{
+    margin-left: 10px;
+    min-width: 500px;
+    max-width: 500px;
+    min-height: 100px;
+    max-height: 100px;
+    margin-bottom: 20px;
+}
+.content input[type = checkbox]{
+    margin-right: 30px;
+    margin-top: 5px;
+}
+.button{
+    padding: 5px;
+    background-color: rgb(136,196,37);
+    border: 0px;
+    border-radius: 3px;
+    color: rgb(253, 253, 253);    
+    margin: 10px;
+}
+.button:hover{
+    background-color: rgb(156, 221, 52);
+    cursor: pointer;    
+}
+
+.button_disable{
+    padding: 5px;
+    background-color: rgb(190, 192, 186);
+    border: 0px;
+    border-radius: 3px;
+    color: rgb(119, 119, 119);    
+    margin: 10px;
+}
+
+.button_file{
+    padding: 5px;
+    background-color: rgb(136,196,37);
+    border: 0px;
+    border-radius: 3px;
+    color: rgb(253, 253, 253);    
+    margin: 10px;
+    display:inline;
+    font-size: 13.5px;
+}
+.button_file:hover{
+    background-color: rgb(156, 221, 52);
+    cursor: pointer;    
+}
+#filename{
+    background-color: rgb(224, 230, 228);
+    color: rgb(70,70,70);
+    padding: 1px 5px 1px 5px;
+    font-size: 13.5px;
+    border-radius: 2px;
+    border: 1px solid rgb(185, 184, 184);    
+}
+#filename:empty{
+    padding: 1px 110px 1px 110px;
+}
+#file{
+    display:none;
+}
+#myChart{
+    width: 840px;
+    height: 500px;
+    margin-left: auto;
+    margin-right: auto;             
+}
+#graphicpng{
+    width: 0px;
+    height: 0px;
+    margin-left: auto;
+    margin-right: auto;    
+}
+.param_text{
+    width: 965px;
+    height: 150px;
+    background-color: rgb(224, 230, 228);
+    color: rgb(70, 70, 70);
+    border: 1px solid rgb(185, 184, 184);    
+    border-radius: 3px;
+    resize: none;
+}
+.error_message{
+    margin-bottom: 3px;    
+}
+
+
+
+
+/*Align*/
+.longtext{         
+    width: 600px;           
+}
+.mediumtext{
+    width: 400px;
+    margin-right: 5px;
+}
+.smalltext{
+    width: 60px;
+}
+
+.flexorientation--start{
+    display: flex;
+    justify-content: flex-start;    
+}
+.flexorientation--spaceb{
+    display: flex;
+    justify-content:space-between;
+}
+.flexorientation--spacea{
+    display: flex;
+    justify-content:space-around;
+}
+
+
+

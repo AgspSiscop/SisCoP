@@ -1,0 +1,118 @@
+<div class="mainwindow"> 
+    <div class="content_window">
+        <form id="formp" method="post" action="/montagem/analise_critica1" >
+            {{#if size}}
+                <div>
+                    <h4>Parametrização</h4>
+                    <label><label>
+                    <canvas id="myChart"></canvas>                     
+                    <img id="graphicpng" name="graphicpng">                                                                    
+                </div>            
+                <div>                
+                    <label>Exame da Parametrização:</label>          
+                    <textarea class="param_text" name="review"></textarea>
+                </div>
+                <hr>    
+            {{/if}}                      
+            {{#if qntproviders}}
+                <h4>Dados dos Fornecedores</h4>
+                <br>
+                {{#each qntproviders}}          
+                <h4>Fornecedor {{provider}}</h4>
+                <div>
+                    <label>Nome da Empresa:</label>
+                    <input type="text" class="mediumtext" name="pname{{provider}}">          
+                </div>
+                <div>
+                    <label>Endereço:</label>
+                    <input type="text" class="mediumtext" name="paddress{{provider}}">
+                </div>
+                <div>
+                    <label>CEP:</label>
+                    <input type="text" class="mediumtext" name="pcep{{provider}}">
+                </div>
+                <div>
+                    <label>Telefone:</label>
+                    <input type="text" class="mediumtext" name="ptel{{provider}}">
+                </div>
+                <div>
+                    <label>CNPJ:</label>
+                    <input type="text" class="mediumtext" name="pcnpj{{provider}}">
+                </div>
+                <hr>        
+                {{/each}}
+            <input type="hidden" id="providersqnt" name="providersqnt">
+            {{/if}}
+            <input type="hidden" id="graphic" name="graphic">
+            <input type="submit" value="Enviar" id="send" class="button">   
+        </form>    
+    </div>
+</div>       
+
+
+<script src="/js/graphic.js"></script> 
+<script>
+  const ctx = document.getElementById('myChart') || null;  
+
+  if(ctx != null){
+    let datasets = []
+    '{{#each datasets}}'
+      datasets.push({
+          label: '{{label}}',
+          data: '{{data}}'.split(','),
+          backgroundColor: '{{color}}',
+          borderColor: '{{color}}',
+          borderWidth: '{{borderWidth}}'
+      });  
+    '{{/each}}'
+
+    const myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: '{{labels}}'.split(','),      
+        datasets: datasets
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: false
+          }
+        },
+        plugins: {
+          title: {
+            display: true,
+            text: 'Razão Entre Preços dos Fornecedores',
+            font: {
+              size: 16
+            }          
+          },
+          legend: {
+            labels: {
+              font:{
+                size: 13,
+                weight: 'bold'
+              }
+            }
+          }        
+        }
+      }
+    });  
+    const image = ctx.toDataURL('image/png');
+    const imageGraphic = document.getElementById('graphicpng');
+    const graphic = document.getElementById('graphic');  
+    imageGraphic.src = image;
+    graphic.setAttribute('value', imageGraphic.getAttribute('src'))
+  }
+
+  let qnt = '{{qntproviders}}'.split(',').length
+  console.log(qnt)
+  const providersqnt = document.getElementById('providersqnt')
+   
+  
+  providersqnt.setAttribute('value', qnt.toString())
+
+ 
+
+</script>
+
+

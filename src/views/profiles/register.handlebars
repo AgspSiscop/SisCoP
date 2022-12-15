@@ -1,0 +1,41 @@
+<div class="logwindow">
+    <div class="content_window">
+        {{#if errors}}
+        {{#each errors}}
+        <div class="error_message"><p>{{text}}</p></div>
+        {{/each}}        
+        {{else}}
+        {{/if}}
+        <h2>Create account</h2>
+        <hr>
+        <form action="/saveregister" method="POST">
+            <div>
+                <label>Nome: </label>
+                <input type="text" name="name" id="name">
+            </div>
+            <div>
+                <label>Senha: </label>
+                <input type="password" name="password" id="password">
+            </div>
+            <div>
+                <label>Seção: </label>
+                <select name="section" id="section">
+                    <option value="0"></option>
+                    <option value="orçamentacao">Orçamentação</option>
+                    <option value="dpgot">DPGOT</option>
+                    <option value="fiscal">Fiscal ADM</option>
+                    <option value="salc">SALC</option>
+                    <option value="pesado">Armamento Pesado</option>
+                    <option value="leve">Armamento Leve</option>
+                    <option value="blindados">Linha de Blindados</option>
+                </select>
+            </div>
+            <div>
+                <label>Level: </label>
+                <input type="text" name="level" id="level">
+            </div>
+            <input type="submit" class="button" value="Create">
+        </form>
+    </div>
+
+</div>
