@@ -1,45 +1,13 @@
-<div class="mainwindow">
-    <div class="content_window">
-        <div class="flexorientation--spaceb">
-            <h2 >Meus Processos</h2>
-            <h2>{{year}}</h2>
-        </div>
-        <hr>
-        <label>Ano:</label>
-        <select name="year" id="year">
-            <option value=""></option>
-            <option value="2022">2022</option>
-            <option value="2023">2023</option>                    
-        </select>
-        <div class="search_button bodyguides">
-             <a id="yearbutton"><img src="/img/lup.png" style="height: 15px; width: 15px;"></a>
-        </div>        
-        <div id="list" name="id">
-        </div>        
-    </div>
-</div>
-<script src="/js/listReader.js"></script>
-<script>
-    const list = document.getElementById('list');
-    
-    const yearButton = document.getElementById('yearbutton');
-    let names = [];
-    let listeners = []  
-    '{{#each documents}}'    
-    names.push({
-        name: '{{name}}'.split('_')[3],
-        link: '{{name}}'
-        }) ;  
-    '{{/each}}'
-    let year = document.getElementById('year');
-    /*for(let i of names){
+function listReader(list, itens ,openDir, editDir, trueWhenFile){
+    for(let i of itens){
         let element = document.createElement('a');        
         let editButton = document.createElement('input');
         let deleteButton = document.createElement('input')
         let form = document.createElement('form');
         let editField =  document.createElement('input');
         let sendEdit =  document.createElement('input');
-        let cancelEdit = document.createElement('input');      
+        let cancelEdit = document.createElement('input');
+        let deleteText = document.createElement('p');    
         list.appendChild(form);
         editField.setAttribute('type', 'hidden');
         editField.setAttribute('name', 'ename');
@@ -49,12 +17,18 @@
         sendEdit.setAttribute('class', 'button');        
         cancelEdit.setAttribute('type', 'hidden');
         cancelEdit.setAttribute('value', 'Cancelar');
-        cancelEdit.setAttribute('class', 'redbutton')
+        cancelEdit.setAttribute('class', 'redbutton');
+        deleteText.setAttribute('class', 'display_none');
+        deleteText.textContent = 'Tem certeza que deseja apagar este item?'
         form.appendChild(editField);
+        form.appendChild(deleteText);
         form.appendChild(sendEdit);
         form.appendChild(cancelEdit);
         element.textContent =  i.name;
-        element.setAttribute('href', `/meusprocessos/{{year}}/${i.link}`);
+        element.setAttribute('href', `${openDir}${i.link}`);
+        if(trueWhenFile){
+            element.setAttribute('target', '_blank');
+        }
         form.appendChild(element);
         editButton.setAttribute('type', 'submit');
         editButton.setAttribute('value', 'Editar');
@@ -68,7 +42,8 @@
         editButton.addEventListener('click', (e)=>{
             e.preventDefault()
             editField.removeAttribute('type');
-            editField.setAttribute('type', 'text');            
+            editField.setAttribute('type', 'text');
+            editField.setAttribute('required', '');         
             sendEdit.removeAttribute('type');
             sendEdit.setAttribute('type', 'submit');
             cancelEdit.removeAttribute('type');
@@ -79,8 +54,9 @@
 
             sendEdit.addEventListener('click', () =>{
                 form.setAttribute('method', 'POST');
-                form.setAttribute('action', `/meusprocessos/{{year}}/edit/${i.link}`);
+                form.setAttribute('action', `${editDir}edit/${i.link}`);
             });
+
             cancelEdit.addEventListener('click', (e) =>{
                 e.preventDefault();
                 editField.removeAttribute('type');
@@ -91,18 +67,42 @@
                 cancelEdit.setAttribute('type', 'hidden');
                 form.appendChild(element);
                 form.appendChild(editButton);
-                form.appendChild(deleteButton);
+                form.appendChild(deleteButton);   
+            });            
+        });
+        
+        deleteButton.addEventListener('click', (e) => {            
+            e.preventDefault()
+            deleteText.removeAttribute('class');      
+            sendEdit.removeAttribute('type');
+            sendEdit.setAttribute('type', 'submit');
+            cancelEdit.removeAttribute('type');
+            cancelEdit.setAttribute('type', 'submit');
+            form.removeChild(element);
+            form.removeChild(editButton);
+            form.removeChild(deleteButton);
 
-            })           
-            
-        })          
-    }*/
-    listReader(list, names, `/meusprocessos/{{year}}/`,`/meusprocessos/{{year}}/`)
-    yearButton.addEventListener('click', () => {
-    yearButton.setAttribute('href', `/meusprocessos/${year.value}`);        
-    })
-    
-    
-    
-</script> 
+            sendEdit.addEventListener('click', () =>{
+                form.setAttribute('method', 'POST');
+                form.setAttribute('action', `${editDir}delete/${i.link}`);
+            });
+
+            cancelEdit.addEventListener('click', (e) =>{
+                e.preventDefault();
+                deleteText.setAttribute('class', 'display_none')            
+                sendEdit.removeAttribute('type');
+                sendEdit.setAttribute('type', 'hidden');
+                cancelEdit.removeAttribute('type');
+                cancelEdit.setAttribute('type', 'hidden');
+                form.appendChild(element);
+                form.appendChild(editButton);
+                form.appendChild(deleteButton);   
+            });
+        })
+    }
+}
+
+
+
+
 

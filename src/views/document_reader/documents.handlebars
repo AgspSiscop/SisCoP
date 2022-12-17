@@ -1,0 +1,63 @@
+<div class="mainwindow">
+    <div class="content_window">        
+        <div class="flexorientation--spaceb">
+            <h2 id="documenttitle"></h2>
+            <h2>{{year}}</h2>
+        </div>        
+        <hr>       
+        <div id="list">
+        </div>
+        <hr>
+        <form id="upload">
+            <label for="file" class="button_file">Upload</label>
+            <input type="file" id="file" name="file" value="" required>
+            <span id="filename"></span required>            
+        </form>
+        <br>
+        <p id="message"></p>
+        {{#if error}}
+        {{#each error}}
+        <p>{{err}}</p>
+        {{/each}}
+        {{/if}}
+    </div>
+</div>
+<script src="/js/listReader.js"></script>
+<script>    
+    const title = document.getElementById('documenttitle');
+    const list = document.getElementById('list');
+    const names = [];
+    const inputFile = document.getElementById('file');
+    const spanName = document.getElementById('filename');
+    const formUpload = document.getElementById('upload');
+    const message = document.getElementById('message');
+    title.textContent = '{{title}}'.split('_')[3];
+    '{{#each documents}}'
+    names.push({
+        name:'{{name}}',
+        link: '{{name}}'
+        });
+    '{{/each}}'
+    inputFile.value = '' //resets when page is reloaded
+    inputFile.addEventListener('change', () => {
+        message.innerHTML = ''              
+        let text = inputFile.value.split("\\");
+        let extension = text[2].split('.')[text[2].split('.').length -1];
+        spanName.textContent = text[2];
+        if(extension.toLowerCase() == 'txt' || extension.toLowerCase() == 'xlsx' || extension.toLowerCase() == 'pdf' || extension.toLowerCase() == 'docx' || 
+        extension.toLowerCase() == 'doc' || extension.toLowerCase() == 'jpg' || extension.toLowerCase() == 'jpeg' || extension.toLowerCase() == 'ods' || 
+        extension.toLowerCase() == 'zip' || extension.toLowerCase() == 'rar' || extension.toLowerCase() == 'jar' || extension.toLowerCase() == 'zip'){
+            let sendFile = document.createElement('input');           
+            sendFile.setAttribute('type', 'submit');
+            sendFile.setAttribute('class', 'button');
+            sendFile.setAttribute('value', 'enviar');
+            formUpload.appendChild(sendFile);
+            formUpload.setAttribute('action', '/meusprocessos/{{year}}/{{title}}');
+            formUpload.setAttribute('method', 'POST');
+            formUpload.setAttribute('enctype', 'multipart/form-data'); //*
+        }else{            
+            message.innerHTML = 'Só é possível fazer upload de arquivos: pdf, ods, xlsx, docx, doc, jpg, jpeg, ods e arquivos compctados em até 60MB';                       ;
+        }        
+    });
+    listReader(list, names, `/meusprocessos/{{year}}/{{title}}/`, `/meusprocessos/{{year}}/{{title}}/`, true);
+</script> 

@@ -79,16 +79,40 @@ select{
     height:100vh;     
 }
 .leftbar_itens{
-    padding:30px;
+    
     font-size: 12px;
     font-weight: bold;    
     border-bottom: 1px solid rgb(19, 19, 19);      
 }
 .leftbar_itens a{
     text-decoration: none;
-    color: rgb(255, 255, 255); 
+    color: rgb(255, 255, 255);   
 }
-
+.leftbar_itens p{    
+    padding: 25px;
+}
+#list a{
+    display:block;
+    text-decoration: none;
+    color: rgb(105, 105, 105);    
+    display: inline;
+    margin-right: 30px;    
+}
+#list button{
+    margin-left: 20px;
+    margin-right: -10px;    
+    margin-top: 1.5px;
+    margin-bottom: 1.5px;
+}
+#list form{
+    margin: 10px;    
+}
+#list form:hover{
+    background-color: rgb(220, 255, 164);       
+}
+#list a:hover{    
+    background-color: rgb(220, 255, 164);
+}
 /*
 .leftbar{    
     color: rgb(255, 255, 255);        
@@ -258,12 +282,41 @@ select{
     border-radius: 3px;
     color: rgb(253, 253, 253);    
     margin: 10px;
+    width:fit-content;
+    height: fit-content;  
 }
 .button:hover{
     background-color: rgb(156, 221, 52);
     cursor: pointer;    
 }
+.redbutton{
+    padding: 5px;
+    background-color: rgb(233, 61, 61);
+    border: 0px;
+    border-radius: 3px;
+    color: rgb(253, 253, 253);    
+    margin: 10px;
+    width:fit-content;
+    height: fit-content;  
+}
+.redbutton:hover{
+    background-color: rgb(226, 26, 26);
+    cursor: pointer;    
+}
 
+.search_button{
+    padding: 1px 3px 1px 3px;
+    background-color: rgb(136,196,37);
+    border: 0px;
+    border-radius: 3px;       
+    margin: 10px;
+    width:fit-content;
+    height: fit-content;  
+}
+.search_button:hover{
+    background-color: rgb(156, 221, 52);
+    cursor: pointer;    
+}
 .button_disable{
     padding: 5px;
     background-color: rgb(190, 192, 186);
@@ -313,6 +366,10 @@ select{
     margin-left: auto;
     margin-right: auto;    
 }
+#year{
+    margin-left: -12px;
+    margin-right: -5px;
+}
 .param_text{
     width: 965px;
     height: 150px;
@@ -325,11 +382,9 @@ select{
 .error_message{
     margin-bottom: 3px;    
 }
-
-
-
-
-/*Align*/
+.display_none{
+    display: none;
+}
 .longtext{         
     width: 600px;           
 }
@@ -340,6 +395,8 @@ select{
 .smalltext{
     width: 60px;
 }
+
+/*Align*/
 
 .flexorientation--start{
     display: flex;
