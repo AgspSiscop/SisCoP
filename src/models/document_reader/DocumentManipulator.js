@@ -45,19 +45,7 @@ class DocumentManipulator  {
     
     static removeDocument(dir){
         fs.rm(dir, () =>{});
-    }  
-
-
-    /* const storage = multer.diskStorage({
-        destination: function(req, file, cb){
-            fs.mkdir(`upload/${(new Date).getFullYear()}/${req.user.level + '_' + req.user.section + '_' + req.user.name + '_' + req.body.object}`, (error) =>{});
-            cb(null,`upload/${(new Date).getFullYear()}/${req.user.level + '_' + req.user.section + '_' + req.user.name + '_' + req.body.object}`);
-        },
-        filename: function(req, file, cb){
-            cb(null, file.originalname `Mapa Comparativo de ${req.body.object}.xlsx`);
-        }
-    })
-    const multerConfig = multer({storage})*/
+    }    
 }
 
 const storage = multer.diskStorage({
@@ -71,16 +59,15 @@ const storage = multer.diskStorage({
              
     }
 })
-const multerConfig = multer({limits:{fileSize: 8021505}  , storage}) // alterar o limite
+const multerConfig = multer({limits:{fileSize: 6021505}  , storage});
 
 function uploadFile(req, res, next) {
     const upload = multerConfig.single('file');
 
     upload(req, res, function (err) {
         if (err) {
-            if(err.message == 'File too large'){                
-                const error = {err: 'Arquivo ultrapassa o limite de 60MB'} //tentar mostrar a mensagem
-                res.render('document_reader/documents', {error: error});
+            if(err.message == 'File too large'){               
+                req.session.error = 'Arquivo ultrapassa o limite de 60MB' //mudar isso
             }else{
                 res.redirect(`/meusprocessos/${req.params.year}/${req.params.link}`);
             }            

@@ -8,8 +8,6 @@ const router =  require('./routes');
 const passport = require('passport');
 require('./config/auth')(passport);
 
-
-
 const app = express();
 
 app.use(session({
@@ -26,7 +24,7 @@ app.use((req, res, next) => {
     res.locals.name = user.name;
     res.locals.section =  user.section;
     res.locals.level =  user.level;
-    users = user         
+    res.locals.id = user.id;           
     next();
 });
 

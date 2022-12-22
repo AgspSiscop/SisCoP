@@ -1,0 +1,46 @@
+<div class="mainwindow">
+    <div class="content_window">
+        <div class="flexorientation--spaceb">
+            <h2 >Meus Processos</h2>
+            <h2>{{year}}</h2>            
+        </div>
+        <hr>
+        <label>Ano:</label>
+        <select name="year" id="year">
+            <option value=""></option>
+            <option value="2022">2022</option>
+            <option value="2023">2023</option>                    
+        </select>        
+
+        <div class="search_button bodyguides">
+             <a id="yearbutton"><img src="/img/lup.png" style="height: 15px; width: 15px;"></a>
+        </div>        
+        <div id="list" class="list">           
+        </div>        
+    </div>
+</div>
+
+<script src="/js/readerProcess.js"></script>
+<script>
+    const list = document.getElementById('list');    
+    const yearButton = document.getElementById('yearbutton');
+    let names = [];
+    let listeners = [];    
+    '{{#each process}}'    
+    names.push({
+        id: '{{_id}}',
+        title: '{{title}}',
+        dir: '{{dir}}',
+        date: '{{date}}'       
+        });
+    '{{/each}}'
+    
+    let year = document.getElementById('year');   
+    listReader(list, names, `/meusprocessos/{{year}}/`);   
+    yearButton.addEventListener('click', () => {
+    yearButton.setAttribute('href', `/meusprocessos/${year.value}`);  
+    });    
+</script>
+
+
+

@@ -78,8 +78,7 @@ select{
     background-repeat: repeat-y;
     height:100vh;     
 }
-.leftbar_itens{
-    
+.leftbar_itens{    
     font-size: 12px;
     font-weight: bold;    
     border-bottom: 1px solid rgb(19, 19, 19);      
@@ -91,13 +90,6 @@ select{
 .leftbar_itens p{    
     padding: 25px;
 }
-#list a{
-    display:block;
-    text-decoration: none;
-    color: rgb(105, 105, 105);    
-    display: inline;
-    margin-right: 30px;    
-}
 #list button{
     margin-left: 20px;
     margin-right: -10px;    
@@ -105,44 +97,43 @@ select{
     margin-bottom: 1.5px;
 }
 #list form{
-    margin: 10px;    
+    margin: 10px;        
 }
-#list form:hover{
-    background-color: rgb(220, 255, 164);       
+#list a{    
+    text-decoration: none;        
+    display: inline;
+    margin-right: 30px;    
+
 }
-#list a:hover{    
-    background-color: rgb(220, 255, 164);
-}
-/*
-.leftbar{    
-    color: rgb(255, 255, 255);        
-    width: 250px;
-    background-image: linear-gradient( to right, rgb(49, 51, 53),  rgb(43, 48, 48));
-    background-size: 250px, auto;
-    background-repeat: repeat-y;
-    height:100vh;
-}
-.leftbar_itens{
-    padding:30px;
-    font-size: 14px;
-    font-weight: bold;    
-    border-bottom: 1px solid rgb(112, 112, 112);
-    
-}*/
 .leftbar_itens:hover{
     background-image: linear-gradient(to right, rgb(136, 194, 42), rgb(118, 168, 36));
-    cursor: pointer;
-    
+    cursor: pointer;    
 }
-
-
+.list_iten div {
+    margin-left: 5px;
+}
+.list_iten{
+    padding-bottom: 5px;
+}
+.list_iten:hover{
+    background-color: rgb(220, 255, 164);    
+}
+.list_iten_delete{    
+    background-color: rgb(255, 164, 164);
+    padding-bottom: 5px;  
+    transition: 0.7s;
+}
+.list_iten_delete div{    
+    margin-left: 5px;
+    padding-top: 5px;   
+}
 
 /*****************************************************************************windows-*/
 .mainwindow{
     background-color:  rgb(233, 236, 232);;    
     color: rgb(105, 105, 105);
     border-radius: 2px;
-    min-height: 300px;
+    min-height: 200px;
     width: 1000px;    ;
     box-shadow: 6px 6px 10px 1px rgb(24, 24, 24);
     margin-bottom: 30px;
@@ -209,6 +200,19 @@ select{
     text-align: right;
     margin-top: 5px;
 }
+.status_content{
+    width: 450px;
+    min-height: 200px;
+    background-color: rgb(170, 255, 85);
+    padding: 10px;
+    margin-bottom: 20px;
+}
+.status_content div{
+    margin-bottom: 30px;
+}
+.status_content label{
+    font-weight: bolder;
+}
 
 /***************************************************************************Display Align*/
 .bodyorientation{
@@ -240,6 +244,12 @@ select{
     display: flex;
     align-items:stretch;
     justify-content:flex-start    
+}
+.display-float-right{
+    float: right;
+}
+.display-float-left{
+    float: left;
 }
 
 /********************************************************************************Components*/
@@ -280,7 +290,8 @@ select{
     background-color: rgb(136,196,37);
     border: 0px;
     border-radius: 3px;
-    color: rgb(253, 253, 253);    
+    color: rgb(253, 253, 253);
+    font-size: 13.5px;  
     margin: 10px;
     width:fit-content;
     height: fit-content;  
@@ -289,6 +300,21 @@ select{
     background-color: rgb(156, 221, 52);
     cursor: pointer;    
 }
+.arrow{
+    padding: 3px 5px 3px 5px;
+    background-color: rgb(136,196,37);
+    border: 0px;
+    border-radius: 30px;
+    color: rgb(253, 253, 253);    
+    margin: 10px;
+    width:fit-content;
+    height: fit-content;
+    margin-top: 30px;
+}
+.arrow:hover{
+    background-color: rgb(156, 221, 52);
+}
+
 .redbutton{
     padding: 5px;
     background-color: rgb(233, 61, 61);
@@ -325,7 +351,6 @@ select{
     color: rgb(119, 119, 119);    
     margin: 10px;
 }
-
 .button_file{
     padding: 5px;
     background-color: rgb(136,196,37);
@@ -339,6 +364,10 @@ select{
 .button_file:hover{
     background-color: rgb(156, 221, 52);
     cursor: pointer;    
+}
+.highlighted{
+    font-weight: bolder;
+    color: rgb(105, 105, 105);
 }
 #filename{
     background-color: rgb(224, 230, 228);
@@ -379,6 +408,16 @@ select{
     border-radius: 3px;
     resize: none;
 }
+.param_text_description{
+    width: 400px;
+    height: 150px;
+    background-color: rgb(224, 230, 228);
+    color: rgb(70, 70, 70);
+    border: 1px solid rgb(185, 184, 184);    
+    border-radius: 3px;
+    resize: none;
+    margin-right: 5px;
+}
 .error_message{
     margin-bottom: 3px;    
 }
@@ -409,6 +448,10 @@ select{
 .flexorientation--spacea{
     display: flex;
     justify-content:space-around;
+}
+.flexorientation--end{
+    display: flex;
+    justify-content:flex-end;
 }
 
 

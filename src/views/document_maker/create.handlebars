@@ -1,0 +1,32 @@
+<div class="mainwindow">
+    <div class="content_window">
+        {{#if error}}
+        <p>{{error}}</p>
+        <br>
+        {{/if}}
+        <h2>Novo Processo</h2>        
+        <hr>
+        <form method="POST" action="/novoprocesso/cadastro">
+            <div>
+                <label>Nome:</label>
+                <input type="text" class="mediumtext" name="object" required>                
+            </div>
+            <div>
+                <label>Forma de Aquisição:</label>                
+                <select name="category">
+                    <option value=""></option>
+                    <option value="licitação">Licitação</option>
+                    <option value="Dispensa">Dispensa de Licitação</option>
+                    <option value="Inexigibilidade">Inexigibilidade</option>
+                </select>
+                <small>(opcional)</small>
+            </div>
+            <div class="flexorientation--start">
+                <label>Descrição:</label>
+                <textarea class="param_text_description" name="description"></textarea>
+                <small>(opicional)</small>
+            </div>
+            <input type="submit" value="Criar" class="button">
+        </form>            
+    </div>
+</div>

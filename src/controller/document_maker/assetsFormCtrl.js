@@ -11,9 +11,11 @@ const CA = require('../../models/document_maker/CertificadoDeAdoção/CAClass');
 require('../../models/document_maker/AnaliseCritica/AnaliseCriticaDB');
 require('../../models/document_maker/TR/TRDB');
 require('../../models/document_maker/CertificadoDeAdoção/CADB');
+require('../../models/document_reader/ProcessDB');
 const ACDB = mongoose.model('analisecritica');
 const TRDB = mongoose.model('tr');
 const CADB = mongoose.model('certificadodeadocao');
+const Process = mongoose.model('process');
 
 
 const printer = require('../../../public/js/builders/Printer')
@@ -27,7 +29,7 @@ const storage = multer.diskStorage({
         cb(null,`upload/${(new Date).getFullYear()}/${req.user.level + '_' + req.user.section + '_' + req.user.name + '_' + req.body.object}`);
     },
     filename: function(req, file, cb){
-        cb(null, /*file.originalname*/ `Mapa Comparativo de ${req.body.object}.xlsx`);
+        cb(null, `Mapa Comparativo de ${req.body.object}.xlsx`);
     }
 })
 const multerConfig = multer({storage})
@@ -41,17 +43,45 @@ function contentxlsx(workbook){ //receive XLSX.readFile(file.path)
     return worksheets
 }
 
+function exist(req, res, next){
+    try {       
+        const process = {
+            user: req.user,
+            title: req.body.object,
+            category: req.body.process == 0 ? 'Licitação' : 'Dispensa',
+            dir: `${req.user.level + '_' + req.user.section + '_' + req.user.name + '_' + req.body.object}`,
+            date: Intl.DateTimeFormat('pt-BR', { dateStyle: "full", timeStyle: "short" }).format(new Date()),
+            year: (new Date).getFullYear().toString()       
+        };
+        new Process(process).save().then(() => {
+            fs.mkdir(`upload/${(new Date).getFullYear()}/${req.user.level + '_' + req.user.section + '_' + req.user.name + '_' + req.body.object}`, (error) =>{});
+            next();
+        }
+        ).catch((error) => {
+            if(error.code == 11000){
+                next();
+            }else{
+                res.send('ERRO. POR FAVOR COMUNICAR O ADMINISTRADOR DO SISTEMA ANTES DE FAZER QUALQUER OPERAÇÃO!'+ error);
+            }
+        });
+               
+    } catch (error) {
+        res.send('Erro: ' + error);
+    }
+}
+
+
+
 router.get('/Bens',(req,res) =>{    
     res.render('document_maker/assetsForm');
 })
 
-router.post('/TR', multerConfig.single('file'), (req,res) => {
+router.post('/TR', multerConfig.single('file'), exist, (req,res) => {
     const {file, body} = req;    
     TR.getMap(contentxlsx(XLSX.readFile(file.path)))
     TR.getValues(body)
     
-    TRDB.find({_id: {$in: TR.TRDB()}}).lean().then((item) =>{
-        //console.log(item.map(x => x.object))
+    TRDB.find({_id: {$in: TR.TRDB()}}).lean().then((item) =>{        
         const chunks = [];
         const pdfDoc = printer.createPdfKitDocument(TR.analysis(item))
         pdfDoc.on('data', (chunk) => {        
@@ -67,7 +97,7 @@ router.post('/TR', multerConfig.single('file'), (req,res) => {
     });
 })
 
-router.post('/CA', multerConfig.single('file'), (req,res) =>{
+router.post('/CA', multerConfig.single('file'), exist, (req,res) =>{
     const {file, body} = req;
     CA.getMap(contentxlsx(XLSX.readFile(file.path)));
     CA.getValues(body)
@@ -82,6 +112,7 @@ router.post('/CA', multerConfig.single('file'), (req,res) =>{
         pdfDoc.end();      
         pdfDoc.on('end', () => {
             const result = Buffer.concat(chunks);
+            fs.writeFile(`upload/${(new Date).getFullYear()}/${req.user.level + '_' + req.user.section + '_' + req.user.name + '_' + req.body.object}/Certificado de Adoção.pdf`, result, (error) => {});
             res.end(result);
         })
 
@@ -89,10 +120,10 @@ router.post('/CA', multerConfig.single('file'), (req,res) =>{
 
 })
 
-router.post('/DFD', multerConfig.single('file'), (req,res) => {
+router.post('/DFD', multerConfig.single('file'), exist, (req,res) => {
     const {file, body} = req;
     DFD.getMap(contentxlsx(XLSX.readFile(file.path)));
-    DFD.getValues(body)
+    DFD.getValues(body);
     
     const chunks = [];
         const pdfDoc = printer.createPdfKitDocument(DFD.analysis())
@@ -103,12 +134,13 @@ router.post('/DFD', multerConfig.single('file'), (req,res) => {
         pdfDoc.end();      
         pdfDoc.on('end', () => {
             const result = Buffer.concat(chunks);
+            fs.writeFile(`upload/${(new Date).getFullYear()}/${req.user.level + '_' + req.user.section + '_' + req.user.name + '_' + req.body.object}/Documento de Formalização da Demanda.pdf`, result, (error) => {});
             res.end(result);
         })
 
 })
 
-router.post('/DiexReq', (req, res) => {    
+router.post('/DiexReq', exist, (req, res) => {    
     DR.getValues(req.body);
     const chunks = [];
         const pdfDoc = printer.createPdfKitDocument(DR.analysis())
@@ -119,17 +151,16 @@ router.post('/DiexReq', (req, res) => {
         pdfDoc.end();      
         pdfDoc.on('end', () => {
             const result = Buffer.concat(chunks);
+            fs.writeFile(`upload/${(new Date).getFullYear()}/${req.user.level + '_' + req.user.section + '_' + req.user.name + '_' + req.body.object}/Diex Requisitório.pdf`, result, (error) => {});
             res.end(result);
         })
 })
 
-router.post('/analise_critica', multerConfig.single('file'), (req,res) => {
+router.post('/analise_critica', multerConfig.single('file'),  exist, (req,res) => {
     const {file, body} = req;
        
     AC.getValues(body)
-    AC.getMap(contentxlsx(XLSX.readFile(file.path)))
-    fs.rm(file.path, () => {})
-        
+    AC.getMap(contentxlsx(XLSX.readFile(file.path)));       
 
     if(AC.analysisParam() != null){               
         res.render('document_maker/graphic', AC.analysisParam())
@@ -152,6 +183,7 @@ router.post('/analise_critica1', (req,res) => { //TODO mudar o parametro de toda
         pdfDoc.end();      
         pdfDoc.on('end', () => {
             const result = Buffer.concat(chunks);
+            fs.writeFile(`upload/${(new Date).getFullYear()}/${req.user.level + '_' + req.user.section + '_' + req.user.name + '_' + req.body.object}/Análise Crítica da Pesquisa de Preços.pdf`, result, (error) => {});
             res.end(result);
         });
     })

@@ -1,0 +1,25 @@
+<div class="mainwindow">
+    <div class="content_window">
+        <div class="flexorientation--spaceb">
+            <h2>Anotação</h2>            
+            <h2>{{title}}</h2>                       
+        </div>
+        <hr>
+        <form method="POST" action="/meusprocessos/{{year}}/{{link}}/anotation/{{title}}">
+            <div>
+                <label>Anotação:</label>
+                <textarea class="param_text" name="anotation"></textarea>
+            </div>
+            <br>
+            <div>
+                <label>Estado:</label>
+                <select name="state">
+                    <option value="Coleta de Orçamentos">Coleta de Orçamentos</option>
+                    <option value="Em montagem">Em Montagem</option>
+                    <option value="Montagem finalizada">Montagem Finalizada</option>
+                </select>
+            </div>
+            <input type="submit" class="button" value="Anotar">
+        </form>
+    </div>
+</div>
