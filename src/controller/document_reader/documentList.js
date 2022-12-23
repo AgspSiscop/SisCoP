@@ -44,18 +44,20 @@ router.post('/:year/delete/:link', (req, res) => {
         if((req.user.level != req.params.link.split('_')[0] || req.user.section != req.params.link.split('_')[1] || req.user.name != req.params.link.split('_')[2]) && (req.user.level != 10)){        
             res.redirect('/')
            }else{
+            ProcessState.deleteMany({process: req.body.elementid}). then(() =>{}).catch((error) => {
+                console.log('Erro: ' + error)
+            })
             Process.deleteOne({_id: req.body.elementid}).then(() => {
                 DocumentManipulator.removeProcess(`upload/${req.params.year}/${req.params.link}`);
                 res.redirect(`/meusprocessos/${req.params.year}`);
             }).catch((error) =>{
                 res.send(error);
             })
-           }      
-        
+           }        
     } catch (error) {
         res.send('error' + error)        
     }
-})
+});
 
 router.get('/:year/:link', (req, res) =>{
     let documents;
@@ -64,8 +66,7 @@ router.get('/:year/:link', (req, res) =>{
         res.redirect('/')
        }else{
         Process.findOne({dir: req.params.link}).lean().then((process) => {
-            ProcessState.find({process: process}).lean().then((states) => {
-                console.log(states)
+            ProcessState.find({process: process}).lean().then((states) => {                
                 let message = req.session.error || null; //mudar isso
                 req.session.error = null
                 documents = DocumentManipulator.readDir(`upload/${req.params.year}/${req.params.link}`);
@@ -172,6 +173,24 @@ router.post('/:year/:link/anotation/:title', (req,res) => {
         res.send('Erro: ' + error);
     });          
 });
+
+router.post('/:year/:link/anotation/:title/delete', (req,res) => {
+    try {
+        if((req.user.level != req.params.link.split('_')[0] || req.user.section != req.params.link.split('_')[1] || req.user.name != req.params.link.split('_')[2]) && (req.user.level != 10)){        
+            res.redirect('/')
+           }else{
+            ProcessState.deleteOne({_id: req.body.elementid}). then(() =>{
+                res.redirect(`/meusprocessos/${req.params.year}/${req.params.link}`)
+
+            }).catch((error) => {
+                console.log('Erro: ' + error)
+            });            
+           }        
+    } catch (error) {
+        res.send('error' + error)        
+    }
+
+})
 
 
 module.exports= router;

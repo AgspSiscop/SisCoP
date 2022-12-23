@@ -101,9 +101,10 @@ select{
 }
 #list a{    
     text-decoration: none;        
-    display: inline;
-    margin-right: 30px;    
-
+    display: inline;    
+}
+#upload{
+    margin-top: 60px;
 }
 .leftbar_itens:hover{
     background-image: linear-gradient(to right, rgb(136, 194, 42), rgb(118, 168, 36));
@@ -201,7 +202,7 @@ select{
     margin-top: 5px;
 }
 .status_content{
-    width: 450px;
+    width: 400px;
     min-height: 200px;
     background-color: rgb(170, 255, 85);
     padding: 10px;
@@ -235,10 +236,10 @@ select{
 .bodyguides button:hover{
     background-color: rgb(88, 88, 88);    
 }
-.display-column-end{
+.display-column-spaceb{
     display: flex;
     flex-direction: column;
-    align-items: flex-start;    
+    justify-content: space-between;    
 }
 .display-flex-start{
     display: flex;
@@ -250,6 +251,22 @@ select{
 }
 .display-float-left{
     float: left;
+}
+.flexorientation--start{
+    display: flex;
+    justify-content: flex-start;    
+}
+.flexorientation--spaceb{
+    display: flex;
+    justify-content:space-between;
+}
+.flexorientation--spacea{
+    display: flex;
+    justify-content:space-around;
+}
+.flexorientation--end{
+    display: flex;
+    justify-content:flex-end;
 }
 
 /********************************************************************************Components*/
@@ -294,7 +311,8 @@ select{
     font-size: 13.5px;  
     margin: 10px;
     width:fit-content;
-    height: fit-content;  
+    height: fit-content;
+    text-decoration: none;
 }
 .button:hover{
     background-color: rgb(156, 221, 52);
@@ -329,7 +347,17 @@ select{
     background-color: rgb(226, 26, 26);
     cursor: pointer;    
 }
-
+.transparentbutton{    
+    background-color: rgba(233, 61, 61, 0);
+    border: 0px;    
+    color: rgb(148, 148, 148);    
+    margin: 10px;
+    font-size: 15px;
+    cursor: pointer;   
+}
+.transparentbutton:hover{
+    color: rgb(179, 179, 179); 
+}
 .search_button{
     padding: 1px 3px 1px 3px;
     background-color: rgb(136,196,37);
@@ -368,6 +396,7 @@ select{
 .highlighted{
     font-weight: bolder;
     color: rgb(105, 105, 105);
+    font-size: 15px;
 }
 #filename{
     background-color: rgb(224, 230, 228);
@@ -435,24 +464,6 @@ select{
     width: 60px;
 }
 
-/*Align*/
-
-.flexorientation--start{
-    display: flex;
-    justify-content: flex-start;    
-}
-.flexorientation--spaceb{
-    display: flex;
-    justify-content:space-between;
-}
-.flexorientation--spacea{
-    display: flex;
-    justify-content:space-around;
-}
-.flexorientation--end{
-    display: flex;
-    justify-content:flex-end;
-}
 
 
 

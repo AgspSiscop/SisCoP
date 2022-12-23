@@ -10,12 +10,21 @@
             {{else}}
             <p>Não existem documentos dentro deste processo.</p>
             {{/if}}
-        </div>
+        </div>        
         <hr>
         {{#if states}}
-        <form id="states">
-        </form>
-        {{/if}}
+        <div class="display-float-right">
+            <small>Status</small>
+            <button class="button" id="statusbutton">+</button>
+        </div>
+        <div id="states">            
+        </div>
+        {{else}}
+        <div class="display-float-right">
+            <small>Status</small>
+            <button class="button_disable" id="statusbutton">+</button>
+        </div>
+        {{/if}}        
         <form id="upload">
             <label for="file" class="button_file">Upload</label>
             <input type="file" id="file" name="file" value="" required>
@@ -27,10 +36,12 @@
         <p>{{error}}</p>        
         {{/if}}
         <div class="arrow">
-            <a href="/meusprocessos"><img src="/img/seta2.png" style="height: 20px; width: 20px;"></a>
+            <a href="/meusprocessos/{{year}}"><img src="/img/seta2.png" style="height: 20px; width: 20px;"></a>
         </div>
     </div>
 </div>
+
+
 <script src="/js/readerFile.js"></script>
 <script>    
     const title = document.getElementById('documenttitle');
@@ -48,16 +59,16 @@
     '{{#if states}}'
     '{{#each states}}'
     states.push({
+        id: '{{_id}}',
         state: '{{state}}',
         anotation: '{{anotation}}',
         date: '{{date}}'
-    });
-    console.log('{{state}}')
+    });    
     '{{/each}}'
     '{{/if}}'
-    
+     
     listReader(list, names, `/meusprocessos/{{year}}/{{title}}/`, `/meusprocessos/{{year}}/{{title}}/`, true);
-    listStates(states);
+    listStates(states, '{{year}}', '{{title}}', title.innerText);
     upload( '{{year}}', '{{title}}');
 
 </script> 
