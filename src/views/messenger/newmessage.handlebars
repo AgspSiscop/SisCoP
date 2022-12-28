@@ -1,0 +1,40 @@
+
+<div class="mainwindow">
+    <form class="content_window" id="formm" action="/mensageiro/nova" method="POST">
+        <h2>Nova Mensagem</h2>
+        <hr>
+        <div class="flexorientation--start">
+            <div>
+                <label>Titulo:</label>
+                <input type="text" name="title">
+            </div>
+            <div>
+                <label>Destinatário:</label>
+                <select name="messagesection" id="messagesection">
+                    <option value=""> </option>
+                    <option value="chefe da salc">Chefe da SALC</option>
+                    <option value="ADM">ADM</option>
+                    <option value="salc">SALC</option>                  
+                </select>                
+            </div>
+        </div>
+        <textarea class="param_text" name="content" style="height: 500px;"></textarea>
+        <div style="margin-top: 10px;">
+            <label>Processo:</label>
+            <select name="year" id="year">
+                <option value=""></option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+            </select>            
+            <select name="process" id="process">                
+            </select>            
+        </div>
+        <div>
+            <input type="submit" class="button" value="Enviar" id="submitformm">
+        </div>               
+    </form>   
+</div>
+<script src="/js/newMessage2.js"></script>
+
+
+

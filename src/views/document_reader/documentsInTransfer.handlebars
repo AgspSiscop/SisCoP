@@ -2,7 +2,7 @@
     <div class="content_window">        
         <div class="flexorientation--spaceb">            
             <h2 id="documenttitle"></h2>
-            <small>{{date}}</small>
+            <small>{{date}}</small>           
         </div>        
         <hr>       
         <div id="list">
@@ -35,16 +35,14 @@
         {{#if error}}        
         <p>{{error}}</p>        
         {{/if}}
-        <div>
-            <div class="arrow">
-                <a href="/meusprocessos/"><img src="/img/seta2.png" style="height: 20px; width: 20px;"></a>
-            </div>
+        <div class="arrow">
+            <a href="/processosrecebidos/"><img src="/img/seta2.png" style="height: 20px; width: 20px;"></a>
         </div>
     </div>
 </div>
 
 
-<script src="/js/readerFile.js"></script>
+<script src="/js/document_reader/readerFileInTransfer.js"></script>
 <script>    
     const title = document.getElementById('documenttitle');
     const list = document.getElementById('list');
@@ -69,8 +67,8 @@
     '{{/each}}'
     '{{/if}}'
      
-    listReader(list, names, `/meusprocessos/{{year}}/{{title}}/`, `/meusprocessos/{{year}}/{{title}}/`, true);
+    listReader(list, names, `/processosrecebidos/{{year}}/{{title}}/`, `/processosrecebidos/{{year}}/{{title}}/`, true);
     listStates(states, '{{year}}', '{{title}}', title.innerText);
-    upload( '{{year}}', '{{title}}', 'inProcess');
+    upload( '{{year}}', '{{title}}', 'inTransfer');
 
 </script> 

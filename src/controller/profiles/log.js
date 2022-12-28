@@ -10,7 +10,8 @@ const fs = require('fs');
 const router = express.Router();
 
 router.get('/', (req, res) =>{
-    res.render('profiles/profile');
+    //res.render('profiles/profile');
+    res.redirect('/mensageiro')
 });
 
 router.post('/', (req, res) => {

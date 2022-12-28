@@ -1,0 +1,15 @@
+<div class="mainwindow">
+    <div class="content_window" id="reader">
+        {{#if message}}        
+        <h2>{{message.title}}</h2>               
+        <hr>
+        <br>
+        <p>{{message.content}}</p>
+        <small>Remetente: {{message.sender.name}}</small>
+        <div>
+            <label>Processo:</label>
+            <a>{{message.process.title}}</a>
+        </div>        
+        {{/if}}             
+    </div>   
+</div>

@@ -4,8 +4,18 @@ const Schema =  mongoose.Schema;
 const Process =  new Schema({
     user: {
         type: mongoose.SchemaTypes.ObjectId,
-        ref: 'user',
-        required: true
+        ref: 'user',        
+    },
+    receiver:{
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'user'
+    },
+    section_receiver: {
+        type: String,
+    },
+    done:{
+        type: Boolean,
+        default: false     
     },
     title: {
         type: String,

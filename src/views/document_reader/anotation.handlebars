@@ -5,8 +5,8 @@
             <h2>{{title}}</h2>                       
         </div>
         <hr>
-        <form method="POST" action="/meusprocessos/{{year}}/{{link}}/anotation/{{title}}">
-            <div>
+        <form method="POST" action="{{baseurl}}/{{year}}/{{link}}/anotation/{{title}}">
+            <div class="flexorientation--start">
                 <label>Anotação:</label>
                 <textarea class="param_text" name="anotation"></textarea>
             </div>

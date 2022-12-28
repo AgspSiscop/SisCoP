@@ -10,11 +10,18 @@ const documentMaker = require('./src/controller/document_maker/assetsFormCtrl');
 const createProcess = require('./src/controller/document_reader//createProcess');
 
 const documentReader = require('./src/controller/document_reader/documentList');
+const documentReaderT = require('./src/controller/document_reader/documentListInTransfer')
+
+const messenger = require('./src/controller/messenger/message');
+
+
 
 router.use(log);
 router.use(profile);
 router.use('/montagem', documentMaker);
 router.use('/meusprocessos', documentReader);
+router.use('/processosrecebidos', documentReaderT);
 router.use('/novoprocesso', createProcess);
+router.use('/mensageiro', messenger);
 
 module.exports = router;

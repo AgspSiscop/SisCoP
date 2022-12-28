@@ -1,0 +1,42 @@
+<div class="mainwindow">
+    <div class="content_window">
+        <div class="flexorientation--spaceb">
+            <div class="messenger_header">
+                <label>Titulo:</label>
+            </div>
+            <div class="messenger_header">
+                <label>Processo:</label>
+            </div>
+            <div class="messenger_header">
+                <label>Remetente:</label>
+            </div>
+            <div class="messenger_header">
+                <label>Data:</label>
+            </div>
+        </div>
+        <hr>
+        {{#if messages}}
+        {{#each messages}}
+        <a href="/mensageiro/mensagem/{{_id}}" class="message_style">        
+        <div class="flexorientation--spaceb list_iten">
+            <div class="messenger_header">
+                <label>{{title}}</label>
+            </div>
+            <div class="messenger_header">
+                <label>{{process.title}}</label>
+            </div>
+            <div class="messenger_header">
+                <label>{{sender.name}}</label>
+            </div>
+            <div class="messenger_header">
+                <label>{{date}}</label>
+            </div>
+            <form method="POST" action="/mensageiro/mensagem/{{_id}}/delete">
+                <button class="redbutton" style="margin-top: 0px; margin-left: 20px;"><img src="/img/trash.png" style="height: 16px;"></button>               
+            </form>
+        </div>
+        </a>
+        {{/each}}
+        {{/if}}      
+    </div>   
+</div>

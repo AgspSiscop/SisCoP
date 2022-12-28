@@ -1,6 +1,6 @@
 function listReader(list, itens ,openDir, editDir){
     for(let i of itens){
-        let element = document.createElement('a');        
+        let element = document.createElement('input');        
         let editButton = document.createElement('input');
         let deleteButton = document.createElement('input')
         let form = document.createElement('form');
@@ -32,10 +32,9 @@ function listReader(list, itens ,openDir, editDir){
         
         //----------------------------------------------FORM/DIV2
         //--------------------------------FORM/DIV2/ELEMENT
-        element.textContent =  i.name;
-        element.setAttribute('href', `${openDir}${i.link}`);
-        element.setAttribute('class', 'transparentbutton highlighted');        
-        element.setAttribute('target', '_blank');
+        element.setAttribute('type', 'submit');
+        element.setAttribute('class', 'transparentbutton highlighted');
+        element.setAttribute('value', `${i.name}`);        
 
         //-----------------------------------------FORM/DIV2/BUTTONSDIV
         editButton.setAttribute('type', 'submit');
@@ -95,6 +94,7 @@ function listReader(list, itens ,openDir, editDir){
                 }else{
                 form.setAttribute('method', 'POST');
                 form.setAttribute('action', `${editDir}edit/${i.link}`);
+                form.setAttribute('target', '');
                 }
             });
 
@@ -116,6 +116,7 @@ function listReader(list, itens ,openDir, editDir){
             sendDelete.addEventListener('click', () =>{
                 form.setAttribute('method', 'POST');
                 form.setAttribute('action', `${editDir}delete/${i.link}`);
+                form.setAttribute('target', '');
             });
 
             cancelDelete.addEventListener('click', (e) =>{
@@ -125,7 +126,13 @@ function listReader(list, itens ,openDir, editDir){
                 div2.setAttribute('class', 'flexorientation--spaceb');                
                  
             });
-        })
+        });
+
+        element.addEventListener('click', () => {
+            form.setAttribute('target', '_blank');
+            form.setAttribute('method', 'POST');
+            form.setAttribute('action', `${openDir}${i.link}`);
+        });
     }
 }
 
@@ -152,7 +159,7 @@ function upload(year, title, local){
             sendFile.setAttribute('class', 'button');
             sendFile.setAttribute('value', 'enviar');
             formUpload.appendChild(sendFile);            
-            formUpload.setAttribute('action', `/meusprocessos/${year}/${title}/${local}`);
+            formUpload.setAttribute('action', `/processosrecebidos/${year}/${title}/upload/${local}`);
             formUpload.setAttribute('method', 'POST');
             formUpload.setAttribute('enctype', 'multipart/form-data'); //*
         }else{
@@ -172,7 +179,7 @@ function listStates(list, year, link, title){
     const newStatus =  document.createElement('a');
 
     newStatus.setAttribute('class', 'button');
-    newStatus.setAttribute('href', `/meusprocessos/${year}/${link}/anotation/${title}`)
+    newStatus.setAttribute('href', `/processosrecebidos/${year}/${link}/anotation/${title}`)
     newStatus.textContent = 'Novo Status';
     div4.appendChild(newStatus);
     div4.setAttribute('style', 'margin-top: 34px;');
@@ -227,11 +234,11 @@ function listStates(list, year, link, title){
             block.appendChild(deleteState);
         }
         states.appendChild(block);
-        states.appendChild(div4)      
+        states.appendChild(div4);
 
         deleteState.addEventListener('click', () => {
             block.setAttribute('method', 'POST');
-            block.setAttribute('action', `/meusprocessos/${year}/${link}/anotation/${title}/delete`)        
+            block.setAttribute('action', `/processosrecebidos/${year}/${link}/anotation/${title}/delete`)        
         });
     }    
 
@@ -242,11 +249,11 @@ function listStates(list, year, link, title){
             if(i.getAttribute('class') == 'status_content display-column-spaceb display_none'){
                 i.setAttribute('class', 'status_content display-column-spaceb');
                 statusButton.textContent = '-';
-                
+                //states.appendChild(div4);
             }else{
                 i.setAttribute('class', 'status_content display-column-spaceb display_none');
                 statusButton.textContent = '+';
-                
+                //states.removeChild(div4)
             }
         }
     });

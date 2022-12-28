@@ -7,6 +7,7 @@ const path = require('path');
 const router =  require('./routes');
 const passport = require('passport');
 require('./config/auth')(passport);
+require('./public/js/registerhelper/registerHelper');
 
 const app = express();
 

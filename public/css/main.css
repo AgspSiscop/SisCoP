@@ -114,28 +114,59 @@ select{
     margin-left: 5px;
 }
 .list_iten{
-    padding-bottom: 5px;
+    padding-bottom: 3px;
+    padding-top: 5px;
 }
 .list_iten:hover{
-    background-color: rgb(220, 255, 164);    
+    background-color: rgb(150, 152, 160);
+    border-radius: 5px;
+    transition: 0.3s;
 }
 .list_iten_delete{    
     background-color: rgb(255, 164, 164);
-    padding-bottom: 5px;  
+    padding-bottom: 3px;
+    border-radius: 5px;
+    padding-top: 5px;     
     transition: 0.7s;
 }
 .list_iten_delete div{    
     margin-left: 5px;
     padding-top: 5px;   
 }
+#reader p{
+    width: 900px;
+    padding: 0px 10px 10px 10px;
+    min-height: 300px;
+    margin: 10px;
+    border-radius: 5px;
+    background-color: rgb(218, 218, 218);
+    border: 2px solid rgb(192, 192, 192);     
+}
+#reader small{
+    margin-left: 15px;
+       
+}
+#reader div{
+    margin-top: 20px;
+}
+
 
 /*****************************************************************************windows-*/
+.graphicwindow{
+    background-color:  rgb(233, 236, 232);;    
+    color: rgb(105, 105, 105);
+    border-radius: 2px;
+    min-height: 300px;
+    width: 1000px; /*Alterando dá falha no gráfico*/
+    box-shadow: 6px 6px 10px 1px rgb(24, 24, 24);
+    margin-bottom: 30px;
+}
 .mainwindow{
     background-color:  rgb(233, 236, 232);;    
     color: rgb(105, 105, 105);
     border-radius: 2px;
-    min-height: 200px;
-    width: 1000px;    ;
+    min-height: 300px;
+    min-width: 1000px; 
     box-shadow: 6px 6px 10px 1px rgb(24, 24, 24);
     margin-bottom: 30px;
 }
@@ -196,7 +227,6 @@ select{
 .area{
     margin-left: 10px;
 }
-
 .area_send{    
     text-align: right;
     margin-top: 5px;
@@ -214,7 +244,9 @@ select{
 .status_content label{
     font-weight: bolder;
 }
-
+.messenger_header{
+    width: 300px;
+}
 /***************************************************************************Display Align*/
 .bodyorientation{
     margin-left: auto;
@@ -258,7 +290,7 @@ select{
 }
 .flexorientation--spaceb{
     display: flex;
-    justify-content:space-between;
+    justify-content:space-between;   
 }
 .flexorientation--spacea{
     display: flex;
@@ -304,7 +336,7 @@ select{
 }
 .button{
     padding: 5px;
-    background-color: rgb(136,196,37);
+    background-color: rgb(131, 185, 43);
     border: 0px;
     border-radius: 3px;
     color: rgb(253, 253, 253);
@@ -320,7 +352,7 @@ select{
 }
 .arrow{
     padding: 3px 5px 3px 5px;
-    background-color: rgb(136,196,37);
+    background-color: rgb(131, 185, 43);
     border: 0px;
     border-radius: 30px;
     color: rgb(253, 253, 253);    
@@ -332,10 +364,9 @@ select{
 .arrow:hover{
     background-color: rgb(156, 221, 52);
 }
-
 .redbutton{
     padding: 5px;
-    background-color: rgb(233, 61, 61);
+    background-color: rgb(211, 58, 58);
     border: 0px;
     border-radius: 3px;
     color: rgb(253, 253, 253);    
@@ -344,14 +375,14 @@ select{
     height: fit-content;  
 }
 .redbutton:hover{
-    background-color: rgb(226, 26, 26);
+    background-color: rgb(241, 36, 36);
     cursor: pointer;    
 }
 .transparentbutton{    
     background-color: rgba(233, 61, 61, 0);
     border: 0px;    
     color: rgb(148, 148, 148);    
-    margin: 10px;
+    margin: 0px;
     font-size: 15px;
     cursor: pointer;   
 }
@@ -416,13 +447,13 @@ select{
     width: 840px;
     height: 500px;
     margin-left: auto;
-    margin-right: auto;             
+    margin-right: auto;               
 }
 #graphicpng{
     width: 0px;
     height: 0px;
     margin-left: auto;
-    margin-right: auto;    
+    margin-right: auto;        
 }
 #year{
     margin-left: -12px;
@@ -462,6 +493,13 @@ select{
 }
 .smalltext{
     width: 60px;
+}
+.message_style{
+    text-decoration:none;
+    color: rgb(54, 54, 54);   
+}
+.message_style:visited{
+    color: rgb(114, 114, 114);    
 }
 
 

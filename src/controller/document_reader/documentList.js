@@ -8,58 +8,63 @@ const ProcessState = mongoose.model('processstate');
 
 const router = express.Router();
 
-
 router.get('/', (req, res) => {      
     res.render('document_reader/process');
 });
 
-router.get('/:year', (req,res) => {   
-    Process.find({user: res.locals.id}).where({year: req.params.year}).lean().then((process) => {        
-        res.render('document_reader/process', {process: process, year: req.params.year})
+router.post('/:year', (req,res) => {   //done
+    Process.find({user: res.locals.id}).where({year: req.params.year}).lean().then((process) => {       
+        res.send(JSON.stringify(process))
     }).catch((error) =>{
-        res.send(error)
-    })
-    
+        res.send(error);
+    });    
 });
 
-router.post('/:year/edit/:link', (req, res) =>{
-    try {
-        if((req.user.level != req.params.link.split('_')[0] || req.user.section != req.params.link.split('_')[1] || req.user.name != req.params.link.split('_')[2]) && (req.user.level != 10)){        
-            res.redirect('/')
-           }else{
-            Process.updateOne({_id: req.body.elementid}, {$set: {title: req.body.ename, dir: `${req.params.link.split('_')[0]}_${req.params.link.split('_')[1]}_${req.params.link.split('_')[2]}_${req.body.ename}`}}).lean().then(() =>{                
-                DocumentManipulator.rename(`upload/${req.params.year}/${req.params.link}`,
-                `upload/${req.params.year}/${req.params.link.split('_')[0]}_${req.params.link.split('_')[1]}_${req.params.link.split('_')[2]}_${req.body.ename}`);
-                res.redirect(`/meusprocessos/${req.params.year}`);                
-            });           
-           }; 
-        
+router.post('/:year/edit/:link', (req, res) =>{ //DONE
+    try {        
+        Process.updateOne({_id: req.body.elementid}, {$set: {title: req.body.ename, dir: `${req.params.link.split('_')[0]}_${req.params.link.split('_')[1]}_${req.params.link.split('_')[2]}_${req.body.ename}`}}).lean().then(() =>{                
+            DocumentManipulator.rename(`upload/inProcess/${req.params.year}/${req.params.link}`,
+            `upload/inProcess/${req.params.year}/${req.params.link.split('_')[0]}_${req.params.link.split('_')[1]}_${req.params.link.split('_')[2]}_${req.body.ename}`);
+            res.redirect(`/meusprocessos/`);                
+        });                 
     } catch (error) {
         res.send('error' + error)        
     }
 });
 
-router.post('/:year/delete/:link', (req, res) => {
-    try {
-        if((req.user.level != req.params.link.split('_')[0] || req.user.section != req.params.link.split('_')[1] || req.user.name != req.params.link.split('_')[2]) && (req.user.level != 10)){        
-            res.redirect('/')
-           }else{
-            ProcessState.deleteMany({process: req.body.elementid}). then(() =>{}).catch((error) => {
-                console.log('Erro: ' + error)
-            })
-            Process.deleteOne({_id: req.body.elementid}).then(() => {
-                DocumentManipulator.removeProcess(`upload/${req.params.year}/${req.params.link}`);
-                res.redirect(`/meusprocessos/${req.params.year}`);
-            }).catch((error) =>{
-                res.send(error);
-            })
-           }        
+router.post('/:year/delete/:link', (req, res) => { //DONE
+    try {        
+        Process.findOne({_id: req.body.elementid}).then((process) => {
+            if(process.receiver == null && process.section_receiver == null && process.done == false){
+                ProcessState.deleteMany({process: req.body.elementid}). then(() =>{}).catch((error) => {
+                    console.log('Erro: ' + error)
+                });
+                Process.deleteOne(process).then(() => {                        
+                    DocumentManipulator.removeProcess(`upload/inProcess/${req.params.year}/${req.params.link}`);
+                    res.redirect(`/meusprocessos/`);
+                }).catch((error) =>{
+                    res.send(error);
+                });                    
+            }else{
+                Process.updateOne({_id: process._id}, {$set: {user: null}}).then(() =>{
+                    DocumentManipulator.removeProcess(`upload/inProcess/${req.params.year}/${req.params.link}`);
+                    res.redirect(`/meusprocessos/`);
+                }).catch((error) => {
+                    console.log(error);
+                    res.send('Erro: ' + error)
+                });               
+            }
+        }).catch((error) => {
+            console.log(error);
+            res.send('Erro: ' + error);
+        })            
+                   
     } catch (error) {
         res.send('error' + error)        
     }
 });
 
-router.get('/:year/:link', (req, res) =>{
+router.post('/:year/:link', (req, res) =>{ //DONE
     let documents;
     try {
        if((req.user.level != req.params.link.split('_')[0] || req.user.section != req.params.link.split('_')[1] || req.user.name != req.params.link.split('_')[2]) && (req.user.level != 10)){        
@@ -69,9 +74,8 @@ router.get('/:year/:link', (req, res) =>{
             ProcessState.find({process: process}).lean().then((states) => {                
                 let message = req.session.error || null; //mudar isso
                 req.session.error = null
-                documents = DocumentManipulator.readDir(`upload/${req.params.year}/${req.params.link}`);
-                res.render('document_reader/documents', {year: req.params.year, title: req.params.link, documents: documents, error: message, states: states});
-
+                documents = DocumentManipulator.readDir(`upload/inProcess/${req.params.year}/${req.params.link}`);
+                res.render('document_reader/documents', {date: process.date, year: req.params.year, title: req.params.link, documents: documents, error: message, states: states});
 
             }).catch((error) => {
                 res.send('Erro: ' + error);
@@ -92,9 +96,9 @@ router.post('/:year/:link/edit/:file', (req, res) => {
            }else{
             let fileExtension = req.params.file.split('.');
             fileExtension = fileExtension[fileExtension.length -1];
-            DocumentManipulator.rename(`upload/${req.params.year}/${req.params.link}/${req.params.file}`,
-            `upload/${req.params.year}/${req.params.link}/${req.body.ename}.${fileExtension}`);
-            res.redirect(`/meusprocessos/${req.params.year}/${req.params.link}`);
+            DocumentManipulator.rename(`upload/inProcess/${req.params.year}/${req.params.link}/${req.params.file}`,
+            `upload/inProcess/${req.params.year}/${req.params.link}/${req.body.ename}.${fileExtension}`);
+            res.redirect(307, `/meusprocessos/${req.params.year}/${req.params.link}`);
            }      
         
     } catch (error) {
@@ -109,8 +113,8 @@ router.post('/:year/:link/delete/:file', (req, res) => {
            }else{
             let fileExtension = req.params.file.split('.');
             fileExtension = fileExtension[fileExtension.length -1];
-            DocumentManipulator.removeDocument(`upload/${req.params.year}/${req.params.link}/${req.params.file}`);
-            res.redirect(`/meusprocessos/${req.params.year}/${req.params.link}`);
+            DocumentManipulator.removeDocument(`upload/inProcess/${req.params.year}/${req.params.link}/${req.params.file}`);
+            res.redirect(307, `/meusprocessos/${req.params.year}/${req.params.link}`);
            }      
         
     } catch (error) {
@@ -123,7 +127,7 @@ router.get('/:year/:link/:file', (req, res) =>{
         if((req.user.level != req.params.link.split('_')[0] || req.user.section != req.params.link.split('_')[1] || req.user.name != req.params.link.split('_')[2]) && (req.user.level != 10)){
             res.redirect('/') 
         }else{
-            let doc = DocumentManipulator.readDocument(`upload/${req.params.year}/${req.params.link}/${req.params.file}`);
+            let doc = DocumentManipulator.readDocument(`upload/inProcess/${req.params.year}/${req.params.link}/${req.params.file}`);
             res.end(doc);
         }        
     } catch (error) {
@@ -131,15 +135,15 @@ router.get('/:year/:link/:file', (req, res) =>{
     }    
 });
 
-router.post('/:year/:link/', uploadFile,(req,res) =>{
-    try {
+router.post('/:year/:link/:local', uploadFile,(req,res) =>{
+    try {        
         if((req.user.level != req.params.link.split('_')[0] || req.user.section != req.params.link.split('_')[1] || req.user.name != req.params.link.split('_')[2]) && (req.user.level != 10)){
             res.redirect('/') 
         }else{                               
-            res.redirect(`/meusprocessos/${req.params.year}/${req.params.link}`);
+            res.redirect(307, `/meusprocessos/${req.params.year}/${req.params.link}`);
         }        
-    } catch (error) {
-        res.redirect(301, `/meusprocessos/${req.params.year}/${req.params.link}`, {error: error})        
+    } catch (error) {        
+        res.redirect(301, `/meusprocessos/${req.params.year}/${req.params.link}`, {error: error})       
     }        
 });
 
@@ -148,12 +152,11 @@ router.get('/:year/:link/anotation/:title', (req,res) => {
         if((req.user.level != req.params.link.split('_')[0] || req.user.section != req.params.link.split('_')[1] || req.user.name != req.params.link.split('_')[2]) && (req.user.level != 10)){
             res.redirect('/');
         }else{                               
-            res.render('document_reader/anotation', {title: req.params.title, year: req.params.year, link: req.params.link});
+            res.render('document_reader/anotation', {title: req.params.title, year: req.params.year, link: req.params.link, baseurl: req.baseUrl});
         }        
     } catch (error) {
         res.redirect('/');        
-    }
-            
+    }            
 });
 
 router.post('/:year/:link/anotation/:title', (req,res) => {
@@ -165,7 +168,7 @@ router.post('/:year/:link/anotation/:title', (req,res) => {
             date: Intl.DateTimeFormat('pt-BR', { dateStyle: "full", timeStyle: "short" }).format(new Date())
         }
         new ProcessState(State).save().then(() =>{
-            res.redirect(`/meusprocessos/${req.params.year}/${req.params.link}`)
+            res.redirect(307, `/meusprocessos/${req.params.year}/${req.params.link}`)
         }).catch((error) =>{
             res.send('Erro: ' + error);
         }) 
@@ -180,7 +183,7 @@ router.post('/:year/:link/anotation/:title/delete', (req,res) => {
             res.redirect('/')
            }else{
             ProcessState.deleteOne({_id: req.body.elementid}). then(() =>{
-                res.redirect(`/meusprocessos/${req.params.year}/${req.params.link}`)
+                res.redirect(307, `/meusprocessos/${req.params.year}/${req.params.link}`)
 
             }).catch((error) => {
                 console.log('Erro: ' + error)
@@ -190,7 +193,6 @@ router.post('/:year/:link/anotation/:title/delete', (req,res) => {
         res.send('error' + error)        
     }
 
-})
-
+});
 
 module.exports= router;

@@ -1,4 +1,5 @@
 const fs =  require('fs');
+const fsExtra = require('fs-extra')
 const multer = require('multer');
 
 class DocumentManipulator  {
@@ -47,9 +48,8 @@ class DocumentManipulator  {
         fs.rm(dir, () =>{});
     } 
     
-    static copy(src){
-        let sorce = fs.readdirSync(src);
-        console.log(sorce);
+    static copy(src, dest){        
+        fsExtra.copy(src, dest, ()=>{})
     }
 }
 
@@ -74,12 +74,7 @@ function uploadFile(req, res, next) {
             if(err.message == 'File too large'){               
                 req.session.error = 'Arquivo ultrapassa o limite de 60MB' //mudar isso
             }else{
-                if(req.baseUrl == '/meusprocessos'){
-                    res.redirect(`/meusprocessos/${req.params.year}/${req.params.link}`);
-                }
-                if(req.baseUrl == '/processosrecebidos'){
-                    res.redirect(`/processosrecebidos/${req.params.year}/${req.params.link}`);
-                }
+                res.redirect(`/meusprocessos/${req.params.year}/${req.params.link}`);
             }            
         }     
         next()

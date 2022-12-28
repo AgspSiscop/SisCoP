@@ -1,23 +1,34 @@
 <div class="leftbar">
     <div class="lb_scroll">
         <div class="leftbar_itens">
-            <p>Mensagens</p>
+            <a href="/mensageiro/nova"><p>Nova Mensagem</p></a> 
+        </div> 
+        <div class="leftbar_itens">
+            <a href="/mensageiro"><p>Caixa de Menssagens</p></a> 
         </div>
         <div class="leftbar_itens">
             <a href="/novoprocesso"><p>Novo Processo</p></a>          
         </div>
         <div class="leftbar_itens">
             <a href="/meusprocessos"><p>Meus Processos</p></a> 
+        </div>
+        <div class="leftbar_itens">
+            <a href="/processosrecebidos"><p>Processos Recebidos</p></a>
         </div>        
         <div class="leftbar_itens">
-            <a href="/novoprocesso/montagemdeprocesso"><p>Montagem de Processos</p></a>
+            <a href="/novoprocesso/montagemdeprocesso"><p>Montagem Automática de Documentos</p></a>
         </div>
         <div class="leftbar_itens">
             <p >Tabela de Processos</p> <!--Esse será visto só por quem chefia seções lvl 2, 3, 4 e 5 onde mostrará os status dos processos-->
         </div>
         <div class="leftbar_itens">
             <p >Documentações</p>
-        </div>             
+        </div>
+        {{#if (admin level 10)}}
+        <div class="leftbar_itens">
+            <a href="/log"><p>Registro</p></a>
+        </div>
+        {{/if}}             
     </div>
 </div>
      

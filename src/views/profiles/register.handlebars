@@ -1,3 +1,4 @@
+{{#if (admin level 10)}}
 <div class="logwindow">
     <div class="content_window">
         {{#if errors}}
@@ -21,10 +22,11 @@
                 <label>Seção: </label>
                 <select name="section" id="section">
                     <option value="0"></option>
-                    <option value="orçamentacao">Orçamentação</option>
+                    <option value="orcamentacao">Orçamentação</option>
                     <option value="dpgot">DPGOT</option>
                     <option value="fiscal">Fiscal ADM</option>
                     <option value="salc">SALC</option>
+                    <option value="chefe da salc">Chefe da SALC</option>
                     <option value="pesado">Armamento Pesado</option>
                     <option value="leve">Armamento Leve</option>
                     <option value="blindados">Linha de Blindados</option>
@@ -39,3 +41,4 @@
     </div>
 
 </div>
+{{/if}}

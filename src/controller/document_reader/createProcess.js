@@ -13,6 +13,8 @@ router.post('/cadastro', (req, res) =>{
     try {       
         const process = {
             user: req.user,
+            receiver: null,
+            section_receiver: null,            
             title: req.body.object,
             category: req.body.category,
             dir: `${req.user.level + '_' + req.user.section + '_' + req.user.name + '_' + req.body.object}`,
@@ -21,8 +23,8 @@ router.post('/cadastro', (req, res) =>{
             year: (new Date).getFullYear().toString()
         };
         new Process(process).save().then(() => {
-            fs.mkdir(`upload/${(new Date).getFullYear()}/${req.user.level + '_' + req.user.section + '_' + req.user.name + '_' + req.body.object}`, (error) =>{});
-            res.redirect(`/meusprocessos/${(new Date).getFullYear()}/${req.user.level + '_' + req.user.section + '_' + req.user.name + '_' + req.body.object}`)
+            fs.mkdir(`upload/inProcess/${(new Date).getFullYear()}/${req.user.level + '_' + req.user.section + '_' + req.user.name + '_' + req.body.object}`, {recursive: true} ,(error) =>{});
+            res.redirect(307, `/meusprocessos/${(new Date).getFullYear()}/${req.user.level + '_' + req.user.section + '_' + req.user.name + '_' + req.body.object}`)
         }
         ).catch((error) => {
             if(error.code == 11000){
