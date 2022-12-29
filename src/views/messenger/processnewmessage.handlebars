@@ -1,6 +1,5 @@
-
 <div class="mainwindow">
-    <form class="content_window" id="formm" action="" method="POST">
+    <form class="content_window" id="formm" action="/mensageiro/nova/{{processTitle}}" method="POST">
         <h2>Nova Mensagem</h2>
         <hr>
         <div class="flexorientation--start">
@@ -22,11 +21,10 @@
         <div style="margin-top: 10px;">
             <label>Processo:</label>
             <select name="year" id="year">
-                <option value=""></option>
-                <option value="2022">2022</option>
-                <option value="2023">2023</option>
+                <option value="{{processYear}}">{{processYear}}</option>                
             </select>            
-            <select name="process" id="process">                
+            <select name="process" id="process"> 
+                <option value="{{processId}}">{{processTitle}}</option>              
             </select>            
         </div>
         <div>
@@ -34,7 +32,7 @@
         </div>               
     </form>   
 </div>
-<script src="/js/newMessage2.js"></script>
+
 
 
 

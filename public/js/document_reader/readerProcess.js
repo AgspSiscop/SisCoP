@@ -73,7 +73,8 @@
                 date.setAttribute('style', 'display: block; margin-top: 5px;');
                 
                 //----------------------------------------FORM/DIV2/BUTTONSDIV
-               editButton.setAttribute('type', 'submit');
+                
+                editButton.setAttribute('type', 'submit');
                 editButton.setAttribute('value', 'Renomear');
                 editButton.setAttribute('class', 'button');
 
@@ -109,10 +110,14 @@
                 div1.setAttribute('class', 'display_none');     
                 
                 textItens.appendChild(element);            
-                textItens.appendChild(date)
+                textItens.appendChild(date);
                 buttonsDiv.appendChild(editButton);
                 buttonsDiv.appendChild(anotation);        
                 buttonsDiv.appendChild(deleteButton);
+                if(i.receiver != null || i.section_receiver != null || i.done != false){
+                    editButton.setAttribute('class', 'button_disable')
+                    editButton.setAttribute('disabled', '')
+                }
 
                 div2.setAttribute('class', 'flexorientation--spaceb');
                 div2.appendChild(textItens);

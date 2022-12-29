@@ -22,6 +22,10 @@ const Message =  new Schema({
         type: String,
         required: true
     },
+    process_title:{
+        type: String,
+        required: true
+    },
     content: {
         type: String,
     },     

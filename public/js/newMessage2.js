@@ -5,9 +5,12 @@
     let formm =  doc.getElementById('formm');
     let section = doc.getElementById('messagesection');
     let  year = doc.getElementById('year');
-    let process = doc.getElementById('process')
+    let process = doc.getElementById('process');
+    let send =  doc.getElementById('submitformm');
 
-   
+   send.addEventListener('click', () => {
+    formm.setAttribute('action', `/mensageiro/nova/${process.value}`); 
+   });
 
     year.addEventListener('change', (e) => {
         let ajax =  new XMLHttpRequest();
@@ -29,7 +32,7 @@
         ajax.onreadystatechange = function(){
             if(ajax.status === 200 && ajax.readyState === 4){                          
                for(let i of JSON.parse(ajax.responseText)){                
-                let option = document.createElement('option');
+                let option = document.createElement('option');                             
                 option.setAttribute('value', `${i._id}`);
                 option.textContent = i.title
                 process.appendChild(option);

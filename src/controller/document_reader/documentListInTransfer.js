@@ -93,7 +93,7 @@ router.post('/:year/:link', (req, res) =>{
                 let message = req.session.error || null; //mudar isso
                 req.session.error = null
                 documents = DocumentManipulator.readDir(`upload/inTransfer/${req.params.year}/${req.params.link}`);
-                res.render('document_reader/documentsInTransfer', {date: process.date, year: req.params.year, title: req.params.link, documents: documents, error: message, states: states});
+                res.render('document_reader/documentsInTransfer', {id: process._id, date: process.date, year: req.params.year, title: req.params.link, documents: documents, error: message, states: states});
 
             }).catch((error) => {
                 res.send('Erro: ' + error);

@@ -33,13 +33,18 @@ router.get('/nova', (req, res) =>{
     res.render('messenger/newmessage')
 });
 
-router.post('/nova', (req, res) => {  
+router.post('/nova/', (req, res) => {
+    res.render('messenger/processnewmessage', {processYear: req.body.year, processTitle: req.body.title, processId: req.body.id});
+});
+
+router.post('/nova/:title', (req, res) => {  
     try {
         const newMessage = {
             sender: res.locals.user,
             section_receiver: req.body.messagesection,
             process: req.body.process,
             title: req.body.title,
+            process_title: req.params.title,            
             content: req.body.content,
             date: Intl.DateTimeFormat('pt-BR', { dateStyle: "full", timeStyle: "short" }).format(new Date()),            
         }

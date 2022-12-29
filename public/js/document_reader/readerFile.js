@@ -1,4 +1,4 @@
-function listReader(list, itens ,openDir, editDir){
+function listReader(list, itens ,url){
     for(let i of itens){
         let element = document.createElement('input');        
         let editButton = document.createElement('input');
@@ -93,7 +93,7 @@ function listReader(list, itens ,openDir, editDir){
                     editFieldMessage.textContent = 'Este campo deve ser preenchido e não aceita os caracteres: "_" , "."'
                 }else{
                 form.setAttribute('method', 'POST');
-                form.setAttribute('action', `${editDir}edit/${i.link}`);
+                form.setAttribute('action', `${url}edit/${i.link}`);
                 form.setAttribute('target', '');
                 }
             });
@@ -115,7 +115,7 @@ function listReader(list, itens ,openDir, editDir){
 
             sendDelete.addEventListener('click', () =>{
                 form.setAttribute('method', 'POST');
-                form.setAttribute('action', `${editDir}delete/${i.link}`);
+                form.setAttribute('action', `${url}delete/${i.link}`);
                 form.setAttribute('target', '');
             });
 
@@ -131,12 +131,12 @@ function listReader(list, itens ,openDir, editDir){
         element.addEventListener('click', () => {
             form.setAttribute('target', '_blank');
             form.setAttribute('method', 'POST');
-            form.setAttribute('action', `${openDir}${i.link}`);
+            form.setAttribute('action', `${url}${i.link}`);
         });
     }
 }
 
-function upload(year, title, local){
+function upload(year, title, local, url){
     const inputFile = document.getElementById('file');
     const spanName = document.getElementById('filename');
     const formUpload = document.getElementById('upload');
@@ -159,7 +159,7 @@ function upload(year, title, local){
             sendFile.setAttribute('class', 'button');
             sendFile.setAttribute('value', 'enviar');
             formUpload.appendChild(sendFile);            
-            formUpload.setAttribute('action', `/processosrecebidos/${year}/${title}/upload/${local}`);
+            formUpload.setAttribute('action', `${url}upload/${local}`);
             formUpload.setAttribute('method', 'POST');
             formUpload.setAttribute('enctype', 'multipart/form-data'); //*
         }else{
@@ -172,17 +172,18 @@ function upload(year, title, local){
     });
 }
 
-function listStates(list, year, link, title){
+function listStates(list, year, link, title, url){
     const states = document.getElementById('states');
     const statusButton = document.getElementById('statusbutton');
     const div4 = document.createElement('div');
     const newStatus =  document.createElement('a');
 
     newStatus.setAttribute('class', 'button');
-    newStatus.setAttribute('href', `/processosrecebidos/${year}/${link}/anotation/${title}`)
+    newStatus.setAttribute('href', `${url}anotation/${title}`)
     newStatus.textContent = 'Novo Status';
     div4.appendChild(newStatus);
     div4.setAttribute('style', 'margin-top: 34px;');
+    div4.setAttribute('class', 'display_none');
 
     for(let i of list){
         const block = document.createElement('form');
@@ -238,7 +239,7 @@ function listStates(list, year, link, title){
 
         deleteState.addEventListener('click', () => {
             block.setAttribute('method', 'POST');
-            block.setAttribute('action', `/processosrecebidos/${year}/${link}/anotation/${title}/delete`)        
+            block.setAttribute('action', `${url}anotation/${title}/delete`)        
         });
     }    
 
@@ -249,17 +250,47 @@ function listStates(list, year, link, title){
             if(i.getAttribute('class') == 'status_content display-column-spaceb display_none'){
                 i.setAttribute('class', 'status_content display-column-spaceb');
                 statusButton.textContent = '-';
-                //states.appendChild(div4);
+                div4.setAttribute('class', '');               
             }else{
                 i.setAttribute('class', 'status_content display-column-spaceb display_none');
                 statusButton.textContent = '+';
-                //states.removeChild(div4)
+                div4.setAttribute('class', 'display_none');               
             }
         }
-    });
+    });       
+}
 
-    ;
+function sendProcess(id, title, year){
+    const forms = document.getElementById('sendprocess');
+    const sendButton = document.createElement('input');
+
+    sendButton.setAttribute('class', 'arrow');
+    sendButton.setAttribute('value', 'Enviar');
+    sendButton.setAttribute('type', 'submit');
+    forms.appendChild(sendButton);
+
+    sendButton.addEventListener('click', ()=>{
+        const idI = document.createElement('input');
+        const titleI = document.createElement('input');
+        const yearI =  document.createElement('input');
+
+        idI.setAttribute('type', 'hidden');
+        idI.setAttribute('name', 'id');
+        idI.setAttribute('value', `${id}`);
+        titleI.setAttribute('type', 'hidden');
+        titleI.setAttribute('name', 'title');
+        titleI.setAttribute('value', `${title}`);
+        yearI.setAttribute('type', 'hidden');
+        yearI.setAttribute('name', 'year');
+        yearI.setAttribute('value', `${year}`);
+
         
+        forms.appendChild(idI);
+        forms.appendChild(titleI);
+        forms.appendChild(yearI)
+        forms.setAttribute('method', 'POST');
+        forms.setAttribute('action', `/mensageiro/nova/`)
+    })
 }
 
 

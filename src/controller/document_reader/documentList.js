@@ -75,7 +75,7 @@ router.post('/:year/:link', (req, res) =>{ //DONE
                 let message = req.session.error || null; //mudar isso
                 req.session.error = null
                 documents = DocumentManipulator.readDir(`upload/inProcess/${req.params.year}/${req.params.link}`);
-                res.render('document_reader/documents', {date: process.date, year: req.params.year, title: req.params.link, documents: documents, error: message, states: states});
+                res.render('document_reader/documents', {id: process._id, date: process.date, year: req.params.year, title: req.params.link, documents: documents, error: message, states: states});
 
             }).catch((error) => {
                 res.send('Erro: ' + error);
@@ -122,7 +122,7 @@ router.post('/:year/:link/delete/:file', (req, res) => {
     }
 });
 
-router.get('/:year/:link/:file', (req, res) =>{
+router.post('/:year/:link/:file', (req, res) =>{
     try {
         if((req.user.level != req.params.link.split('_')[0] || req.user.section != req.params.link.split('_')[1] || req.user.name != req.params.link.split('_')[2]) && (req.user.level != 10)){
             res.redirect('/') 
@@ -135,7 +135,7 @@ router.get('/:year/:link/:file', (req, res) =>{
     }    
 });
 
-router.post('/:year/:link/:local', uploadFile,(req,res) =>{
+router.post('/:year/:link/upload/:local/', uploadFile,(req,res) =>{
     try {        
         if((req.user.level != req.params.link.split('_')[0] || req.user.section != req.params.link.split('_')[1] || req.user.name != req.params.link.split('_')[2]) && (req.user.level != 10)){
             res.redirect('/') 

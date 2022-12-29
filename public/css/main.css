@@ -104,7 +104,7 @@ select{
     display: inline;    
 }
 #upload{
-    margin-top: 60px;
+    margin-top: 35px;
 }
 .leftbar_itens:hover{
     background-image: linear-gradient(to right, rgb(136, 194, 42), rgb(118, 168, 36));
