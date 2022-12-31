@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.get('/', (req, res) =>{
     //res.render('profiles/profile');
-    res.redirect('/mensageiro')
+    res.render('profiles/index')
 });
 
 router.post('/', (req, res) => {

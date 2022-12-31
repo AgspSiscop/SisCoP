@@ -2,26 +2,7 @@ const fs =  require('fs');
 const fsExtra = require('fs-extra')
 const multer = require('multer');
 
-class DocumentManipulator  {
-   static process(dir, level, section, name){
-        let acess =  `${level}_${section}_${name}_`;
-        let documentsList = fs.readdirSync(dir);
-        let array = [];  
-    
-        if(level != 10){
-            for(let a of documentsList){
-                if(a.slice(0, acess.length) == acess){
-                    array.push({name: a}) 
-                }           
-            }
-        }else{
-            for(let a of documentsList){
-                array.push({name: a}) 
-            }
-        }
-        return array
-    }
-    
+class DocumentManipulator  {   
     static readDir(dir){    
         let documentsList = fs.readdirSync(dir);
         let array = [];   

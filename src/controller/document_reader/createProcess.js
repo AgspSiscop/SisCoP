@@ -17,17 +17,20 @@ router.post('/cadastro', (req, res) =>{
             section_receiver: null,            
             title: req.body.object,
             category: req.body.category,
-            dir: `${req.user.level + '_' + req.user.section + '_' + req.user.name + '_' + req.body.object}`,
+            user_dir: `${Date.now() + '_' + req.body.object}`,
+            transfer_dir: null,
+            done_dir: null,
             description: req.body.description,
             date: Intl.DateTimeFormat('pt-BR', { dateStyle: "full", timeStyle: "short" }).format(new Date()),
             year: (new Date).getFullYear().toString()
         };
         new Process(process).save().then(() => {
-            fs.mkdir(`upload/inProcess/${(new Date).getFullYear()}/${req.user.level + '_' + req.user.section + '_' + req.user.name + '_' + req.body.object}`, {recursive: true} ,(error) =>{});
-            res.redirect(307, `/meusprocessos/${(new Date).getFullYear()}/${req.user.level + '_' + req.user.section + '_' + req.user.name + '_' + req.body.object}`)
+            fs.mkdir(`upload/inProcess/${(new Date).getFullYear()}/${process.user_dir}`, {recursive: true} ,(error) =>{});
+            res.redirect(307, `/meusprocessos/${(new Date).getFullYear()}/${process.user_dir}`)
         }
         ).catch((error) => {
             if(error.code == 11000){
+                console.log(error)
                 res.render('document_maker/create', {error: 'Este processo já existe!'});
             }else{
                 res.send('ERRO. POR FAVOR COMUNICAR O ADMINISTRADOR DO SISTEMA ANTES DE FAZER QUALQUER OPERAÇÃO!'+ error);

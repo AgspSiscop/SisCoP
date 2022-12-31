@@ -1,8 +1,8 @@
 <div class="mainwindow">
     <div class="content_window">        
         <div class="flexorientation--spaceb">            
-            <h2 id="documenttitle"></h2>
-            <small>{{date}}</small>
+            <h2>{{process.title}}</h2>
+            <small>{{process.date}}</small>
         </div>        
         <hr>       
         <div id="list">
@@ -26,7 +26,7 @@
         </div>
         {{/if}}        
         <form id="upload">
-            <label for="file" class="button_file">Upload</label>
+            <label for="file" class="button_file" id="button_file">Upload</label>
             <input type="file" id="file" name="file" value="" required>
             <span id="filename"></span required>            
         </form>
@@ -47,17 +47,16 @@
 
 
 <script src="/js/document_reader/readerFile.js"></script>
-<script>    
-    const title = document.getElementById('documenttitle');
-    const list = document.getElementById('list');
+<script>  
+    const list = document.getElementById('list');    
     const names = [];
-    let states = [];   
-    title.textContent = '{{title}}'.split('_')[3];
+    let states = [];
+    const transfer =  '{{process.transfer_dir}}' || null;
+    const done = '{{process.done_dir}}' || null    
     '{{#each documents}}'
     names.push({
-        name:'{{name}}',
-        link: '{{name}}'
-        });
+        name:'{{name}}'        
+        });        
     '{{/each}}'
 
     '{{#if states}}'
@@ -71,9 +70,8 @@
     '{{/each}}'
     '{{/if}}'
      
-    listReader(list, names, `/meusprocessos/{{year}}/{{title}}/`);
-    listStates(states, '{{year}}', '{{title}}', title.innerText, `/meusprocessos/{{year}}/{{title}}/`);
-    upload( '{{year}}', '{{title}}', 'inProcess', `/meusprocessos/{{year}}/{{title}}/`);
-    sendProcess('{{id}}', '{{title}}'.split('_')[3], '{{year}}')
-
+    listReader(list, names, `/meusprocessos/{{process.year}}/{{process.user_dir}}/`, transfer, done);
+    listStates(states, '{{process.title}}', `/meusprocessos/{{process.year}}/{{process.user_dir}}/`, transfer, done);
+    upload('inProcess', `/meusprocessos/{{process.year}}/{{process.user_dir}}/`, transfer , done);
+    sendProcess('{{process._id}}', '{{process.title}}', '{{process.year}}', transfer, done);
 </script> 

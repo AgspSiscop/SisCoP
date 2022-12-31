@@ -51,7 +51,7 @@ router.post('/:year/delete/:link', (req, res) => {
                 });                    
             }else{
                 if(process.receiver != null ^ process.section_receiver != null){
-                    Process.updateOne({_id: process._id}, {$set: {section_receiver: null , section: null}}).then(() =>{
+                    Process.updateOne({_id: process._id}, {$set: {section_receiver: null , section: null, transfer_dir: null}}).then(() =>{
                         DocumentManipulator.removeProcess(`upload/inTransfer/${req.params.year}/${req.params.link}`);
                         res.redirect(`/processosrecebidos/`);
                     }).catch((error) => {
@@ -88,13 +88,12 @@ router.post('/:year/delete/:link', (req, res) => {
 router.post('/:year/:link', (req, res) =>{ 
     let documents;
     try {            
-        Process.findOne({dir: req.params.link}).lean().then((process) => {
+        Process.findOne({transfer_dir: req.params.link}).lean().then((process) => {
             ProcessState.find({process: process}).lean().then((states) => {                
                 let message = req.session.error || null; //mudar isso
                 req.session.error = null
                 documents = DocumentManipulator.readDir(`upload/inTransfer/${req.params.year}/${req.params.link}`);
-                res.render('document_reader/documentsInTransfer', {id: process._id, date: process.date, year: req.params.year, title: req.params.link, documents: documents, error: message, states: states});
-
+                res.render('document_reader/documentsInTransfer', {process: process, documents: documents, error: message, states: states});
             }).catch((error) => {
                 res.send('Erro: ' + error);
             })
@@ -154,7 +153,7 @@ router.get('/:year/:link/anotation/:title', (req,res) => {
 });
 
 router.post('/:year/:link/anotation/:title', (req,res) => { 
-    Process.findOne({dir: req.params.link}).lean().then((process) => {
+    Process.findOne({transfer_dir: req.params.link}).lean().then((process) => {
         const State = {
             process: process,
             state: req.body.state,

@@ -78,7 +78,7 @@
                 editButton.setAttribute('value', 'Renomear');
                 editButton.setAttribute('class', 'button');
 
-                anotation.setAttribute('href', `/meusprocessos/${year.value}/${i.dir}/anotation/${i.title}`);        
+                anotation.setAttribute('href', `/meusprocessos/${year.value}/${i.user_dir}/anotation/${i.title}`);        
                 anotation.setAttribute('class', 'button');
                 anotation.textContent = 'Anotação'        
             
@@ -115,8 +115,10 @@
                 buttonsDiv.appendChild(anotation);        
                 buttonsDiv.appendChild(deleteButton);
                 if(i.receiver != null || i.section_receiver != null || i.done != false){
-                    editButton.setAttribute('class', 'button_disable')
-                    editButton.setAttribute('disabled', '')
+                    editButton.setAttribute('class', 'button_disable');
+                    editButton.setAttribute('disabled', '');
+                    anotation.setAttribute('class', 'button_disable')
+                    anotation.setAttribute('disabled', '')
                 }
 
                 div2.setAttribute('class', 'flexorientation--spaceb');
@@ -147,7 +149,7 @@
                             editFieldMessage.textContent = 'Este campo deve ser preenchido e não aceita os caracteres: "_" , "."'
                         }else{
                             form.setAttribute('method', 'POST');
-                            form.setAttribute('action', `/meusprocessos/${year.value}/edit/${i.dir}`);
+                            form.setAttribute('action', `/meusprocessos/${year.value}/edit/${i.user_dir}`);
                         }                
                     });
 
@@ -167,7 +169,7 @@
 
                     sendDelete.addEventListener('click', () =>{
                         form.setAttribute('method', 'POST');
-                        form.setAttribute('action', `/meusprocessos/${year.value}/delete/${i.dir}`);
+                        form.setAttribute('action', `/meusprocessos/${year.value}/delete/${i.user_dir}`);
                     });
 
                     cancelDelete.addEventListener('click', (e) =>{
@@ -180,9 +182,8 @@
 
                 element.addEventListener('click', () => {
                     form.setAttribute('method', 'POST');
-                    form.setAttribute('action', `/meusprocessos/${year.value}/${i.dir}`);
-                })
-                console.log(i)
+                    form.setAttribute('action', `/meusprocessos/${year.value}/${i.user_dir}`);
+                });                
                }               
             }    
         };

@@ -1,4 +1,5 @@
-function listReader(list, itens ,url){
+function listReader(list, itens ,url, transfer, done){
+    
     for(let i of itens){
         let element = document.createElement('input');        
         let editButton = document.createElement('input');
@@ -16,173 +17,218 @@ function listReader(list, itens ,url){
         let div3 =  document.createElement('div');
         let buttonsDiv = document.createElement('div');
         list.appendChild(form);
+        console.log(transfer)
+        console.log(done)
+        
+        if(transfer === null  && done === null){
+            //---------------------------------------------FORM/DIV1
+            editField.setAttribute('type', 'text');
+            editField.setAttribute('name', 'ename');
+            editField.setAttribute('class', 'mediumtext');
 
-        //---------------------------------------------FORM/DIV1
-        editField.setAttribute('type', 'text');
-        editField.setAttribute('name', 'ename');
-        editField.setAttribute('class', 'mediumtext');
+            sendEdit.setAttribute('type', 'submit');
+            sendEdit.setAttribute('value', 'Ok');
+            sendEdit.setAttribute('class', 'button');  
 
-        sendEdit.setAttribute('type', 'submit');
-        sendEdit.setAttribute('value', 'Ok');
-        sendEdit.setAttribute('class', 'button');  
+            cancelEdit.setAttribute('type', 'submit');
+            cancelEdit.setAttribute('value', 'Cancelar');
+            cancelEdit.setAttribute('class', 'redbutton');
+            
+            //----------------------------------------------FORM/DIV2
+            //--------------------------------FORM/DIV2/ELEMENT
+            element.setAttribute('type', 'submit');
+            element.setAttribute('class', 'transparentbutton highlighted');
+            element.setAttribute('value', `${i.name}`);        
 
-        cancelEdit.setAttribute('type', 'submit');
-        cancelEdit.setAttribute('value', 'Cancelar');
-        cancelEdit.setAttribute('class', 'redbutton');
-        
-        //----------------------------------------------FORM/DIV2
-        //--------------------------------FORM/DIV2/ELEMENT
-        element.setAttribute('type', 'submit');
-        element.setAttribute('class', 'transparentbutton highlighted');
-        element.setAttribute('value', `${i.name}`);        
-
-        //-----------------------------------------FORM/DIV2/BUTTONSDIV
-        editButton.setAttribute('type', 'submit');
-        editButton.setAttribute('value', 'Renomear');
-        editButton.setAttribute('class', 'button') 
-        
-        deleteButton.setAttribute('type', 'submit');
-        deleteButton.setAttribute('value', 'Apagar');
-        deleteButton.setAttribute('class', 'redbutton');
-        
-        //-------------------------------------------------------------------------FORM/DIV3
-        deleteText.textContent = `Tem certeza que deseja apagar: "${i.name}" ?`
-        
-        sendDelete.setAttribute('type', 'submit');
-        sendDelete.setAttribute('value', 'Ok');
-        sendDelete.setAttribute('class', 'button');
-        
-        cancelDelete.setAttribute('value', 'Cancelar');
-        cancelDelete.setAttribute('class', 'redbutton');
-        cancelDelete.setAttribute('type', 'submit');
-        //---------------------------------------------------------------//              
-        
-        div1.setAttribute('class', 'display_none');
-        div1.appendChild(editFieldMessage);
-        div1.appendChild(editField);        
-        div1.appendChild(sendEdit);
-        div1.appendChild(cancelEdit);        
-
-        buttonsDiv.appendChild(editButton);
-        buttonsDiv.appendChild(deleteButton);
-
-        div2.setAttribute('class', 'flexorientation--spaceb');
-        div2.appendChild(element);
-        div2.appendChild(buttonsDiv);
-        
-        div3.setAttribute('class', 'display_none');
-        div3.appendChild(deleteText);
-        div3.appendChild(sendDelete);
-        div3.appendChild(cancelDelete);
-        
-        form.setAttribute('class', 'list_iten');
-        form.appendChild(div1);
-        form.appendChild(div2);
-        form.appendChild(div3)      
-        
-        
-        editButton.addEventListener('click', (e)=>{
-            e.preventDefault()
-            editField.setAttribute('value', `${(i.name).split('.')[0]}`) 
-            div1.setAttribute('class', '');
-            div2.setAttribute('class', 'display_none');
-
-            sendEdit.addEventListener('click', (e) =>{                
-                if(editField.value.includes('_') || editField.value.includes('.') || editField.value == ''){
-                    e.preventDefault();
-                    editFieldMessage.textContent = 'Este campo deve ser preenchido e não aceita os caracteres: "_" , "."'
-                }else{
-                form.setAttribute('method', 'POST');
-                form.setAttribute('action', `${url}edit/${i.link}`);
-                form.setAttribute('target', '');
-                }
-            });
-
-            cancelEdit.addEventListener('click', (e) =>{
-                e.preventDefault();
-                editFieldMessage.textContent = ''               
-                div1.setAttribute('class', 'display_none');
-                div2.setAttribute('class', 'flexorientation--spaceb')
-            });            
-        });
-        
-        deleteButton.addEventListener('click', (e) => {            
-            e.preventDefault();            
-            form.setAttribute('class', 'list_iten_delete')
-            div3.setAttribute('class', '');
-            div2.setAttribute('class', 'display_none');
+            //-----------------------------------------FORM/DIV2/BUTTONSDIV
+            editButton.setAttribute('type', 'submit');
+            editButton.setAttribute('value', 'Renomear');
+            editButton.setAttribute('class', 'button') 
+            
+            deleteButton.setAttribute('type', 'submit');
+            deleteButton.setAttribute('value', 'Apagar');
+            deleteButton.setAttribute('class', 'redbutton');
+            
+            //-------------------------------------------------------------------------FORM/DIV3
+            deleteText.textContent = `Tem certeza que deseja apagar: "${i.name}" ?`
+            
+            sendDelete.setAttribute('type', 'submit');
+            sendDelete.setAttribute('value', 'Ok');
+            sendDelete.setAttribute('class', 'button');
+            
+            cancelDelete.setAttribute('value', 'Cancelar');
+            cancelDelete.setAttribute('class', 'redbutton');
+            cancelDelete.setAttribute('type', 'submit');
+            //---------------------------------------------------------------//              
             
 
-            sendDelete.addEventListener('click', () =>{
+            div1.setAttribute('class', 'display_none');
+            div1.appendChild(editFieldMessage);
+            div1.appendChild(editField);        
+            div1.appendChild(sendEdit);
+            div1.appendChild(cancelEdit);        
+
+            buttonsDiv.appendChild(editButton);
+            buttonsDiv.appendChild(deleteButton);
+
+            div2.setAttribute('class', 'flexorientation--spaceb');
+            div2.appendChild(element);
+            div2.appendChild(buttonsDiv);
+            
+            div3.setAttribute('class', 'display_none');
+            div3.appendChild(deleteText);
+            div3.appendChild(sendDelete);
+            div3.appendChild(cancelDelete);
+            
+            form.setAttribute('class', 'list_iten');
+            form.appendChild(div1);
+            form.appendChild(div2);
+            form.appendChild(div3)      
+            
+            
+            editButton.addEventListener('click', (e)=>{
+                e.preventDefault()
+                editField.setAttribute('value', `${(i.name).split('.')[0]}`) 
+                div1.setAttribute('class', '');
+                div2.setAttribute('class', 'display_none');
+
+                sendEdit.addEventListener('click', (e) =>{                
+                    if(editField.value.includes('_') || editField.value.includes('.') || editField.value == ''){
+                        e.preventDefault();
+                        editFieldMessage.textContent = 'Este campo deve ser preenchido e não aceita os caracteres: "_" , "."'
+                    }else{
+                    form.setAttribute('method', 'POST');
+                    form.setAttribute('action', `${url}edit/${i.name}`);
+                    form.setAttribute('target', '');
+                    }
+                });
+
+                cancelEdit.addEventListener('click', (e) =>{
+                    e.preventDefault();
+                    editFieldMessage.textContent = ''               
+                    div1.setAttribute('class', 'display_none');
+                    div2.setAttribute('class', 'flexorientation--spaceb')
+                });            
+            });
+            
+            deleteButton.addEventListener('click', (e) => {            
+                e.preventDefault();            
+                form.setAttribute('class', 'list_iten_delete')
+                div3.setAttribute('class', '');
+                div2.setAttribute('class', 'display_none');
+                
+
+                sendDelete.addEventListener('click', () =>{
+                    form.setAttribute('method', 'POST');
+                    form.setAttribute('action', `${url}delete/${i.name}`);
+                    form.setAttribute('target', '');
+                });
+
+                cancelDelete.addEventListener('click', (e) =>{
+                    e.preventDefault();               
+                    form.setAttribute('class', 'list_iten')
+                    div3.setAttribute('class', 'display_none');
+                    div2.setAttribute('class', 'flexorientation--spaceb');                
+                    
+                });
+            });
+
+            element.addEventListener('click', () => {
+                form.setAttribute('target', '_blank');
                 form.setAttribute('method', 'POST');
-                form.setAttribute('action', `${url}delete/${i.link}`);
-                form.setAttribute('target', '');
+                form.setAttribute('action', `${url}${i.name}`);
             });
+        }else{
+            element.setAttribute('type', 'submit');
+            element.setAttribute('class', 'transparentbutton highlighted');
+            element.setAttribute('value', `${i.name}`);        
 
-            cancelDelete.addEventListener('click', (e) =>{
-                e.preventDefault();               
-                form.setAttribute('class', 'list_iten')
-                div3.setAttribute('class', 'display_none');
-                div2.setAttribute('class', 'flexorientation--spaceb');                
-                 
+            //-----------------------------------------FORM/DIV2/BUTTONSDIV
+            editButton.setAttribute('type', 'submit');
+            editButton.setAttribute('value', 'Renomear');
+            editButton.setAttribute('class', 'button_disable');
+            editButton.setAttribute('disabled', '') 
+            
+            deleteButton.setAttribute('type', 'submit');
+            deleteButton.setAttribute('value', 'Apagar');
+            deleteButton.setAttribute('class', 'redbutton');
+            deleteButton.setAttribute('class', 'button_disable');
+            deleteButton.setAttribute('disabled', '')
+
+            buttonsDiv.appendChild(editButton);
+            buttonsDiv.appendChild(deleteButton);
+
+            div2.setAttribute('class', 'flexorientation--spaceb');
+            div2.appendChild(element);
+            div2.appendChild(buttonsDiv);
+            form.appendChild(div2);
+
+            element.addEventListener('click', () => {
+                form.setAttribute('target', '_blank');
+                form.setAttribute('method', 'POST');
+                form.setAttribute('action', `${url}${i.name}`);
             });
-        });
-
-        element.addEventListener('click', () => {
-            form.setAttribute('target', '_blank');
-            form.setAttribute('method', 'POST');
-            form.setAttribute('action', `${url}${i.link}`);
-        });
+        }
     }
 }
 
-function upload(year, title, local, url){
+function upload(local, url, transfer, done){
     const inputFile = document.getElementById('file');
+    const buttonFile = document.getElementById('button_file')
     const spanName = document.getElementById('filename');
     const formUpload = document.getElementById('upload');
     const message = document.getElementById('message');
-    const sendFile = document.createElement('input');
+
+    if(transfer === null  && done === null){
+        const sendFile = document.createElement('input');
+            
+        inputFile.value = '' //resets when page is reloaded
         
-    inputFile.value = '' //resets when page is reloaded
-    
-    inputFile.addEventListener('change', () => {        
-        sendFile.setAttribute('id', 'sendfile');
-        message.innerHTML = ''
-                            
-        let text = inputFile.value.split("\\");
-        let extension = text[2].split('.')[text[2].split('.').length -1];
-        spanName.textContent = text[2];
-        if(extension.toLowerCase() == 'txt' || extension.toLowerCase() == 'xlsx' || extension.toLowerCase() == 'pdf' || extension.toLowerCase() == 'docx' || 
-        extension.toLowerCase() == 'doc' || extension.toLowerCase() == 'jpg' || extension.toLowerCase() == 'jpeg' || extension.toLowerCase() == 'ods' || 
-        extension.toLowerCase() == 'zip' || extension.toLowerCase() == 'rar' || extension.toLowerCase() == 'jar' || extension.toLowerCase() == 'zip' || extension.toLowerCase() == 'png'){
-            sendFile.setAttribute('type', 'submit');
-            sendFile.setAttribute('class', 'button');
-            sendFile.setAttribute('value', 'enviar');
-            formUpload.appendChild(sendFile);            
-            formUpload.setAttribute('action', `${url}upload/${local}`);
-            formUpload.setAttribute('method', 'POST');
-            formUpload.setAttribute('enctype', 'multipart/form-data'); //*
-        }else{
-            if(formUpload.querySelector('#sendfile') != null){                
-                formUpload.removeChild(sendFile);
-            }
-                   
-            message.innerHTML = 'Só é possível fazer upload de arquivos: pdf, ods, xlsx, docx, doc, jpg, jpeg, png, ods e arquivos compactados em até 60MB';                       ;
-        }        
-    });
+        inputFile.addEventListener('change', () => {        
+            sendFile.setAttribute('id', 'sendfile');
+            message.innerHTML = ''
+                                
+            let text = inputFile.value.split("\\");
+            let extension = text[2].split('.')[text[2].split('.').length -1];
+            spanName.textContent = text[2];
+            if(extension.toLowerCase() == 'txt' || extension.toLowerCase() == 'xlsx' || extension.toLowerCase() == 'pdf' || extension.toLowerCase() == 'docx' || 
+            extension.toLowerCase() == 'doc' || extension.toLowerCase() == 'jpg' || extension.toLowerCase() == 'jpeg' || extension.toLowerCase() == 'ods' || 
+            extension.toLowerCase() == 'zip' || extension.toLowerCase() == 'rar' || extension.toLowerCase() == 'jar' || extension.toLowerCase() == 'zip' || extension.toLowerCase() == 'png'){
+                sendFile.setAttribute('type', 'submit');
+                sendFile.setAttribute('class', 'button');
+                sendFile.setAttribute('value', 'enviar');
+                formUpload.appendChild(sendFile);            
+                formUpload.setAttribute('action', `${url}upload/${local}`);
+                formUpload.setAttribute('method', 'POST');
+                formUpload.setAttribute('enctype', 'multipart/form-data'); //*
+            }else{
+                if(formUpload.querySelector('#sendfile') != null){                
+                    formUpload.removeChild(sendFile);
+                }
+                    
+                message.innerHTML = 'Só é possível fazer upload de arquivos: pdf, ods, xlsx, docx, doc, jpg, jpeg, png, ods e arquivos compactados em até 60MB';                       ;
+            }        
+        });
+    }else{
+        buttonFile.setAttribute('class', 'button_disable');
+        buttonFile.setAttribute('disable', '');
+        inputFile.setAttribute('type', '')
+    }
 }
 
-function listStates(list, year, link, title, url){
+function listStates(list, title, url, transfer, done){
     const states = document.getElementById('states');
     const statusButton = document.getElementById('statusbutton');
     const div4 = document.createElement('div');
+    
+    if(transfer === null  && done === null){
     const newStatus =  document.createElement('a');
-
     newStatus.setAttribute('class', 'button');
     newStatus.setAttribute('href', `${url}anotation/${title}`)
     newStatus.textContent = 'Novo Status';
     div4.appendChild(newStatus);
     div4.setAttribute('style', 'margin-top: 34px;');
+    }
     div4.setAttribute('class', 'display_none');
 
     for(let i of list){
@@ -231,9 +277,10 @@ function listStates(list, year, link, title, url){
         block.appendChild(div2);
         block.appendChild(div3);
         block.appendChild(stateId);
-        if(i.state != 'Em transferência'){
+        if(transfer == null  && done == null && i.state != 'Em transferência'){
             block.appendChild(deleteState);
         }
+
         states.appendChild(block);
         states.appendChild(div4);
 
@@ -263,34 +310,42 @@ function listStates(list, year, link, title, url){
 function sendProcess(id, title, year){
     const forms = document.getElementById('sendprocess');
     const sendButton = document.createElement('input');
+    if(transfer === null  && done === null){
 
-    sendButton.setAttribute('class', 'arrow');
-    sendButton.setAttribute('value', 'Enviar');
-    sendButton.setAttribute('type', 'submit');
-    forms.appendChild(sendButton);
+        sendButton.setAttribute('class', 'arrow');
+        sendButton.setAttribute('value', 'Enviar');
+        sendButton.setAttribute('type', 'submit');
+        forms.appendChild(sendButton);
 
-    sendButton.addEventListener('click', ()=>{
-        const idI = document.createElement('input');
-        const titleI = document.createElement('input');
-        const yearI =  document.createElement('input');
+        sendButton.addEventListener('click', ()=>{
+            const idI = document.createElement('input');
+            const titleI = document.createElement('input');
+            const yearI =  document.createElement('input');
 
-        idI.setAttribute('type', 'hidden');
-        idI.setAttribute('name', 'id');
-        idI.setAttribute('value', `${id}`);
-        titleI.setAttribute('type', 'hidden');
-        titleI.setAttribute('name', 'title');
-        titleI.setAttribute('value', `${title}`);
-        yearI.setAttribute('type', 'hidden');
-        yearI.setAttribute('name', 'year');
-        yearI.setAttribute('value', `${year}`);
+            idI.setAttribute('type', 'hidden');
+            idI.setAttribute('name', 'id');
+            idI.setAttribute('value', `${id}`);
+            titleI.setAttribute('type', 'hidden');
+            titleI.setAttribute('name', 'title');
+            titleI.setAttribute('value', `${title}`);
+            yearI.setAttribute('type', 'hidden');
+            yearI.setAttribute('name', 'year');
+            yearI.setAttribute('value', `${year}`);
 
-        
-        forms.appendChild(idI);
-        forms.appendChild(titleI);
-        forms.appendChild(yearI)
-        forms.setAttribute('method', 'POST');
-        forms.setAttribute('action', `/mensageiro/nova/`)
-    })
+            
+            forms.appendChild(idI);
+            forms.appendChild(titleI);
+            forms.appendChild(yearI)
+            forms.setAttribute('method', 'POST');
+            forms.setAttribute('action', `/mensageiro/nova/`)
+        })
+    }else{
+        sendButton.setAttribute('class', 'arrow_disabled');
+        sendButton.setAttribute('disabled', '');
+        sendButton.setAttribute('type', 'submit');
+        sendButton.setAttribute('value', 'Enviar');
+        forms.appendChild(sendButton)
+    }
 }
 
 

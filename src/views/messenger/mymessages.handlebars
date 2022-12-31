@@ -1,7 +1,7 @@
 <div class="mainwindow">
     <div class="content_window">
         <div class="header_color">
-            <h2>Caixa de Entrada</h2>
+            <h2>Mensagens Enviadas</h2>
         </div>        
         <div class="flexorientation--start">
             <div class="messenger_header">
@@ -11,16 +11,16 @@
                 <label>Processo:</label>
             </div>
             <div class="messenger_header">
-                <label>Remetente:</label>
+                <label>Destinatário:</label>
             </div>
             <div class="messenger_header">
                 <label>Data:</label>
-            </div>
+            </div>            
         </div>
         <hr>
         {{#if messages}}
         {{#each messages}}
-        <a href="/mensageiro/mensagem/{{_id}}" class="message_style">        
+        <a href="/mensageiro/enviadas/{{_id}}" class="message_style">        
         <div class="flexorientation--spaceb list_iten">
             <div class="messenger_body">
                 <label>{{title}}</label>
@@ -29,18 +29,18 @@
                 <label>{{process_title}}</label>
             </div>
             <div class="messenger_body">
-                <label>{{sender.name}}</label>
+                <label>{{section_receiver}}</label>
             </div>
             <div class="messenger_body">
                 <label>{{date}}</label>
             </div>
-            <form method="POST" action="/mensageiro/mensagem/{{_id}}/delete">
+            <form method="POST" action="/mensageiro/enviadas/{{_id}}/delete">
                 <button class="redbutton" style="margin-top: 0px; margin-left: 20px;"><img src="/img/trash.png" style="height: 16px;"></button>               
             </form>
         </div>
         </a>
         {{/each}}
-        {{/if}}        
+        {{/if}}
         <div class="flexorientation--spaceb">
             <div class="arrow_disabled" id="back">
                 <a id="backlink"><img src="/img/seta2.png" style="height: 20px; width: 20px;"></a>
@@ -48,7 +48,7 @@
             <div class="arrow_disabled" id="next">
                 <a id="nextlink"><img src="/img/seta.png" style="height: 20px; width: 20px;"></a>
             </div>
-        </div>            
+        </div>         
     </div>   
 </div>
 <script>
@@ -62,11 +62,11 @@
 
     if(index > 0){
         back.setAttribute('class', 'arrow')
-        backLink.setAttribute('href', `/mensageiro/caixadeentrada${index - 1}`);
+        backLink.setAttribute('href', `/mensageiro/enviadas${index - 1}`);
     }
 
     if(((index +2)* messages <= count ) !== ((index +2) * messages - count < messages && (index +2) * messages - count >= 0)){
         next.setAttribute('class', 'arrow');
-        nextLink.setAttribute('href', `/mensageiro/caixadeentrada${index +1}`);
+        nextLink.setAttribute('href', `/mensageiro/enviadas${index +1}`);
     }
 </script>

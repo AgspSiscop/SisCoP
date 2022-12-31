@@ -1,8 +1,8 @@
 <div class="mainwindow">
     <div class="content_window">        
         <div class="flexorientation--spaceb">            
-            <h2 id="documenttitle"></h2>
-            <small>{{date}}</small>           
+            <h2>{{process.title}}</h2>
+            <small>{{process.date}}</small>           
         </div>        
         <hr>       
         <div id="list">
@@ -48,15 +48,14 @@
 
 <script src="/js/document_reader/readerFile.js"></script>
 <script>    
-    const title = document.getElementById('documenttitle');
     const list = document.getElementById('list');
     const names = [];
-    let states = [];   
-    title.textContent = '{{title}}'.split('_')[3];
+    let states = [];
+    const transfer = null;  
+    const done = '{{process.done_dir}}' || null;
     '{{#each documents}}'
     names.push({
-        name:'{{name}}',
-        link: '{{name}}'
+        name:'{{name}}'        
         });
     '{{/each}}'
 
@@ -71,9 +70,8 @@
     '{{/each}}'
     '{{/if}}'
      
-    listReader(list, names, `/processosrecebidos/{{year}}/{{title}}/`);
-    listStates(states, '{{year}}', '{{title}}', title.innerText, `/processosrecebidos/{{year}}/{{title}}/`);
-    upload( '{{year}}', '{{title}}', 'inTransfer', `/processosrecebidos/{{year}}/{{title}}/`);
-    sendProcess('{{id}}', '{{title}}'.split('_')[3], '{{year}}')
-
+    listReader(list, names, `/processosrecebidos/{{process.year}}/{{process.transfer_dir}}/`, transfer, done);
+    listStates(states, '{{process.title}}', `/processosrecebidos/{{process.year}}/{{process.transfer_dir}}/`, transfer, done);
+    upload('inTransfer', `/processosrecebidos/{{process.year}}/{{process.transfer_dir}}/`, transfer , done);
+    sendProcess('{{process._id}}', '{{process.title}}', '{{process.year}}', transfer, done);
 </script> 

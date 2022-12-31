@@ -27,10 +27,15 @@ const Process =  new Schema({
     description: {
         type: String
     },
-    dir:{
+    user_dir:{
         type:  String,
-        required: true,
-        unique: true
+        required: true        
+    },
+    transfer_dir:{
+        type: String        
+    },
+    done_dir:{
+        type: String        
     },
     date: {
         type: String,

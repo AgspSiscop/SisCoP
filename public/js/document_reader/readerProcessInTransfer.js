@@ -77,7 +77,7 @@
                 editButton.setAttribute('value', 'Renomear');
                 editButton.setAttribute('class', 'button');*/
 
-                anotation.setAttribute('href', `/processosrecebidos/${year.value}/${i.dir}/anotation/${i.title}`);        
+                anotation.setAttribute('href', `/processosrecebidos/${year.value}/${i.transfer_dir}/anotation/${i.title}`);        
                 anotation.setAttribute('class', 'button');
                 anotation.textContent = 'Anotação'        
             
@@ -162,7 +162,7 @@
 
                     sendDelete.addEventListener('click', () =>{
                         form.setAttribute('method', 'POST');
-                        form.setAttribute('action', `/processosrecebidos/${year.value}/delete/${i.dir}`);
+                        form.setAttribute('action', `/processosrecebidos/${year.value}/delete/${i.transfer_dir}`);
                     });
 
                     cancelDelete.addEventListener('click', (e) =>{
@@ -175,7 +175,7 @@
 
                 element.addEventListener('click', () => {
                     form.setAttribute('method', 'POST');
-                    form.setAttribute('action', `/processosrecebidos/${year.value}/${i.dir}`);
+                    form.setAttribute('action', `/processosrecebidos/${year.value}/${i.transfer_dir}`);
 
                 })
                 console.log(i)

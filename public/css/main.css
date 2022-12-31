@@ -119,8 +119,7 @@ select{
 }
 .list_iten:hover{
     background-color: rgb(150, 152, 160);
-    border-radius: 5px;
-    transition: 0.3s;
+    border-radius: 5px;    
 }
 .list_iten_delete{    
     background-color: rgb(255, 164, 164);
@@ -164,9 +163,10 @@ select{
 .mainwindow{
     background-color:  rgb(233, 236, 232);;    
     color: rgb(105, 105, 105);
-    border-radius: 2px;
+    border-radius: 3px;
     min-height: 300px;
-    min-width: 1000px; 
+    min-width: 1000px;
+    max-width: 1200px;
     box-shadow: 6px 6px 10px 1px rgb(24, 24, 24);
     margin-bottom: 30px;
 }
@@ -188,6 +188,7 @@ select{
     cursor: pointer; 
 }
 .content_window{
+    border-radius: 3px;
     margin:0px 70px 0px 15px;
     padding: 20px 0px 20px 0px;       
 }
@@ -245,7 +246,21 @@ select{
     font-weight: bolder;
 }
 .messenger_header{
-    width: 300px;
+    width: 266px;
+}
+.messenger_body{
+    width: 300px;    
+}
+.header_color{
+    background-color: rgb(70, 70, 70);
+    width: auto;    
+    border-radius: 2px 2px 0px 0px;
+    margin:-20px -70px 10px -15px;
+    padding: 20px 0px 10px 0px
+}
+.header_color h2{
+    margin-left: 15px;
+    color: rgb(255, 255, 255);    
 }
 /***************************************************************************Display Align*/
 .bodyorientation{
@@ -361,6 +376,17 @@ select{
     height: fit-content;
     margin-top: 30px;
 }
+.arrow_disabled{
+    padding: 3px 5px 3px 5px;
+    background-color: rgb(190, 192, 186);
+    border: 0px;
+    border-radius: 30px;
+    color: rgb(253, 253, 253);    
+    margin: 10px;
+    width:fit-content;
+    height: fit-content;
+    margin-top: 30px
+}
 .arrow:hover{
     background-color: rgb(156, 221, 52);
 }
@@ -409,6 +435,7 @@ select{
     border-radius: 3px;
     color: rgb(119, 119, 119);    
     margin: 10px;
+    font-size: 13.5px
 }
 .button_file{
     padding: 5px;

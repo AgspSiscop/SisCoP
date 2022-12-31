@@ -25,11 +25,11 @@ const router = express.Router();
 //Config of multer
 const storage = multer.diskStorage({
     destination: function(req, file, cb){
-        fs.mkdir(`upload/inProcess/${(new Date).getFullYear()}/${req.user.level + '_' + req.user.section + '_' + req.user.name + '_' + req.body.object}`, {recursive: true},(error) =>{});
-        cb(null,`upload/inProcess/${(new Date).getFullYear()}/${req.user.level + '_' + req.user.section + '_' + req.user.name + '_' + req.body.object}`);
+        fs.mkdir(`upload/inProcess/`, {recursive: true},(error) =>{});
+        cb(null,`upload/inProcess/`);
     },
     filename: function(req, file, cb){
-        cb(null, `Mapa Comparativo de ${req.body.object}.xlsx`);
+        cb(null, Date.now()+file.originalname);
     }
 })
 const multerConfig = multer({storage})
@@ -43,7 +43,7 @@ function contentxlsx(workbook){ //receive XLSX.readFile(file.path)
     return worksheets
 }
 
-function exist(req, res, next){
+/*function exist(req, res, next){
     try {       
         const process = {
             user: req.user,
@@ -70,7 +70,7 @@ function exist(req, res, next){
     } catch (error) {
         res.send('Erro: ' + error);
     }
-}
+}*/
 
 
 
@@ -78,11 +78,11 @@ router.get('/Bens',(req,res) =>{
     res.render('document_maker/assetsForm');
 })
 
-router.post('/TR', multerConfig.single('file'), exist, (req,res) => {
+router.post('/TR', multerConfig.single('file'), (req,res) => {
     const {file, body} = req;    
     TR.getMap(contentxlsx(XLSX.readFile(file.path)))
-    TR.getValues(body)
-    
+    TR.getValues(body);
+    fs.rm(file.path, ()=>{});    
     TRDB.find({_id: {$in: TR.TRDB()}}).lean().then((item) =>{        
         const chunks = [];
         const pdfDoc = printer.createPdfKitDocument(TR.analysis(item))
@@ -93,17 +93,17 @@ router.post('/TR', multerConfig.single('file'), exist, (req,res) => {
         pdfDoc.end();      
         pdfDoc.on('end', () => {
             const result = Buffer.concat(chunks);
-            fs.writeFile(`upload/inProcess/${(new Date).getFullYear()}/${req.user.level + '_' + req.user.section + '_' + req.user.name + '_' + req.body.object}/Termo de Referência.pdf`, result, (error) => {});
+            //fs.writeFile(`upload/inProcess/${(new Date).getFullYear()}/${req.user.level + '_' + req.user.section + '_' + req.user.name + '_' + req.body.object}/Termo de Referência.pdf`, result, (error) => {});
             res.end(result);
         })
     });
 })
 
-router.post('/CA', multerConfig.single('file'), exist, (req,res) =>{
+router.post('/CA', multerConfig.single('file'), (req,res) =>{
     const {file, body} = req;
     CA.getMap(contentxlsx(XLSX.readFile(file.path)));
-    CA.getValues(body)
-    
+    CA.getValues(body);
+    fs.rm(file.path, ()=>{})    
     CADB.find({_id: {$in: CA.itensDB()}}).lean().then((item) =>{
         const chunks = [];
         const pdfDoc = printer.createPdfKitDocument(CA.analysis(item))
@@ -114,7 +114,7 @@ router.post('/CA', multerConfig.single('file'), exist, (req,res) =>{
         pdfDoc.end();      
         pdfDoc.on('end', () => {
             const result = Buffer.concat(chunks);
-            fs.writeFile(`upload/inProcess/${(new Date).getFullYear()}/${req.user.level + '_' + req.user.section + '_' + req.user.name + '_' + req.body.object}/Certificado de Adoção.pdf`, result, (error) => {});
+            //fs.writeFile(`upload/inProcess/${(new Date).getFullYear()}/${req.user.level + '_' + req.user.section + '_' + req.user.name + '_' + req.body.object}/Certificado de Adoção.pdf`, result, (error) => {});
             res.end(result);
         })
 
@@ -122,11 +122,11 @@ router.post('/CA', multerConfig.single('file'), exist, (req,res) =>{
 
 })
 
-router.post('/DFD', multerConfig.single('file'), exist, (req,res) => {
+router.post('/DFD', multerConfig.single('file'), (req,res) => {
     const {file, body} = req;
     DFD.getMap(contentxlsx(XLSX.readFile(file.path)));
     DFD.getValues(body);
-    
+    fs.rm(file.path, ()=>{})    
     const chunks = [];
         const pdfDoc = printer.createPdfKitDocument(DFD.analysis())
         pdfDoc.on('data', (chunk) => {        
@@ -136,13 +136,13 @@ router.post('/DFD', multerConfig.single('file'), exist, (req,res) => {
         pdfDoc.end();      
         pdfDoc.on('end', () => {
             const result = Buffer.concat(chunks);
-            fs.writeFile(`upload/inProcess/${(new Date).getFullYear()}/${req.user.level + '_' + req.user.section + '_' + req.user.name + '_' + req.body.object}/Documento de Formalização da Demanda.pdf`, result, (error) => {});
+            //fs.writeFile(`upload/inProcess/${(new Date).getFullYear()}/${req.user.level + '_' + req.user.section + '_' + req.user.name + '_' + req.body.object}/Documento de Formalização da Demanda.pdf`, result, (error) => {});
             res.end(result);
         })
 
 })
 
-router.post('/DiexReq', exist, (req, res) => {    
+router.post('/DiexReq', (req, res) => {    
     DR.getValues(req.body);
     const chunks = [];
         const pdfDoc = printer.createPdfKitDocument(DR.analysis())
@@ -153,17 +153,16 @@ router.post('/DiexReq', exist, (req, res) => {
         pdfDoc.end();      
         pdfDoc.on('end', () => {
             const result = Buffer.concat(chunks);
-            fs.writeFile(`upload/inProcess/${(new Date).getFullYear()}/${req.user.level + '_' + req.user.section + '_' + req.user.name + '_' + req.body.object}/Diex Requisitório.pdf`, result, (error) => {});
+            //fs.writeFile(`upload/inProcess/${(new Date).getFullYear()}/${req.user.level + '_' + req.user.section + '_' + req.user.name + '_' + req.body.object}/Diex Requisitório.pdf`, result, (error) => {});
             res.end(result);
         })
 })
 
-router.post('/analise_critica', multerConfig.single('file'),  exist, (req,res) => {
-    const {file, body} = req;
-       
+router.post('/analise_critica', multerConfig.single('file'), (req,res) => {
+    const {file, body} = req;       
     AC.getValues(body)
-    AC.getMap(contentxlsx(XLSX.readFile(file.path)));       
-
+    AC.getMap(contentxlsx(XLSX.readFile(file.path)));
+    fs.rm(file.path, () => {});
     if(AC.analysisParam() != null){               
         res.render('document_maker/graphic', AC.analysisParam())
     }else{         
@@ -185,7 +184,7 @@ router.post('/analise_critica1', (req,res) => { //TODO mudar o parametro de toda
         pdfDoc.end();      
         pdfDoc.on('end', () => {
             const result = Buffer.concat(chunks);
-            fs.writeFile(`upload/inProcess/${(new Date).getFullYear()}/${req.user.level + '_' + req.user.section + '_' + req.user.name + '_' + req.body.object}/Análise Crítica da Pesquisa de Preços.pdf`, result, (error) => {});
+            //fs.writeFile(`upload/inProcess/${(new Date).getFullYear()}/${req.user.level + '_' + req.user.section + '_' + req.user.name + '_' + req.body.object}/Análise Crítica da Pesquisa de Preços.pdf`, result, (error) => {});
             res.end(result);
         });
     })
