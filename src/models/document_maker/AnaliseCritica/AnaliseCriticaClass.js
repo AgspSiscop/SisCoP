@@ -290,15 +290,15 @@ class AC {
        }       
        
        static #generateTable(){ //função que gera a tabela com os valores da analise de parametrização
-        let providersValues = this.#selectValuesParam()
-        let providersValuesCalc = this.#calcParam()
-        let providers = this.#providersParam()  
+        let providersValues = this.#selectValuesParam();
+        let providersValuesCalc = this.#calcParam();
+        let providers = this.#providersParam(); 
         let providersQnt = Object.values(providers[0].columns).length  
-        let result = []
-        let itens = []
-        let widths = []
-        let header1 = []
-        let header2 = []    
+        let result = [];
+        let itens = [];
+        let widths = [];
+        let header1 = [];
+        let header2 = [];   
         let columns = providersQnt * 2
         let colSpanH = providersQnt -1
         let table = {}

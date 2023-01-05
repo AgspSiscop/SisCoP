@@ -11,20 +11,13 @@
             <p>Não existem documentos dentro deste processo.</p>
             {{/if}}
         </div>               
-        <hr>
-        {{#if states}}
+        <hr>        
         <div class="display-float-right">
             <small>Status</small>
             <button class="button" id="statusbutton">+</button>
         </div>
         <div id="states">            
-        </div>
-        {{else}}
-        <div class="display-float-right">
-            <small>Status</small>
-            <button class="button_disable" id="statusbutton">+</button>
-        </div>
-        {{/if}}        
+        </div>            
         <form id="upload">
             <label for="file" class="button_file" id="button_file">Upload</label>
             <input type="file" id="file" name="file" value="" required>

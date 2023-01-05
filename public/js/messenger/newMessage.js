@@ -1,5 +1,7 @@
 (function readyJS(win, doc){
     'use strict';
+
+    
     
     
     let formm =  doc.getElementById('formm');    
@@ -23,16 +25,9 @@
     year.addEventListener('change', (e) => {
         let ajax =  new XMLHttpRequest();
         let params = 'year=' + year.value;
-        for(let child of process.childNodes){
-            if(child.nodeName == 'OPTION'){                
-                child.remove()
-            }
-        }
-        for(let child of process.childNodes){
-            if(child.nodeName == 'OPTION'){                
-                child.remove()
-            }
-        }        
+        while(process.childNodes.length > 0){                           
+            process.removeChild(process.firstChild);            
+        }              
         
         ajax.open('POST', '/mensageiro/processes');
         ajax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
@@ -43,8 +38,7 @@
                 option.setAttribute('value', `${i._id}`);
                 option.setAttribute('id', `${i._id}`)
                 option.textContent = i.title
-                process.appendChild(option);                
-                console.log(process)
+                process.appendChild(option);               
                }               
             }    
         };
@@ -52,3 +46,4 @@
     });   
 
 })(window, document)
+

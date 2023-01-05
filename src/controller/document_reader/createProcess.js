@@ -14,7 +14,8 @@ router.post('/cadastro', (req, res) =>{
         const process = {
             user: req.user,
             receiver: null,
-            section_receiver: null,            
+            section_receiver: null,
+            origin: req.body.origin,           
             title: req.body.object,
             category: req.body.category,
             user_dir: `${Date.now() + '_' + req.body.object}`,

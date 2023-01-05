@@ -220,16 +220,17 @@ function listStates(list, title, url, transfer, done){
     const states = document.getElementById('states');
     const statusButton = document.getElementById('statusbutton');
     const div4 = document.createElement('div');
+
+    states.setAttribute('class', 'display_none');
     
     if(transfer === null  && done === null){
-    const newStatus =  document.createElement('a');
-    newStatus.setAttribute('class', 'button');
-    newStatus.setAttribute('href', `${url}anotation/${title}`)
-    newStatus.textContent = 'Novo Status';
-    div4.appendChild(newStatus);
-    div4.setAttribute('style', 'margin-top: 34px;');
+        const newStatus =  document.createElement('a');
+        newStatus.setAttribute('class', 'button');
+        newStatus.setAttribute('href', `${url}anotation/${title}`)
+        newStatus.textContent = 'Novo Status';
+        div4.appendChild(newStatus);
+        div4.setAttribute('style', 'margin-top: 34px;');                
     }
-    div4.setAttribute('class', 'display_none');
 
     for(let i of list){
         const block = document.createElement('form');
@@ -271,7 +272,7 @@ function listStates(list, title, url, transfer, done){
         deleteState.setAttribute('class', 'transparentbutton');
         deleteState.setAttribute('value', 'Apagar');
         
-        block.setAttribute('class', 'status_content display-column-spaceb display_none');
+        block.setAttribute('class', 'status_content display-column-spaceb');
         block.setAttribute('name', 'statusblock');
         block.appendChild(div1);
         block.appendChild(div2);
@@ -282,28 +283,27 @@ function listStates(list, title, url, transfer, done){
         }
 
         states.appendChild(block);
-        states.appendChild(div4);
+               
 
         deleteState.addEventListener('click', () => {
             block.setAttribute('method', 'POST');
             block.setAttribute('action', `${url}anotation/${title}/delete`)        
         });
-    }    
+    }
+    states.appendChild(div4);
 
     statusButton.addEventListener('click', (e) =>{
-        e.preventDefault();
-        const block = document.getElementsByName('statusblock');
-        for(let i of block){
-            if(i.getAttribute('class') == 'status_content display-column-spaceb display_none'){
-                i.setAttribute('class', 'status_content display-column-spaceb');
-                statusButton.textContent = '-';
-                div4.setAttribute('class', '');               
+        e.preventDefault();                 
+        
+        
+            if(states.getAttribute('class') == 'display_none'){
+                states.setAttribute('class', '');
+                statusButton.textContent = '-';                               
             }else{
-                i.setAttribute('class', 'status_content display-column-spaceb display_none');
-                statusButton.textContent = '+';
-                div4.setAttribute('class', 'display_none');               
+                states.setAttribute('class', 'display_none');
+                statusButton.textContent = '+';                               
             }
-        }
+        
     });       
 }
 

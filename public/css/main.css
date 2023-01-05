@@ -90,8 +90,7 @@ select{
 .leftbar_itens p{    
     padding: 25px;
 }
-#list button{
-    margin-left: 20px;
+#list button{    
     margin-right: -10px;    
     margin-top: 1.5px;
     margin-bottom: 1.5px;
@@ -139,7 +138,7 @@ select{
     margin: 10px;
     border-radius: 5px;
     background-color: rgb(218, 218, 218);
-    border: 2px solid rgb(192, 192, 192);     
+    border: 2px solid rgb(192, 192, 192);        
 }
 #reader small{
     margin-left: 15px;
@@ -249,7 +248,8 @@ select{
     width: 266px;
 }
 .messenger_body{
-    width: 300px;    
+    width: 300px;
+    font-size: 14.5px;     
 }
 .header_color{
     background-color: rgb(70, 70, 70);
@@ -261,6 +261,35 @@ select{
 .header_color h2{
     margin-left: 15px;
     color: rgb(255, 255, 255);    
+}
+.manager_body{
+    background-color: rgb(149, 206, 59);
+    display: inline-block;
+    margin: 5px;            
+}
+.manager_body:hover{
+    background-color: rgb(132, 235, 73);           
+}
+.manager_body label{
+    padding: 10px;
+    background-color: rgb(212, 212, 212);   
+    display: inline-block;
+    cursor: pointer;    
+}
+.manager_body label:hover{
+    background-color: rgb(223, 223, 223);
+}
+.manager_process_title{
+    width: 300px;
+}
+.manager_process_title button{ 
+    text-align: left;    
+}
+.manager_process{
+    width: 300px;         
+}
+.manager_header{
+    margin-right: 240px;
 }
 /***************************************************************************Display Align*/
 .bodyorientation{
@@ -363,6 +392,31 @@ select{
 }
 .button:hover{
     background-color: rgb(156, 221, 52);
+    cursor: pointer;    
+}
+.search_message{
+    background-color: rgb(224, 230, 228);
+    margin-right: 10px;
+    padding-bottom: 2px;
+    border: 1px solid rgb(185, 184, 184);
+    border-radius: 4px;
+}
+.search_message input[type=text]{
+    border-right: 0px;
+    border-radius: 0px;
+    border: 0px;
+}
+.search_message input[type=text]:focus{
+    border: 0px;
+    outline: none;
+}
+.search_message img{
+    height: 18px;
+   margin-bottom: -4px;
+   ;
+}
+.search_message img:hover{
+    filter: brightness(5);
     cursor: pointer;    
 }
 .arrow{
@@ -523,11 +577,12 @@ select{
 }
 .message_style{
     text-decoration:none;
-    color: rgb(54, 54, 54);   
+    color: rgb(54, 54, 54);       
 }
 .message_style:visited{
     color: rgb(114, 114, 114);    
 }
+
 
 
 

@@ -16,6 +16,10 @@ const Process =  new Schema({
     done:{
         type: Boolean,
         default: false     
+    },    
+    origin:{
+        type: String,
+        required: true
     },
     title: {
         type: String,

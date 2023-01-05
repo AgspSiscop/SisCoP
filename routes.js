@@ -14,6 +14,8 @@ const documentReaderT = require('./src/controller/document_reader/documentListIn
 
 const messenger = require('./src/controller/messenger/message');
 
+const processManager = require('./src/controller/process_manager/manager');
+
 
 
 router.use(log);
@@ -23,5 +25,6 @@ router.use('/meusprocessos', documentReader);
 router.use('/processosrecebidos', documentReaderT);
 router.use('/novoprocesso', createProcess);
 router.use('/mensageiro', messenger);
+router.use('/acompanharprocessos', processManager);
 
 module.exports = router;
