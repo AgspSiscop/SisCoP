@@ -2,19 +2,20 @@ const express = require('express');
 const mongoose =  require('mongoose');
 const bcrypt =  require('bcryptjs');
 require('../../models/profiles/Users');
+const isAuth =require('../../../config/isAuth');
+const resolver =  require('../../../config/errorHandler');
 const Users =  mongoose.model('user');
 const passport =  require('passport');
-const fs = require('fs');
+
 
 
 const router = express.Router();
 
-router.get('/', (req, res) =>{
-    //res.render('profiles/profile');
+router.get('/', resolver((req, res) =>{       
     res.render('profiles/index')
-});
+}));
 
-router.post('/', (req, res) => {
+router.post('/', resolver((req, res) => {
     const errors = [];    
     passport.authenticate('local', (error, user, info) => {        
         if(error){
@@ -36,13 +37,13 @@ router.post('/', (req, res) => {
         }
     })(req, res);
 
-});
+}));
 
-router.get('/log', (req, res) =>{
+router.get('/log', resolver((req, res) =>{
     res.render('profiles/register');
-});
+}));
 
-router.post('/saveregister', (req, res) =>{
+router.post('/saveregister', isAuth, resolver((req, res) =>{
     const errors = [];
     Users.find({name: req.body.name}).lean().then((user) =>{        
         if(user.length == 0){
@@ -64,29 +65,136 @@ router.post('/saveregister', (req, res) =>{
                 const newUser = {
                     name: req.body.name,
                     password: req.body.password,
+                    pg: req.body.pg,
                     section: req.body.section,
                     level: req.body.level
                 };
                 bcrypt.genSalt(10, (error, salt) => {
                     bcrypt.hash(newUser.password, salt, (error, hash) =>{
-                        if(error){
-                            res.send('Houve um erro ao Salvar as informações: ' + error);
+                        if(error){                            
+                            console.log(error);
+                            res.render('error/error', {serverError: {message: `Houve um erro ao Salvar as informações ${error.message}`, code: error.code}});
                         }else{
                             newUser.password = hash
                             new Users(newUser).save().then(() => {
                                 res.redirect('/');
                             }).catch((error) => {
-                                console.log(error)
+                                console.log(error);
+                                res.render('error/error', {serverError: {message: error.message, code: error.code}});
                             });
                         }
                     });
                 });               
             }            
-        }else{
-            res.send('usuario já existe');
+        }else{            
+            res.render('error/error', {serverError: {message: `Usuário Já existe.`}});
         }
+    }).catch((error) => {
+        console.log(error);
+        res.render('error/error', {serverError: {message: error.message, code: error.code}});
     });
-});
+}));
+
+router.get('/updateuser', isAuth ,resolver((req, res) => {
+    res.render('profiles/updateprofile')
+}));
+
+router.post('/getuser', isAuth, resolver((req,res) => {
+    Users.findOne({name: req.body.name}).lean().then((user) => {
+        res.send(JSON.stringify(user));
+    }).catch((error) => {
+        console.log(error);
+        res.render('error/error', {serverError: {message: error.message, code: error.code}});
+    });
+}));
+
+router.post('/updateuser/update', isAuth, resolver((req, res) => {
+    const errors = [];
+    Users.find({name: req.body.name}).lean().then((user) =>{        
+        if((user.length == 0) || (user.length != 0 && req.body.name == req.body.userselected)){
+            if(!req.body.name || req.body.name == null ){
+                errors.push({text: 'Nome inválido.'});
+            }           
+            if(!req.body.level || req.body.level == null || req.body.level  < 1 && req.body.level > 5){
+                errors.push({text: 'Level inválido.'});
+            }
+            if(errors.length > 0){
+                res.render('profiles/updateprofile', {errors: errors});
+            }else{
+                if(req.body.password){
+                    const User = {
+                        name: req.body.name,
+                        password: req.body.password,
+                        pg: req.body.pg,
+                        section: req.body.section,
+                        level: req.body.level
+                    };
+                    bcrypt.genSalt(10, (error, salt) => {
+                        bcrypt.hash(User.password, salt, (error, hash) =>{
+                            if(error){                            
+                                console.log(error);
+                                res.render('error/error', {serverError: {message: `Houve um erro ao Salvar as informações ${error.message}`, code: error.code}});
+                            }else{
+                                User.password = hash
+                                Users.updateOne({name: req.body.userselected}, {$set: User}).then(() => {
+                                    res.redirect('/updateuser');
+                                }).catch((error) => {
+                                    console.log(error);
+                                    res.render('error/error', {serverError: {message: error.message, code: error.code}});
+                                });
+                            }
+                        });
+                    });
+                }else{
+                    const User = {
+                        name: req.body.name,                        
+                        pg: req.body.pg,
+                        section: req.body.section,
+                        level: req.body.level
+                    };
+                    Users.updateOne(
+                        {name: req.body.userselected}, {$set: User}).then(() => {            
+                            res.redirect('/updateuser');
+                        }).catch((error) => {
+                            console.log(error);
+                            res.render('error/error', {serverError: {message: error.message, code: error.code}});
+                        });
+                }
+            }            
+        }else{            
+            res.render('error/error', {serverError: {message: `Usuário Já existe.`}});
+        }
+    }).catch((error) => {
+        console.log(error);
+        res.render('error/error', {serverError: {message: error.message, code: error.code}});
+    });
+    /*Users.updateOne(
+        {name: req.body.userselected}, 
+        {$set: {
+            name: req.body.name, 
+            section: req.body.section, 
+            pg: req.body.pg, 
+            level: req.body.level
+        }}).then(() => {            
+            res.redirect('/updateuser')
+        }).catch((error) => {
+            console.log(error);
+            res.render('error/error', {serverError: {message: error.message, code: error.code}});
+        });*/
+}));
+
+router.get('/deleteuser', isAuth, resolver((req, res) => {
+    res.render('profiles/deleteuser');
+}));
+
+router.post('/deleteuser/delete', isAuth, resolver((req, res) => {
+    Users.deleteOne({name: req.body.name}).then(() => {
+        res.redirect('/deleteuser');
+    }).catch((error) => {
+        console.log(error);
+        res.render('error/error', {serverError: {message: error.message, code: error.code}})
+    })
+}))
 
 module.exports = router;
 

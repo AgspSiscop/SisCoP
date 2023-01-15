@@ -5,9 +5,12 @@
     const processList = doc.getElementById('list');
     const sectionTitle = doc.getElementById('sectiontitle');
     const searchP = doc.getElementById('searchprocess');
+    const searchBar = doc.getElementById('search');
+    const typeSearch = doc.getElementById('typeofsearch');
     const sections = ['Armamento Pesado','Armamento Leve', 'Correaria', 'STS', 'Linha de Blindados', 
     'Comunicações', 'Óptica', 'Pelotão de Obras', 'Almoxerifado', 'Suprimento', 'Informática', 'Posto Médico', 
     'Divisão de Inovação, Planejamento e Qualidade', 'Divisão Industrial', 'Compania de Comando e Serviço'];
+    
 
 
     for(let i of sections){
@@ -19,8 +22,102 @@
         div.appendChild(label);
         list.appendChild(div);
 
-        label.addEventListener('click', () =>{
+        searchBar.addEventListener('keyup', () => {
+            let ajax = new XMLHttpRequest();
+            let params = `origin=${sectionTitle.innerHTML}&type=${typeSearch.value}&search=${searchBar.value}`;
 
+            ajax.open('POST', '/acompanharprocessos/search');
+            ajax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            ajax.onreadystatechange = function(){
+                if(ajax.status === 200 && ajax.readyState === 4){
+                    while(processList.childNodes.length > 0){                           
+                        processList.removeChild(processList.firstChild);            
+                    }
+
+                    const headerDiv =  document.createElement('div');
+                    const headerArray = ['Processo', 'Forma de Aquisição', 'Status']                    
+                    searchP.setAttribute('class', '');                    
+                    headerDiv.setAttribute('class', 'flexorientation--spaceb');
+                    headerDiv.setAttribute('style', 'margin-left:15px;')
+                    processList.appendChild(headerDiv);
+                    
+                    for(let j of headerArray){
+                        let titleDiv = document.createElement('div');
+                        let label = document.createElement('label');
+                        titleDiv.setAttribute('class', 'manager_header');
+                        label.innerHTML = j;
+                        titleDiv.appendChild(label);
+                        headerDiv.appendChild(titleDiv);
+                    }
+
+                    for(let k of JSON.parse(ajax.responseText)){
+                        let form = document.createElement('form');                                               
+                        let div1 = document.createElement('div');
+                        let div2 = document.createElement('div');
+                        let div3 = document.createElement('div');
+                        let element =  document.createElement('button');
+                        let date = document.createElement('small');
+                        let processCtg = document.createElement('label');
+                        let processStatus = document.createElement('label');                        
+                        let processStatusDate = document.createElement('small');
+                        let notes = document.createElement('img');
+
+                        
+                        element.innerHTML = k.title;
+                        element.setAttribute('class', 'transparentbutton highlighted')
+                        date.innerHTML = `Inicio: ${k.date}`;
+                        date.setAttribute('style', 'display: block; margin-top: 5px;');
+
+                        if(k.status.length > 0){
+                            notes.setAttribute('src', '/img/note.png');
+                            notes.setAttribute('style', 'width:20px;')                            
+                            processStatus.innerHTML = k.status.at(-1).state;                            
+                            div3.setAttribute('title', k.status.at(-1).anotation);
+                            processStatusDate.innerHTML = `Atualizado em: ${k.status.at(-1).date}`;
+                            processStatusDate.setAttribute('style', 'display:block; margin-top:5px;')
+                            div3.appendChild(processStatus);                            
+                            if(k.status.at(-1).anotation){
+                                div3.appendChild(notes);
+                            }
+                            div3.appendChild(processStatusDate);
+                            div3.setAttribute('class', 'manager_process');
+                        }else{
+                            div3.appendChild(processStatus);
+                            div3.appendChild(processStatusDate);
+                            div3.setAttribute('class', 'manager_process');
+                        }
+                        
+                        if(k.category){
+                            processCtg.innerHTML = k.category[0].toUpperCase() + k.category.substring(1);
+                        }
+
+                        form.setAttribute('class', 'list_iten flexorientation--spaceb');
+
+                        div1.appendChild(element);
+                        div1.appendChild(date);
+                        div1.setAttribute('class', 'manager_process_title');
+                        div2.appendChild(processCtg);
+                        div2.setAttribute('class', 'manager_process');                        
+                        form.appendChild(div1);
+                        form.appendChild(div2);
+                        form.appendChild(div3)
+                        processList.appendChild(form);
+
+                        element.addEventListener('click', () => {
+                            form.setAttribute('method', 'POST');
+                            form.setAttribute('action', `/acompanharprocessos/${k._id}`)
+                        })
+                    }
+                    
+
+                }
+
+            };
+            ajax.send(params);
+
+        })
+
+        label.addEventListener('click', () =>{
             let ajax =  new XMLHttpRequest();
             let params = 'origin=' + label.innerHTML;
             while(processList.childNodes.length > 0){                           
@@ -40,16 +137,16 @@
                     headerDiv.setAttribute('style', 'margin-left:15px;')
                     processList.appendChild(headerDiv);
                     
-                    for(let i of headerArray){
-                        let div = document.createElement('div');
+                    for(let j of headerArray){
+                        let titleDiv = document.createElement('div');
                         let label = document.createElement('label');
-                        div.setAttribute('class', 'manager_header');
-                        label.innerHTML = i;
-                        div.appendChild(label);
-                        headerDiv.appendChild(div);
+                        titleDiv.setAttribute('class', 'manager_header');
+                        label.innerHTML = j;
+                        titleDiv.appendChild(label);
+                        headerDiv.appendChild(titleDiv);
                     }
 
-                    for(let i of JSON.parse(ajax.responseText)){
+                    for(let k of JSON.parse(ajax.responseText)){
                         let form = document.createElement('form');                                               
                         let div1 = document.createElement('div');
                         let div2 = document.createElement('div');
@@ -62,20 +159,22 @@
                         let notes = document.createElement('img');
 
                         
-                        element.innerHTML = i.title;
+                        element.innerHTML = k.title;
                         element.setAttribute('class', 'transparentbutton highlighted')
-                        date.innerHTML = `Inicio: ${i.date}`;
+                        date.innerHTML = `Inicio: ${k.date}`;
                         date.setAttribute('style', 'display: block; margin-top: 5px;');
 
-                        if(i.status.length > 0){
+                        if(k.status.length > 0){
                             notes.setAttribute('src', '/img/note.png');
                             notes.setAttribute('style', 'width:20px;')                            
-                            processStatus.innerHTML = i.status.at(-1).state;                            
-                            div3.setAttribute('title', i.status.at(-1).anotation);
-                            processStatusDate.innerHTML = `Atualizado em: ${i.status.at(-1).date}`;
+                            processStatus.innerHTML = k.status.at(-1).state;                            
+                            div3.setAttribute('title', k.status.at(-1).anotation);
+                            processStatusDate.innerHTML = `Atualizado em: ${k.status.at(-1).date}`;
                             processStatusDate.setAttribute('style', 'display:block; margin-top:5px;')
-                            div3.appendChild(processStatus);
-                            div3.appendChild(notes);
+                            div3.appendChild(processStatus);                            
+                            if(k.status.at(-1).anotation){
+                                div3.appendChild(notes);
+                            }
                             div3.appendChild(processStatusDate);
                             div3.setAttribute('class', 'manager_process');
                         }else{
@@ -84,8 +183,8 @@
                             div3.setAttribute('class', 'manager_process');
                         }
                         
-                        if(i.category){
-                            processCtg.innerHTML = i.category[0].toUpperCase() + i.category.substring(1);
+                        if(k.category){
+                            processCtg.innerHTML = k.category[0].toUpperCase() + k.category.substring(1);
                         }
 
                         form.setAttribute('class', 'list_iten flexorientation--spaceb');
@@ -102,7 +201,7 @@
 
                         element.addEventListener('click', () => {
                             form.setAttribute('method', 'POST');
-                            form.setAttribute('action', `/acompanharprocessos/${i._id}`)
+                            form.setAttribute('action', `/acompanharprocessos/${k._id}`)
                         })
                     }               
                 }    

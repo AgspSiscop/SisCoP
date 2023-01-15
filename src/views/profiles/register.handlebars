@@ -7,7 +7,7 @@
         {{/each}}        
         {{else}}
         {{/if}}
-        <h2>Create account</h2>
+        <h2>Registar Usuário</h2>
         <hr>
         <form action="/saveregister" method="POST">
             <div>
@@ -19,24 +19,43 @@
                 <input type="password" name="password" id="password">
             </div>
             <div>
+                <label>Posto/Graduação:</label>
+                <select name="pg" id="pg">
+                    <option value="0"></option>
+                    <option value="Cel">Cel</option>
+                    <option value="Ten Cel">Ten Cel</option>
+                    <option value="Maj">Maj</option>
+                    <option value="Cap">Cap</option>
+                    <option value="1º Ten">1º Ten</option>
+                    <option value="2º Ten">2ºTen</option>
+                    <option value="Asp">Asp</option>
+                    <option value="Sub Ten">Sub Ten</option>
+                    <option value="1º Sgt">1º Sgt</option>
+                    <option value="2º Sgt">2º Sgt</option>
+                    <option value="3º Sgt">3º Sgt</option>
+                    <option value="Cb">Cb</option>
+                    <option value="Sd">Sd</option>
+                </select>
+            </div>
+            <div>
                 <label>Seção: </label>
                 <select name="section" id="section">
                     <option value="0"></option>
-                    <option value="orcamentacao">Orçamentação</option>
-                    <option value="dpgot">DPGOT</option>
-                    <option value="fiscal">Fiscal ADM</option>
-                    <option value="salc">SALC</option>
-                    <option value="chefe da salc">Chefe da SALC</option>
-                    <option value="pesado">Armamento Pesado</option>
-                    <option value="leve">Armamento Leve</option>
-                    <option value="blindados">Linha de Blindados</option>
+                    <option value="Orçamentação">Orçamentação</option>
+                    <option value="DPGOT">DPGOT</option>
+                    <option value="Fiscal ADM">Fiscal ADM</option>
+                    <option value="SALC">SALC</option>
+                    <option value="Chefe da SALC">Chefe da SALC</option>
+                    <option value="Armamento Pesado">Armamento Pesado</option>
+                    <option value="Armamento Leve">Armamento Leve</option>
+                    <option value="Linha de Blindados">Linha de Blindados</option>
                 </select>
             </div>
             <div>
                 <label>Level: </label>
                 <input type="text" name="level" id="level">
             </div>
-            <input type="submit" class="button" value="Create">
+            <input type="submit" class="button" value="Cadastrar">
         </form>
     </div>
 

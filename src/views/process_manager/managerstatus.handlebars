@@ -1,0 +1,55 @@
+<div class="flexorientation--start">
+    <div class="mainwindow" style="border-radius: 3px 0px 0px 3px;">
+            <div class="content_window">
+                <div>
+                    <h2>{{process.title}}</h2>                        
+                </div>                
+                <hr>                
+                <h3 style="margin-bottom: 5px;">Forma de Aquisição: </h3>
+                <p style="margin-bottom: 15px;">{{process.category}}</p>
+            
+                <h3 style="margin-bottom: 5px;">Origem:</h3>
+                <p style="margin-bottom: 15px;">{{process.origin}}</p>
+                <h3 style="margin-bottom: 5px;">Data de Inicio: </h3>
+                <p style="margin-bottom: 15px;">{{process.date}}</p>            
+                <h3 style="margin-bottom: 5px;">Descrição: </h3>
+                {{#if process.description}}
+                <p style="margin-bottom: 15px;">{{process.description}}</p>
+                {{else}}
+                <p>Processo sem descrição.</p>
+                {{/if}}
+                <hr>
+                <h3 style="margin-bottom: 5px;">Documentações:</h3>
+                {{#if process.done}}
+                {{else}}
+                <p>Os documentos são exibidos quando o processo é concluído.</p>
+                {{/if}}                 
+
+            </div>        
+    </div>
+    <div class="statuswindow">
+        <div class="statusdiv">
+            <div style="margin-top: 10px;">
+                <h2>Anotações</h2>
+                <hr>
+            </div>
+            {{#if states}}
+            {{#each states}}
+                <div class="status_content" style="width: 300px;">
+                    <div>
+                        <label>Observação:</label>
+                        <p>{{anotation}}</p>
+                    </div>
+                    <div>
+                        <label>Status: </label>
+                        <p>{{state}}</p>
+                    </div>
+                    <div>
+                        <small>{{date}}</small>
+                    </div>                   
+                </div>
+            {{/each}}
+            {{/if}}           
+        </div>
+    </div>
+</div>

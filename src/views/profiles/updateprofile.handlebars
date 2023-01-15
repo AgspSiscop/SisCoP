@@ -1,0 +1,23 @@
+{{#if (admin level 10)}}
+<div class="logwindow">
+    <div class="content_window">
+        {{#if errors}}
+        {{#each errors}}
+        <div class="error_message"><p>{{text}}</p></div>
+        {{/each}}        
+        {{else}}
+        {{/if}}
+        <h2>Alterar Usuário</h2>
+        <hr>
+        <div>
+            <label>Nome do Usuário:</label>
+            <input type="text" id="username" name="username">
+            <button class="button" id="usernamebutton">Procurar</button>
+        </div>
+        <form id="formu">            
+        </form>
+    </div>
+
+</div>
+<script src="js/profiles/updateProfile.js"></script>
+{{/if}}

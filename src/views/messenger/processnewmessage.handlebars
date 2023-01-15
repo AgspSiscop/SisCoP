@@ -1,5 +1,5 @@
 <div class="mainwindow">
-    <form class="content_window" id="formm" action="/mensageiro/nova/{{processTitle}}" method="POST">
+    <form class="content_window" id="formm" method="POST">
         <h2>Nova Mensagem</h2>
         <hr>
         <div class="flexorientation--start">
@@ -7,14 +7,21 @@
                 <label>Titulo:</label>
                 <input type="text" name="title">
             </div>
-            <div>
-                <label>Destinatário:</label>
-                <select name="messagesection" id="messagesection">
-                    <option value=""> </option>
-                    <option value="chefe da salc">Chefe da SALC</option>
-                    <option value="ADM">ADM</option>
-                    <option value="salc">SALC</option>                  
-                </select>                
+             <div class="flexorientation--start">
+                <div>
+                    <label>Destinatário:</label>
+                    <select name="messagesection" id="messagesection">
+                        <option value="0"> </option>
+                        <option value="Chefe da SALC">Chefe da SALC</option>
+                        <option value="ADM">ADM</option>
+                        {{#if (wichSection section 'Chefe da SALC')}}
+                        <option value="">SALC</option>
+                        {{/if}}                 
+                    </select>
+                    
+                </div>
+                <div id="receiver" style="margin-left: 10px;">
+                </div>
             </div>
         </div>
         <textarea class="param_text" name="content" style="height: 500px;"></textarea>
@@ -24,7 +31,7 @@
                 <option value="{{processYear}}">{{processYear}}</option>                
             </select>            
             <select name="process" id="process"> 
-                <option value="{{processId}}">{{processTitle}}</option>              
+                <option value="{{processId}}" id="{{processId}}">{{processTitle}}</option>              
             </select>            
         </div>
         <div>
@@ -32,6 +39,7 @@
         </div>               
     </form>   
 </div>
+<script src="/js/messenger/newMessage.js"></script>
 
 
 

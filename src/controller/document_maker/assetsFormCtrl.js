@@ -12,6 +12,8 @@ require('../../models/document_maker/AnaliseCritica/AnaliseCriticaDB');
 require('../../models/document_maker/TR/TRDB');
 require('../../models/document_maker/CertificadoDeAdoção/CADB');
 require('../../models/document_reader/ProcessDB');
+const isAuth = require('../../../config/isAuth');
+const resolver =  require('../../../config/errorHandler');
 const ACDB = mongoose.model('analisecritica');
 const TRDB = mongoose.model('tr');
 const CADB = mongoose.model('certificadodeadocao');
@@ -74,11 +76,11 @@ function contentxlsx(workbook){ //receive XLSX.readFile(file.path)
 
 
 
-router.get('/Bens',(req,res) =>{    
+router.get('/Bens', isAuth, resolver((req,res) =>{    
     res.render('document_maker/assetsForm');
-})
+}))
 
-router.post('/TR', multerConfig.single('file'), (req,res) => {
+router.post('/TR', multerConfig.single('file'), resolver((req,res) => {
     const {file, body} = req;    
     TR.getMap(contentxlsx(XLSX.readFile(file.path)))
     TR.getValues(body);
@@ -97,9 +99,9 @@ router.post('/TR', multerConfig.single('file'), (req,res) => {
             res.end(result);
         })
     });
-})
+}))
 
-router.post('/CA', multerConfig.single('file'), (req,res) =>{
+router.post('/CA', multerConfig.single('file'), isAuth, resolver((req,res) =>{
     const {file, body} = req;
     CA.getMap(contentxlsx(XLSX.readFile(file.path)));
     CA.getValues(body);
@@ -120,9 +122,9 @@ router.post('/CA', multerConfig.single('file'), (req,res) =>{
 
     })
 
-})
+}))
 
-router.post('/DFD', multerConfig.single('file'), (req,res) => {
+router.post('/DFD', multerConfig.single('file'), isAuth, resolver((req,res) => {
     const {file, body} = req;
     DFD.getMap(contentxlsx(XLSX.readFile(file.path)));
     DFD.getValues(body);
@@ -140,9 +142,9 @@ router.post('/DFD', multerConfig.single('file'), (req,res) => {
             res.end(result);
         })
 
-})
+}))
 
-router.post('/DiexReq', (req, res) => {    
+router.post('/DiexReq', isAuth, resolver((req, res) => {    
     DR.getValues(req.body);
     const chunks = [];
         const pdfDoc = printer.createPdfKitDocument(DR.analysis())
@@ -156,9 +158,9 @@ router.post('/DiexReq', (req, res) => {
             //fs.writeFile(`upload/inProcess/${(new Date).getFullYear()}/${req.user.level + '_' + req.user.section + '_' + req.user.name + '_' + req.body.object}/Diex Requisitório.pdf`, result, (error) => {});
             res.end(result);
         })
-})
+}));
 
-router.post('/analise_critica', multerConfig.single('file'), (req,res) => {
+router.post('/analise_critica', multerConfig.single('file'), isAuth, resolver((req,res) => {
     const {file, body} = req;       
     AC.getValues(body)
     AC.getMap(contentxlsx(XLSX.readFile(file.path)));
@@ -168,9 +170,9 @@ router.post('/analise_critica', multerConfig.single('file'), (req,res) => {
     }else{         
         res.redirect(307, '/montagem/analise_critica1')
     }
-})
+}))
 
-router.post('/analise_critica1', (req,res) => { //TODO mudar o parametro de todas as funções de AC   
+router.post('/analise_critica1', isAuth, resolver((req,res) => {    
     AC.getValues(req.body)    
     
     ACDB.find({_id: ['1.1.1a', AC.item112(), AC.item113(), AC.item114(),
@@ -188,7 +190,7 @@ router.post('/analise_critica1', (req,res) => { //TODO mudar o parametro de toda
             res.end(result);
         });
     })
-})
+}))
 
 
 

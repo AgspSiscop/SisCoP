@@ -11,6 +11,9 @@ const User =  new Schema({
         type: String,
         required: true
     },
+    pg:{
+        type: String
+    },
     section:{
         type: String,
         required: true

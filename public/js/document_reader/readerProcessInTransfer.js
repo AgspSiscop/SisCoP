@@ -2,7 +2,7 @@
     'use strict';
     
     
-    let formp =  doc.getElementById('formp');    
+        
     let  year = doc.getElementById('year');
     let list = doc.getElementById('list')
 
@@ -25,14 +25,9 @@
             if(ajax.status === 200 && ajax.readyState === 4){                          
                for(let i of JSON.parse(ajax.responseText)){     
                 
-                let element = document.createElement('input');        
-                let editButton = document.createElement('input');
+                let element = document.createElement('input');               
                 let deleteButton = document.createElement('input')
-                let form = document.createElement('form');
-                let editField =  document.createElement('input');
-                let editFieldMessage =  document.createElement('p');
-                let sendEdit =  document.createElement('input');
-                let cancelEdit = document.createElement('input');
+                let form = document.createElement('form');                
                 let sendDelete = document.createElement('input');
                 let cancelDelete = document.createElement('input');
                 let deleteText = document.createElement('p');
@@ -47,35 +42,16 @@
 
                 list.appendChild(form); 
                 
-                //---------------------------------------------FORM/DIV1
-                /*editField.setAttribute('type', 'text');
-                editField.setAttribute('name', 'ename');
-                editField.setAttribute('class', 'mediumtext');
-
-                sendEdit.setAttribute('type', 'submit');
-                sendEdit.setAttribute('value', 'Ok');
-                sendEdit.setAttribute('class', 'button');
-
-                cancelEdit.setAttribute('type', 'submit');
-                cancelEdit.setAttribute('value', 'Cancelar');
-                cancelEdit.setAttribute('class', 'redbutton');*/
                 
-                //-------------------------------------------------FORM/DIV2
-                //-----------------------------FORM/DIV2/TEXTITENS
                 element.setAttribute('type', 'submit');
                 element.setAttribute('class', 'transparentbutton highlighted');
                 element.setAttribute('value', `${i.title}`);
-                /*element.textContent =  i.title;
-                element.setAttribute('href', `/processosrecebidos/${year.value}/${i.dir}`);
-                element.setAttribute('class', 'highlighted');*/      
+                      
 
                 date.textContent = i.date;
                 date.setAttribute('style', 'display: block; margin-top: 5px;');
                 
-                //----------------------------------------FORM/DIV2/BUTTONSDIV
-               /*editButton.setAttribute('type', 'submit');
-                editButton.setAttribute('value', 'Renomear');
-                editButton.setAttribute('class', 'button');*/
+               
 
                 anotation.setAttribute('href', `/processosrecebidos/${year.value}/${i.transfer_dir}/anotation/${i.title}`);        
                 anotation.setAttribute('class', 'button');
@@ -102,15 +78,11 @@
                 id.setAttribute('name', 'elementid');
                 //--------------------------------------------------------------------//     
                 
-                /*div1.appendChild(editFieldMessage)
-                div1.appendChild(editField)        
-                div1.appendChild(sendEdit)
-                div1.appendChild(cancelEdit)
-                div1.setAttribute('class', 'display_none'); */     
+                   
                 
                 textItens.appendChild(element);            
                 textItens.appendChild(date)
-                //buttonsDiv.appendChild(editButton);
+                
                 buttonsDiv.appendChild(anotation);        
                 buttonsDiv.appendChild(deleteButton);
 
@@ -127,32 +99,8 @@
                 form.appendChild(div1);
                 form.appendChild(div2);        
                 form.appendChild(div3)
-                form.appendChild(id);      
-
-                
-                /*editButton.addEventListener('click', (e)=>{
-                    e.preventDefault();            
-                    editField.setAttribute('value', `${i.title}`)        
-                    div1.setAttribute('class', '');            
-                    div2.setAttribute('class', 'display_none');            
-
-                    sendEdit.addEventListener('click', (e) =>{
-                        if(editField.value.includes('_') || editField.value.includes('.') || editField.value == ''){
-                            e.preventDefault();
-                            editFieldMessage.textContent = 'Este campo deve ser preenchido e não aceita os caracteres: "_" , "."'
-                        }else{
-                            form.setAttribute('method', 'POST');
-                            form.setAttribute('action', `/processosrecebidos/${year.value}/edit/${i.dir}`);
-                        }                
-                    });
-
-                    cancelEdit.addEventListener('click', (e) =>{
-                        e.preventDefault();
-                        editFieldMessage.textContent = '';
-                        div1.setAttribute('class', 'display_none');                
-                        div2.setAttribute('class', 'flexorientation--spaceb');                 
-                    });            
-                });*/      
+                form.appendChild(id);                
+                   
                 
                 deleteButton.addEventListener('click', (e) => {            
                     e.preventDefault()

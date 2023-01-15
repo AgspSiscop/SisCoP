@@ -25,6 +25,9 @@ const Process =  new Schema({
         type: String,
         required: true
     },
+    nup: {
+        type: String,
+    },
     category: {
         type: String
     },

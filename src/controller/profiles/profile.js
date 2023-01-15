@@ -1,15 +1,15 @@
 const express = require('express');
-const mongoose =  require('mongoose');
-const fs = require('fs');
+const isAuth =require('../../../config/isAuth');
+const resolver =  require('../../../config/errorHandler');;
 
 
 const router = express.Router();
 
-router.get('/logout', (req, res) => {
+router.get('/logout', isAuth, resolver((req, res) => {
     req.logout(function(error) {
         if (error) { return next(error) }
         res.redirect('/')
       });    
-})
+}));
 
 module.exports = router;

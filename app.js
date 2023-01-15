@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const session = require('express-session');
+const MongoConnect = require('connect-mongo');
 const handlebars =  require('express-handlebars');
 const bodyParser =  require('body-parser')
 const path = require('path');
@@ -11,11 +12,19 @@ require('./public/js/registerhelper/registerHelper');
 
 const app = express();
 
+
 app.use(session({
-    secret: '******',
-    resave: true,
-    saveUninitialized: true
+    secret: 'LKnlka1spk,ansmn7bç jbsaçm KJ46SDLJBÇ4SMmaKm sabs ekasbdçq82',
+    store:  MongoConnect.create({mongoUrl: 'mongodb://localhost/licitacao'}),
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 1000 * 60 * 30,        
+        httpOnly: true
+    },
+    rolling: true
 }));
+
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -25,7 +34,8 @@ app.use((req, res, next) => {
     res.locals.name = user.name;
     res.locals.section =  user.section;
     res.locals.level =  user.level;
-    res.locals.id = user.id;           
+    res.locals.id = user.id;
+    res.locals.pg = user.pg         
     next();
 });
 
@@ -44,16 +54,31 @@ app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, '/src', 'views'));
 
 mongoose.Promise =  global.Promise;
+mongoose.set('strictQuery', false);
 mongoose.connect('mongodb://localhost/licitacao').then(() => {
-    console.log('Conected to Database');
+    console.log('Conected to the Database');
+    app.emit('done')
 }).catch((e) => {
     console.log('Erro: ' + e);
 });
 
-app.use(router)
 
-const PORT = 8903;
-const hostname = '127.0.0.1'
-app.listen(PORT, hostname, () => {
-    console.log(`Server listen to http://${hostname}:${PORT}`)
-})
+app.use(router);
+
+app.use((error, req, res, next) => {
+    if(error){
+        const serverError = new Object();
+        serverError.message = error.message;
+        serverError.code = error.statusCode || error.code;
+        console.log(error)
+        res.render('error/error', {serverError: serverError})
+    }
+});
+
+app.on('done', () => {
+    const PORT = 8903;
+    const hostname = '127.0.0.1'
+    app.listen(PORT, hostname, () => {
+        console.log(`Server listen to http://${hostname}:${PORT}`)
+    });
+});

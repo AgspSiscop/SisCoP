@@ -7,11 +7,14 @@
         </div>               
         <hr>        
         <p>{{message.content}}</p>
-        <small>Remetente: {{message.sender.name}}</small>
+        <small>Remetente: {{message.sender.pg}} {{message.sender.name}}</small>
         <div class="flexorientation--spaceb">
             <div>
-                <label>Processo:</label>
-                <a>{{message.process_title}}</a>
+                <form id="processmessage">
+                    <label>Processo:</label>
+                    <button class="transparentbutton" id="processbutton">{{message.process_title}}</button>
+                    <input type="hidden" id="process" value="{{message.process._id}}">
+                </form>
             </div>
             <form method="POST" action="/mensageiro/caixadeentrada/{{message._id}}/delete">
                 <button class="redbutton" style="margin-top: 0px; margin-left: 20px;"><img src="/img/trash.png" style="height: 16px;"></button>               
@@ -20,3 +23,4 @@
         {{/if}}             
     </div>   
 </div>
+<script src="/js/messenger/processInMessage.js"></script>

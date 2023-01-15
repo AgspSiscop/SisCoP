@@ -1,25 +1,66 @@
-(function readyJS(win, doc){
+(function readyJS(){
     'use strict';
 
     
-    
-    
-    let formm =  doc.getElementById('formm');    
-    let  year = doc.getElementById('year');
-    let process = doc.getElementById('process');
-    let send =  doc.getElementById('submitformm');
+    const receiver = document.getElementById('receiver');
+    const sections = document.getElementById('messagesection')
+    const formm = document.getElementById('formm');    
+    const year = document.getElementById('year');
+    const process = document.getElementById('process');
+    const send = document.getElementById('submitformm');   
+
+
+    sections.addEventListener('change', () => {
+        while(receiver.childNodes.length > 0){                           
+            receiver.removeChild(receiver.firstChild);            
+        }  
+        if(sections.value == ''){
+            const users = document.createElement('select');
+            const labelUsers = document.createElement('label');
+            let ajax =  new XMLHttpRequest();
+            //let params = 'section=' + sections.value;
+
+            labelUsers.innerHTML = 'Usuário:';
+            users.setAttribute('name', 'user');
+            users.setAttribute('id', 'user');           
+            receiver.appendChild(labelUsers);
+            receiver.appendChild(users);
+
+            ajax.open('POST', '/mensageiro/users');
+            ajax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            ajax.onreadystatechange = function(){
+                if(ajax.status === 200 && ajax.readyState === 4){
+                    for(let i of JSON.parse(ajax.responseText)){
+                        const name = document.createElement('option');                        
+                        name.setAttribute('value', i._id);
+                        name.innerHTML = `${i.pg} ${i.name}`;
+                        users.appendChild(name);
+                    }                               
+                }    
+            };
+            ajax.send();
+        }
+    })
 
    send.addEventListener('click', () => {   
     let selected =  document.getElementById(process.value) || null;
     let title;
-    console.log(selected)
+    
     if(selected ==  null){
         title = 'Menssagem sem Processo';
         formm.setAttribute('action', `/mensageiro/novasemprocesso/${title}`);         
     }else{
         title = selected.innerHTML
         formm.setAttribute('action', `/mensageiro/nova/${title}`);
-    }     
+    }
+    if(receiver.hasChildNodes()){
+        const username = document.createElement('input');
+        const select = document.getElementById('user');
+        const text = select.children[select.selectedIndex];
+        username.setAttribute('name', 'username');
+        username.setAttribute('value', text.textContent);
+        formm.appendChild(username);
+    }   
    });
 
     year.addEventListener('change', (e) => {
@@ -32,7 +73,7 @@
         ajax.open('POST', '/mensageiro/processes');
         ajax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         ajax.onreadystatechange = function(){
-            if(ajax.status === 200 && ajax.readyState === 4){                          
+            if(ajax.status === 200 && ajax.readyState === 4){                                        
                for(let i of JSON.parse(ajax.responseText)){                
                 let option = document.createElement('option');                             
                 option.setAttribute('value', `${i._id}`);

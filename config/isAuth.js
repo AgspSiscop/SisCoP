@@ -1,9 +1,7 @@
-module.exports = {
-    isAuth: function(req,res,next){
-        if(req.isAuthenticated() && req.user){
-            return next()
-        }else{
-            res.redirect('http://127.0.0.1:8903/');
-        }
+module.exports = (req,res,next) => {
+    if(req.isAuthenticated() && req.user){
+        next()
+    }else{
+        res.redirect('/');
     }
 }

@@ -1,19 +1,18 @@
 <div class="mainwindow">
     <div class="content_window">
-        {{#if error}}
-        <p>{{error}}</p>
-        <br>
-        {{/if}}
-        <h2>Novo Processo</h2>        
+        <div>
+            <h2>{{process.title}}</h2>                        
+        </div>
         <hr>
-        <form method="POST" action="/novoprocesso/cadastro">
+         <form method="POST" action="/meusprocessos/{{process.year}}/edit/{{process.user_dir}}">
             <div>
                 <label>Nome:</label>
-                <input type="text" class="mediumtext" name="object" required>                
+                <input type="text" class="mediumtext" name="object" value="{{process.title}}" required>                
             </div>
             <div>
                 <label>Origem:</label>
                 <select name="origin">
+                    <option value="{{process.origin}}">{{process.origin}}</option>
                     <option value="Armamento Pesado">Armamento Pesado</option>
                     <option value="Armamento Leve">Armamento Leve</option>
                     <option value="Correaria">Correaria</option>
@@ -34,19 +33,19 @@
             <div>
                 <label>Forma de Aquisição:</label>                
                 <select name="category">
-                    <option value=""></option>
+                    <option value="{{process.category}}">{{process.category}}</option>
                     <option value="Licitação">Licitação</option>
                     <option value="Dispensa">Dispensa de Licitação</option>
                     <option value="Inexigibilidade">Inexigibilidade</option>
-                </select>
-                <small>(opcional)</small>
+                </select>                
             </div>
             <div class="flexorientation--start">
                 <label>Descrição:</label>
-                <textarea class="param_text_description" name="description"></textarea>
-                <small>(opicional)</small>
+                <textarea class="param_text_description" name="description">{{process.description}}</textarea>                
             </div>
-            <input type="submit" value="Criar" class="button">
-        </form>            
+            <input type="submit" value="Editar" class="button">
+        </form>              
+        <div id="list" class="list">           
+        </div>        
     </div>
 </div>

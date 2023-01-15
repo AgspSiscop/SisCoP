@@ -1,0 +1,12 @@
+<body class="error">
+    <div>
+        <br>
+        <h1 style="display:inline;">Erro:</h1>
+        <h2 style="display:inline;">{{serverError.message}}</h2>
+        <br>
+        {{#if serverError.code}}
+        <h1 style="display:inline;">StatusCode: </h1>
+        <h2 style="display:inline;">{{serverError.code}}</h2>
+        {{/if}}
+    </div>
+</body>

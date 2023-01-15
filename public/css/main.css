@@ -5,7 +5,7 @@
 }
 
 body{
-    background-color: rgb(45, 47, 49);
+    background-color: rgb(45, 47, 49);  
         
 }
 
@@ -16,9 +16,17 @@ hr{
 select{
     margin-bottom: 10px;
 }
+.error{
+    background-color: rgb(45, 47, 49);
+    background-image: url('/img/background.png');
+    background-repeat: no-repeat;
+    background-position: bottom -1000px right 10px;
+    text-align: center;
+    color: rgb(146, 146, 146);;
+
+}
 .navbar{
-    background-color: rgb(64, 69, 73);
-    padding: 10px, 0px, 10px 0px;
+    background-color: rgb(64, 69, 73);    
     border-bottom: 1px solid rgb(25, 26, 27);
     display: flex;
     justify-content: space-between;
@@ -169,12 +177,35 @@ select{
     box-shadow: 6px 6px 10px 1px rgb(24, 24, 24);
     margin-bottom: 30px;
 }
+.statuswindow{
+    background-color:  rgb(233, 236, 232);;    
+    color: rgb(105, 105, 105);
+    border-radius: 0px 3px 3px 0px;
+    height: 700px;    
+    width: 350px;
+    box-shadow: 6px 6px 10px -3px rgb(24, 24, 24);
+    margin-bottom: 30px;
+    border-left: 2px solid rgb(219, 219, 219);
+}
+.statusdiv{
+    display: flex;
+    flex-direction:column;
+    /* justify-content: center; */
+    align-items: center;
+    height: 100%;
+    overflow-y: auto;
+}
+@media (min-width:1330px) {
+    .statusdiv {
+        justify-content:start ;
+    }
+}
 .logwindow{
     background-color:  rgb(233, 236, 232);;    
     color: rgb(105, 105, 105);
     border-radius: 2px;
     min-height: 200px;
-    width: 500px;    ;
+    min-width: 500px;
     box-shadow: 6px 6px 10px 1px rgb(24, 24, 24);
     margin-bottom: 30px;
 }
@@ -290,6 +321,19 @@ select{
 }
 .manager_header{
     margin-right: 240px;
+}
+.user_description{
+    width: 400px;
+    background-color: rgb(165, 162, 212);
+    border: solid 2px rgb(161, 107, 197);
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 5px 0px 5px 0px;
+}
+
+.user_description small{
+    display: block;
+    margin: 5px;
 }
 /***************************************************************************Display Align*/
 .bodyorientation{

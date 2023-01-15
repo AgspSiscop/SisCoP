@@ -19,7 +19,7 @@
             <a href="/processosrecebidos"><p>Processos Recebidos</p></a>
         </div>        
         <div class="leftbar_itens">
-            <a href="/novoprocesso/montagemdeprocesso"><p>Montagem a partir de Mapa Comparativo</p></a>
+            <a href="/novoprocesso/montagemdeprocesso"><p>Modelo a partir de Mapa Comparativo</p></a>
         </div>
         <div class="leftbar_itens">
             <a href="/acompanharprocessos"><p>Acompanhar Processos</p></a> <!--Esse será visto só por quem chefia seções lvl 2, 3, 4 e 5 onde mostrará os status dos processos-->
@@ -30,6 +30,12 @@
         {{#if (admin level 10)}}
         <div class="leftbar_itens">
             <a href="/log"><p>Registro</p></a>
+        </div>
+        <div class="leftbar_itens">
+            <a href="/updateuser"><p>Alterar Usuário</p></a>
+        </div>
+        <div class="leftbar_itens">
+            <a href="/deleteuser"><p>Apagar Usuário</p></a>
         </div>
         {{/if}}             
     </div>
