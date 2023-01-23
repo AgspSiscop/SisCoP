@@ -30,8 +30,7 @@ class DocumentManipulator  {
                 resolve(array)
             }
         });
-    });
-    
+    });    
     
     static rename = (dir, name) => new Promise((resolve, reject) => {
         fs.rename(dir, name, (error, content) => {
