@@ -12,7 +12,7 @@
     ajax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     ajax.onreadystatechange = function(){
         if(ajax.status === 200 && ajax.readyState === 4){
-            const process = JSON.parse(ajax.responseText)                                     
+            const process = JSON.parse(ajax.responseText);                                                
             if(process){
                 button.addEventListener('click', () => {
                     form.setAttribute('method', 'POST');

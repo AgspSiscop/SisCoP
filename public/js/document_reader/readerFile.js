@@ -11,14 +11,14 @@ function listReader(list, itens ,url, transfer, done){
         let cancelEdit = document.createElement('input');
         let sendDelete =  document.createElement('input');
         let cancelDelete = document.createElement('input');
+        let elementid = document.createElement('input');
         let deleteText = document.createElement('p');
         let div1 = document.createElement('div');
         let div2 = document.createElement('div');
         let div3 =  document.createElement('div');
         let buttonsDiv = document.createElement('div');
         list.appendChild(form);
-        console.log(transfer)
-        console.log(done)
+        
         
         if(transfer === null  && done === null){
             //---------------------------------------------FORM/DIV1
@@ -216,20 +216,30 @@ function upload(local, url, transfer, done){
     }
 }
 
-function listStates(list, title, url, transfer, done){
+function listStates(list, title, url, elementid, transfer, done){
     const states = document.getElementById('states');
     const statusButton = document.getElementById('statusbutton');
-    const div4 = document.createElement('div');
+    const newStatusForm = document.createElement('form');
 
     states.setAttribute('class', 'display_none');
     
     if(transfer === null  && done === null){
-        const newStatus =  document.createElement('a');
+        const newStatus =  document.createElement('input');
+        const elementID = document.createElement('input');
         newStatus.setAttribute('class', 'button');
-        newStatus.setAttribute('href', `${url}anotation/${title}`)
-        newStatus.textContent = 'Novo Status';
-        div4.appendChild(newStatus);
-        div4.setAttribute('style', 'margin-top: 34px;');                
+        newStatus.setAttribute('type', 'submit');        
+        newStatus.value = 'Novo Status';
+        elementID.setAttribute('type', 'hidden');
+        elementID.value = elementid;
+        elementID.setAttribute('name', 'elementid');
+        newStatusForm.appendChild(newStatus);
+        newStatusForm.appendChild(elementID);
+        newStatusForm.setAttribute('style', 'margin-top: 34px;');
+        
+        newStatus.addEventListener('click', () => {
+            newStatusForm.setAttribute('method', 'POST');
+            newStatusForm.setAttribute('action', `${url}anotation/${title}`);
+        })
     }
 
     for(let i of list){
@@ -290,7 +300,7 @@ function listStates(list, title, url, transfer, done){
             block.setAttribute('action', `${url}anotation/${title}/delete`)        
         });
     }
-    states.appendChild(div4);
+    states.appendChild(newStatusForm);
 
     statusButton.addEventListener('click', (e) =>{
         e.preventDefault();                 

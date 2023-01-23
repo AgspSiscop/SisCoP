@@ -1,0 +1,55 @@
+{{#if (compareValue name paramName)}}
+<div class="logwindow">
+    <div class="content_window">
+        {{#if errors}}
+        {{#each errors}}
+        <div class="error_message"><p>{{text}}</p></div>
+        {{/each}}        
+        {{else}}
+        {{/if}}
+        <h2 id="dataschange" class="link">Alterar Dados</h2>
+        <hr>        
+        <form id="datasform" class="display_none">
+            <div>
+                <label>Posto/Graduação:</label>
+                <select name="pg" id="pg">
+                    <option value="{{profile.pg}}">{{profile.pg}}</option>
+                    <option value="Cel">Cel</option>
+                    <option value="Ten Cel">Ten Cel</option>
+                    <option value="Maj">Maj</option>
+                    <option value="Cap">Cap</option>
+                    <option value="1º Ten">1º Ten</option>
+                    <option value="2º Ten">2ºTen</option>
+                    <option value="Asp">Asp</option>
+                    <option value="Sub Ten">Sub Ten</option>
+                    <option value="1º Sgt">1º Sgt</option>
+                    <option value="2º Sgt">2º Sgt</option>
+                    <option value="3º Sgt">3º Sgt</option>
+                    <option value="Cb">Cb</option>
+                    <option value="Sd">Sd</option>
+                </select>
+            </div>            
+            <input type="submit" class="button" value="Alterar" id="datasbutton">
+        </form>           
+        <br>
+        <h2 id="passwordchange" class="link">Alterar Senha</h2>
+        <hr>
+        <form id="passwordform" class="display_none">
+            <div>
+                <label>Senha Atual: </label>
+                <input type="password" name="oldpassword" id="oldpassword">
+            </div>
+            <div>
+                <label>Nova Senha:</label>
+                <input type="password" name="newpassword" id="newpassword">
+            </div>
+            <div>
+                <label>Repetir Nova Senha:</label>
+                <input type="password" name="password" id="password">
+            </div>
+            <input type="submit" class="button" value="Alterar" id="passwordbutton">
+        </form>       
+    </div>
+    <script src="/js/profiles/profileDescription.js"></script>
+</div>
+{{/if}}

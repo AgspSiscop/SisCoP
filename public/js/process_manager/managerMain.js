@@ -157,12 +157,16 @@
                         let processStatus = document.createElement('label');                        
                         let processStatusDate = document.createElement('small');
                         let notes = document.createElement('img');
+                        let elementid = document.createElement('input');
 
                         
                         element.innerHTML = k.title;
                         element.setAttribute('class', 'transparentbutton highlighted')
                         date.innerHTML = `Inicio: ${k.date}`;
                         date.setAttribute('style', 'display: block; margin-top: 5px;');
+                        elementid.setAttribute('type', 'hidden');
+                        elementid.setAttribute('name', 'elementid');
+                        elementid.value = k._id;
 
                         if(k.status.length > 0){
                             notes.setAttribute('src', '/img/note.png');
@@ -196,7 +200,8 @@
                         div2.setAttribute('class', 'manager_process');                        
                         form.appendChild(div1);
                         form.appendChild(div2);
-                        form.appendChild(div3)
+                        form.appendChild(div3);
+                        form.appendChild(elementid)
                         processList.appendChild(form);
 
                         element.addEventListener('click', () => {

@@ -12,7 +12,6 @@ require('./public/js/registerhelper/registerHelper');
 
 const app = express();
 
-
 app.use(session({
     secret: 'LKnlka1spk,ansmn7bç jbsaçm KJ46SDLJBÇ4SMmaKm sabs ekasbdçq82',
     store:  MongoConnect.create({mongoUrl: 'mongodb://localhost/licitacao'}),
@@ -25,7 +24,6 @@ app.use(session({
     rolling: true
 }));
 
-
 app.use(passport.initialize());
 app.use(passport.session());
 app.use((req, res, next) => {
@@ -34,13 +32,13 @@ app.use((req, res, next) => {
     res.locals.name = user.name;
     res.locals.section =  user.section;
     res.locals.level =  user.level;
-    res.locals.id = user.id;
+    res.locals.id = user._id;
     res.locals.pg = user.pg         
     next();
 });
 
 function logUser(){return users};
-    module.exports = logUser 
+module.exports = logUser 
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -59,9 +57,8 @@ mongoose.connect('mongodb://localhost/licitacao').then(() => {
     console.log('Conected to the Database');
     app.emit('done')
 }).catch((e) => {
-    console.log('Erro: ' + e);
+    console.log('Erros ' + e);
 });
-
 
 app.use(router);
 

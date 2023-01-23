@@ -18,7 +18,8 @@
         ajax.open('POST', `/meusprocessos/${year.value}`);
         ajax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         ajax.onreadystatechange = function(){
-            if(ajax.status === 200 && ajax.readyState === 4){                          
+            if(ajax.status === 200 && ajax.readyState === 4){ 
+                console.log(JSON.parse(ajax.responseText))                         
                for(let i of JSON.parse(ajax.responseText)){     
                 
                 let element = document.createElement('input');        
@@ -28,7 +29,7 @@
                 let sendDelete = document.createElement('input');
                 let cancelDelete = document.createElement('input');
                 let deleteText = document.createElement('p');
-                let anotation = document.createElement('a');        
+                let anotation = document.createElement('input');        
                 let id = document.createElement('input');
                 let div1 = document.createElement('div');
                 let div2 = document.createElement('div');
@@ -57,10 +58,10 @@
                 editButton.setAttribute('type', 'submit');
                 editButton.setAttribute('value', 'Editar');
                 editButton.setAttribute('class', 'button');
-
-                anotation.setAttribute('href', `/meusprocessos/${year.value}/${i.user_dir}/anotation/${i.title}`);        
+                     
                 anotation.setAttribute('class', 'button');
-                anotation.textContent = 'Anotação'        
+                anotation.setAttribute('type', 'submit');
+                anotation.value = 'Anotação';        
             
                 deleteButton.setAttribute('type', 'submit');
                 deleteButton.setAttribute('value', 'Apagar');
@@ -116,10 +117,15 @@
                 form.appendChild(id);      
 
                 
-                editButton.addEventListener('click', ()=>{
+                editButton.addEventListener('click', () =>{
                     form.setAttribute('method', 'POST');
                     form.setAttribute('action', `/meusprocessos/${year.value}/editprocess/${i._id}`);                            
-                });     
+                });
+                
+                anotation.addEventListener('click', (e)  => {
+                    form.setAttribute('method', 'POST');
+                    form.setAttribute('action', `/meusprocessos/${year.value}/${i.user_dir}/anotation/${i.title}`)
+                });
                 
                 deleteButton.addEventListener('click', (e) => {            
                     e.preventDefault()

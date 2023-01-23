@@ -11,13 +11,12 @@ const CA = require('../../models/document_maker/CertificadoDeAdoção/CAClass');
 require('../../models/document_maker/AnaliseCritica/AnaliseCriticaDB');
 require('../../models/document_maker/TR/TRDB');
 require('../../models/document_maker/CertificadoDeAdoção/CADB');
-require('../../models/document_reader/ProcessDB');
 const isAuth = require('../../../config/isAuth');
 const resolver =  require('../../../config/errorHandler');
 const ACDB = mongoose.model('analisecritica');
 const TRDB = mongoose.model('tr');
 const CADB = mongoose.model('certificadodeadocao');
-const Process = mongoose.model('process');
+
 
 
 const printer = require('../../../public/js/builders/Printer')

@@ -13,7 +13,7 @@
                 <form id="processmessage">
                     <label>Processo:</label>
                     <button class="transparentbutton" id="processbutton">{{message.process_title}}</button>
-                    <input type="hidden" id="process" value="{{message.process._id}}">
+                    <input type="hidden" id="process" name="process" value="{{message.process._id}}">
                 </form>
             </div>
             <form method="POST" action="/mensageiro/caixadeentrada/{{message._id}}/delete">

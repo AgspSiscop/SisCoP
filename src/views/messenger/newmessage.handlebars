@@ -12,11 +12,15 @@
                 <div>
                     <label>Destinatário:</label>
                     <select name="messagesection" id="messagesection">
-                        <option value="0"> </option>
-                        <option value="Chefe da SALC">Chefe da SALC</option>
-                        <option value="ADM">ADM</option>
+                        <option value="0"> </option>                        
+                        <option value="Orçamentação">Orçamentação</option>
                         <option value="DPGOT">DPGOT</option>
-                        {{#if (wichSection section 'Chefe da SALC')}}
+                        <option value="Fiscal ADM">Fiscal ADM</option>                        
+                        <option value="Chefe da SALC">Chefe da SALC</option>
+                        <option value="Armamento Pesado">Armamento Pesado</option>
+                        <option value="Armamento Leve">Armamento Leve</option>
+                        <option value="Linha de Blindados">Linha de Blindados</option>
+                        {{#if (compareValue section 'Chefe da SALC')}}
                         <option value="">SALC</option>
                         {{/if}}                 
                     </select>
@@ -26,7 +30,7 @@
                 </div>
             </div>
         </div>
-        <textarea class="param_text" name="content" style="height: 500px;"></textarea>
+        <textarea class="param_text" name="content" style="height: 500px;" id="content"></textarea>        
         <div style="margin-top: 10px;">
             <label>Processo:</label>
             <select name="year" id="year">
@@ -43,6 +47,7 @@
     </form>   
 </div>
 <script src="/js/messenger/newMessage.js"></script>
+
 
 
 

@@ -16,8 +16,6 @@ const messenger = require('./src/controller/messenger/message');
 
 const processManager = require('./src/controller/process_manager/manager');
 
-
-
 router.use(log);
 router.use(profile);
 router.use('/montagem', documentMaker);

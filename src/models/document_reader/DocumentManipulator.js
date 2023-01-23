@@ -2,6 +2,16 @@ const fs =  require('fs');
 const multer = require('multer');
 
 class DocumentManipulator  {
+
+    static makeDir = dir => new Promise((resolve, reject) => {
+        fs.mkdir(dir, {recursive: true}, (error, content) => {
+            if(error){
+                reject(error);
+            }else{
+                resolve();
+            }
+        })
+    })
         
     static readDir = dir => new Promise((resolve, reject) => {
         fs.readdir(dir, (error, content) => {

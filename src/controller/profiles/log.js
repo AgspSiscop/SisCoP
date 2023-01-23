@@ -1,13 +1,12 @@
 const express = require('express');
 const mongoose =  require('mongoose');
 const bcrypt =  require('bcryptjs');
-require('../../models/profiles/Users');
+//require('../../models/profiles/Users');
 const isAuth =require('../../../config/isAuth');
 const resolver =  require('../../../config/errorHandler');
-const Users =  mongoose.model('user');
+//const Users =  mongoose.model('user');
 const passport =  require('passport');
-
-
+const Users = require('../../models/profiles/UsersDB');
 
 const router = express.Router();
 
@@ -16,10 +15,10 @@ router.get('/', resolver((req, res) =>{
 }));
 
 router.post('/', resolver((req, res) => {
-    const errors = [];    
+    const errors = [];   
     passport.authenticate('local', (error, user, info) => {        
         if(error){
-            errors.push({text: 'Houve um erro! Por favor tente novamente mais tarde.'});
+            errors.push({text: error});
             res.render('profiles/profile', {errors: errors});
         }else{
             if(!user){
@@ -39,12 +38,20 @@ router.post('/', resolver((req, res) => {
 
 }));
 
-router.get('/log', resolver((req, res) =>{
+router.get('/register', resolver((req, res) =>{
     res.render('profiles/register');
 }));
 
-router.post('/saveregister', isAuth, resolver((req, res) =>{
-    const errors = [];
+router.post('/saveregister', isAuth, resolver( async(req, res) =>{
+    const users = new Users(req.body, res.locals, req.params);
+    const create = await users.register();
+    if(create.errors > 0){
+        res.render('profiles/register', {errors: create.errors});
+    }else{
+        res.redirect('/register');
+    }
+    
+    /*const errors = [];
     Users.find({name: req.body.name}).lean().then((user) =>{        
         if(user.length == 0){
             if(!req.body.name || req.body.name == null ){
@@ -77,7 +84,7 @@ router.post('/saveregister', isAuth, resolver((req, res) =>{
                         }else{
                             newUser.password = hash
                             new Users(newUser).save().then(() => {
-                                res.redirect('/');
+                                res.redirect('/register');
                             }).catch((error) => {
                                 console.log(error);
                                 res.render('error/error', {serverError: {message: error.message, code: error.code}});
@@ -92,24 +99,35 @@ router.post('/saveregister', isAuth, resolver((req, res) =>{
     }).catch((error) => {
         console.log(error);
         res.render('error/error', {serverError: {message: error.message, code: error.code}});
-    });
+    });*/
 }));
 
 router.get('/updateuser', isAuth ,resolver((req, res) => {
     res.render('profiles/updateprofile')
 }));
 
-router.post('/getuser', isAuth, resolver((req,res) => {
-    Users.findOne({name: req.body.name}).lean().then((user) => {
+router.post('/getuser', isAuth, resolver( async(req,res) => {
+    const user = new Users(req.body, res.locals, req.params);
+    const userObj = await user.findOneByParam({name: req.body.name});
+    res.send(JSON.stringify(userObj));
+    
+    /*Users.findOne({name: req.body.name}).lean().then((user) => {
         res.send(JSON.stringify(user));
     }).catch((error) => {
         console.log(error);
         res.render('error/error', {serverError: {message: error.message, code: error.code}});
-    });
+    });*/
 }));
 
-router.post('/updateuser/update', isAuth, resolver((req, res) => {
-    const errors = [];
+router.post('/updateuser/update', isAuth, resolver( async(req, res) => {
+    const user = new Users(req.body, res.locals, req.params);
+    const update = await user.updateOne();
+    if(update.errors.length > 0){
+        res.render('profiles/updateprofile', {errors: update.errors});
+    }else{
+        res.redirect('/updateuser');
+    }
+    /*const errors = [];
     Users.find({name: req.body.name}).lean().then((user) =>{        
         if((user.length == 0) || (user.length != 0 && req.body.name == req.body.userselected)){
             if(!req.body.name || req.body.name == null ){
@@ -167,34 +185,59 @@ router.post('/updateuser/update', isAuth, resolver((req, res) => {
     }).catch((error) => {
         console.log(error);
         res.render('error/error', {serverError: {message: error.message, code: error.code}});
-    });
-    /*Users.updateOne(
-        {name: req.body.userselected}, 
-        {$set: {
-            name: req.body.name, 
-            section: req.body.section, 
-            pg: req.body.pg, 
-            level: req.body.level
-        }}).then(() => {            
-            res.redirect('/updateuser')
-        }).catch((error) => {
-            console.log(error);
-            res.render('error/error', {serverError: {message: error.message, code: error.code}});
-        });*/
+    });*/
 }));
+
+router.get('/profile/:name', isAuth, resolver( async(req, res) => {
+    const user = new Users(req.body, res.locals, req.params);
+    const userObj = await user.findOneByParam({name: req.params.name});
+    res.render('profiles/profiledescription', {paramName: req.params.name, profile: userObj});
+    
+    /*Users.findOne({name: req.params.name}).lean().then((user) => {
+        res.render('profiles/profiledescription', {paramName: req.params.name, profile: user});
+    }).catch((error) => {
+        console.log(error);
+        res.render('error/error', {serverError: {message: error.message, code: error.code}});
+    })*/
+}))
 
 router.get('/deleteuser', isAuth, resolver((req, res) => {
     res.render('profiles/deleteuser');
 }));
 
-router.post('/deleteuser/delete', isAuth, resolver((req, res) => {
-    Users.deleteOne({name: req.body.name}).then(() => {
+router.post('/deleteuser/delete', isAuth, resolver( async(req, res) => {
+    const user = new Users(req.body, res.locals, req.params);
+    await user.deleteOne();
+    res.redirect('/deleteuser');
+    
+    /*Users.deleteOne({name: req.body.name}).then(() => {
         res.redirect('/deleteuser');
     }).catch((error) => {
         console.log(error);
         res.render('error/error', {serverError: {message: error.message, code: error.code}})
-    })
-}))
+    })*/
+}));
+
+router.post('/changedatas', isAuth, resolver( async(req, res) => {    
+    const user = new Users(req.body, res.locals, req.params);
+    const update = await user.updateOneByUser();
+    if(update.errors.length > 0){
+        res.render('profiles/profiledescription', {errors: update.errors});
+    }else{
+        res.redirect(`/profile/${res.locals.name}`);
+    }
+}));
+
+router.post('/changepassword', isAuth, resolver( async(req, res) => {
+    const user = new Users(req.body, res.locals, req.params);
+    const update = await user.updateOneByUser();
+    if(update.errors.length > 0){
+        const userObj = await user.findOneByParam({name: res.locals.name});
+        res.render('profiles/profiledescription', {paramName: res.locals.name, profile: userObj, errors: update.errors});
+    }else{
+        res.redirect(`/profile/${res.locals.name}`);
+    }
+}));
 
 module.exports = router;
 

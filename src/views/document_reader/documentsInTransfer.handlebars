@@ -71,7 +71,7 @@
     '{{/if}}'
      
     listReader(list, names, `/processosrecebidos/{{process.year}}/{{process.transfer_dir}}/`, transfer, done);
-    listStates(states, '{{process.title}}', `/processosrecebidos/{{process.year}}/{{process.transfer_dir}}/`, transfer, done);
+    listStates(states, '{{process.title}}', `/processosrecebidos/{{process.year}}/{{process.transfer_dir}}/`, '{{process._id}}', transfer, done);
     upload('inTransfer', `/processosrecebidos/{{process.year}}/{{process.transfer_dir}}/`, transfer , done);
     sendProcess('{{process._id}}', '{{process.title}}', '{{process.year}}', transfer, done);
 </script> 

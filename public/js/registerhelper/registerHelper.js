@@ -43,7 +43,7 @@ hbs.handlebars.registerHelper('admin', (level, number) => {
     }
 });
 
-hbs.handlebars.registerHelper('wichSection', (section, nameOf) => {
+hbs.handlebars.registerHelper('compareValue', (section, nameOf) => {
     if(section == nameOf){
         return true;
     }else{
