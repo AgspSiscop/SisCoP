@@ -1,27 +1,24 @@
-(function readyJS(){
-    'use strict';
+import {setAttributes} from '/js/builders/elementsFunctions.js';
+import {request} from '/js/builders/ajax.js';
 
-    const process = document.getElementById('process');
-    const button = document.getElementById('processbutton');
-    const form = document.getElementById('processmessage');
+async function getValue(){
+    try {
+        const processName = document.getElementById('process');
+        const process = await request({
+            method: 'POST',
+            url: '/mensageiro/process',
+            params: `process=${processName.value}`
+        })
+        generateLink(process);
+    } catch (error) {
+        console.log(error);
+    }
+}
 
-    let ajax =  new XMLHttpRequest();
-    let params = 'process=' + process.value;                   
-    
-    ajax.open('POST', '/mensageiro/process');
-    ajax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    ajax.onreadystatechange = function(){
-        if(ajax.status === 200 && ajax.readyState === 4){
-            const process = JSON.parse(ajax.responseText);                                                
-            if(process){
-                button.addEventListener('click', () => {
-                    form.setAttribute('method', 'POST');
-                    form.setAttribute('action', `/processosrecebidos/${process.year}/${process.transfer_dir}`);
-                });                              
-            }               
-        }    
-    };
-    ajax.send(params);      
+function generateLink(process){    
+    if(process){
+        setAttributes(document.getElementById('processmessage'), {method: 'POST', action: `/processosrecebidos/${process.year}/${process.transfer_dir}`});
+    }
+}
 
-})(window, document)
-
+getValue();

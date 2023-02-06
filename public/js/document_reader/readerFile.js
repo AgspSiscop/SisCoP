@@ -10,8 +10,7 @@ function listReader(list, itens ,url, transfer, done){
         let sendEdit =  document.createElement('input');
         let cancelEdit = document.createElement('input');
         let sendDelete =  document.createElement('input');
-        let cancelDelete = document.createElement('input');
-        let elementid = document.createElement('input');
+        let cancelDelete = document.createElement('input');        
         let deleteText = document.createElement('p');
         let div1 = document.createElement('div');
         let div2 = document.createElement('div');
@@ -83,8 +82,8 @@ function listReader(list, itens ,url, transfer, done){
             form.setAttribute('class', 'list_iten');
             form.appendChild(div1);
             form.appendChild(div2);
-            form.appendChild(div3)      
-            
+            form.appendChild(div3);
+                       
             
             editButton.addEventListener('click', (e)=>{
                 e.preventDefault()
@@ -161,7 +160,7 @@ function listReader(list, itens ,url, transfer, done){
             div2.setAttribute('class', 'flexorientation--spaceb');
             div2.appendChild(element);
             div2.appendChild(buttonsDiv);
-            form.appendChild(div2);
+            form.appendChild(div2);           
 
             element.addEventListener('click', () => {
                 form.setAttribute('target', '_blank');
@@ -212,7 +211,7 @@ function upload(local, url, transfer, done){
     }else{
         buttonFile.setAttribute('class', 'button_disable');
         buttonFile.setAttribute('disable', '');
-        inputFile.setAttribute('type', '')
+        inputFile.setAttribute('type', '');
     }
 }
 
@@ -239,7 +238,7 @@ function listStates(list, title, url, elementid, transfer, done){
         newStatus.addEventListener('click', () => {
             newStatusForm.setAttribute('method', 'POST');
             newStatusForm.setAttribute('action', `${url}anotation/${title}`);
-        })
+        });
     }
 
     for(let i of list){
@@ -256,7 +255,7 @@ function listStates(list, title, url, elementid, transfer, done){
         const date = document.createElement('small');
 
         div1.setAttribute('class', 'flexorientation--start');
-        div2.setAttribute('class', 'flexorientation--start')
+        div2.setAttribute('class', 'flexorientation--start');
 
         label1.textContent = 'Observação:';
         prgh1.textContent = i.anotation;
@@ -268,8 +267,7 @@ function listStates(list, title, url, elementid, transfer, done){
         label2.textContent = 'Status:';
         prgh2.textContent = i.state;
         div2.appendChild(label2);
-        div2.appendChild(prgh2);
-        
+        div2.appendChild(prgh2);        
 
         date.textContent = i.date;
         div3.appendChild(date);

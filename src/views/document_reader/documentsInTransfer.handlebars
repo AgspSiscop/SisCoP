@@ -4,14 +4,19 @@
             <h2>{{process.title}}</h2>
             <small>{{process.date}}</small>           
         </div>        
-        <hr>       
-        <div id="list">
+        <hr>     
+        <div id="list" class="process_list">
             {{#if documents}}
             {{else}}
             <p>Não existem documentos dentro deste processo.</p>
-            {{/if}}
+            {{/if}}             
         </div>        
-        <hr>
+        {{#if (compareValue 'Chefe da SALC' section)}}
+                <form id="endprocess" class="bar_color flexorientation--end">
+                    <a href="/conversor/{{process.year}}/{{process.transfer_dir}}/inTransfer" class="button">Juntar em um PDF</a>                    
+                    <input type="submit" class="button" value="Concluir Processo">
+                </form>                
+        {{/if}}       
         {{#if states}}
         <div class="display-float-right">
             <small>Status</small>
@@ -37,10 +42,12 @@
         {{/if}}
         <div class="flexorientation--spaceb">
             <div class="arrow">
-                <a href="/processosrecebidos/"><img src="/img/seta2.png" style="height: 20px; width: 20px;"></a>
+                <a href="/processosrecebidos"><img src="/img/seta2.png" style="height: 20px; width: 20px;"></a>
             </div>
-            <form id="sendprocess">
-            </form>
+            <div class="flexorientation--start">                
+                <form id="sendprocess">
+                </form>
+            </div>
         </div>
     </div>
 </div>

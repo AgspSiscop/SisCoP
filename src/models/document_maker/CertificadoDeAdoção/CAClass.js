@@ -29,11 +29,13 @@ const generatorCA = require('./CALayout')
         let itens = []
         
         for(let i = 5; i < this.map.Mapa.length; i++){
-            let index = Object.keys(this.map.Mapa[i])
-            itens.push({                
-                amount: this.map.Mapa[i][index[4]],
-                unitary: this.map.Mapa[i][index[index.length - 2]],                
-            })                
+            if(Object.keys(this.map.Mapa[i])[0] === 'MAPA COMPARATIVO E ANÁLISE CRÍTICA DOS ORÇAMENTOS'){
+                let index = Object.keys(this.map.Mapa[i])
+                itens.push({                
+                    amount: this.map.Mapa[i][index[4]],
+                    unitary: this.map.Mapa[i][index[index.length - 2]],                
+                })
+            }             
         }
         return itens        
     }

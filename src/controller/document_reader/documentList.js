@@ -19,16 +19,23 @@ router.post('/:year', isAuth, resolver( async(req,res) => {
 
 router.post('/:year/editprocess/:id', isAuth, resolver( async(req, res) => {
     const process = new Processes(req.body, res.locals, req.params);
-    const processObj = await process.findOne();
+    let processObj = await process.findOne();
+    processObj.nup = processObj.nup.replace(/([0-9]{5})([0-9]{6})([0-9]{4})([0-9]{2})/, '$1.$2/$3-$4');
     res.render('document_reader/editprocess', {process: processObj});         
 }));
 
 router.post('/:year/edit/:link', isAuth, resolver( async(req, res) =>{
     const process = new Processes(req.body, res.locals, req.params);
-    await process.updateOne();
-    await DocumentManipulator.rename(`upload/inProcess/${req.params.year}/${req.params.link}`,
-    `upload/inProcess/${req.params.year}/${req.params.link.split('_')[0]}_${req.body.object}`);
-    res.redirect(`/meusprocessos/`);        
+    const update = await process.updateOne();
+    if(update.errors.length > 0){
+        let processObj = await process.findOneByParam({user_dir: req.params.link});
+        processObj.nup = processObj.nup.replace(/([0-9]{5})([0-9]{6})([0-9]{4})([0-9]{2})/, '$1.$2/$3-$4');      
+        res.render('document_reader/editprocess', {process: processObj, errors: update.errors});
+    }else{
+        await DocumentManipulator.rename(`upload/inProcess/${req.params.year}/${req.params.link}`,
+        `upload/inProcess/${req.params.year}/${req.params.link.split('_')[0]}_${req.body.object}`);
+        res.redirect(`/meusprocessos/`);
+    }
 }));
 
 router.post('/:year/delete/:link', isAuth, resolver( async(req, res) => { 

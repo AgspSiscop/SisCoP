@@ -16,6 +16,10 @@ const messenger = require('./src/controller/messenger/message');
 
 const processManager = require('./src/controller/process_manager/manager');
 
+const converter = require('./src/controller/converter/converterController');
+
+const teste = require('./src/controller/testes/testeControler');
+
 router.use(log);
 router.use(profile);
 router.use('/montagem', documentMaker);
@@ -24,5 +28,7 @@ router.use('/processosrecebidos', documentReaderT);
 router.use('/novoprocesso', createProcess);
 router.use('/mensageiro', messenger);
 router.use('/acompanharprocessos', processManager);
+router.use('/conversor', converter);
+router.use('/teste', teste);
 
 module.exports = router;

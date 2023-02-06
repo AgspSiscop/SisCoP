@@ -1,0 +1,2 @@
+key 22a7414d466f0ffef88476ef56c99c0c
+header requisition "[{"key":"chave-api-dados","value":"22a7414d466f0ffef88476ef56c99c0c"}]

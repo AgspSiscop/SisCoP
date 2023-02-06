@@ -11,9 +11,13 @@ router.get('/', isAuth, resolver((req,res) =>{
 
 router.post('/cadastro', isAuth, resolver( async(req, res) =>{
     const process = new Processes(req.body, res.locals);
-    const processObj = await process.create();
-    await DocumentManipulator.makeDir(`upload/inProcess/${(new Date).getFullYear()}/${processObj.user_dir}`);
-    res.redirect(307, `/meusprocessos/${(new Date).getFullYear()}/${processObj.user_dir}`);   
+    const processObj = await process.create();    
+    if(processObj.errors.length > 0){
+        res.render('document_maker/create', {errors: processObj.errors});
+    }else{
+        await DocumentManipulator.makeDir(`upload/inProcess/${(new Date).getFullYear()}/${processObj.process.user_dir}`);
+        res.redirect(307, `/meusprocessos/${(new Date).getFullYear()}/${processObj.process.user_dir}`);
+    }
 }));
 
 router.get('/montagemdeprocesso', isAuth, resolver((req,res) => {    

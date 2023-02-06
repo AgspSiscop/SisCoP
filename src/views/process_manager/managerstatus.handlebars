@@ -4,14 +4,24 @@
                 <div>
                     <h2>{{process.title}}</h2>                        
                 </div>                
-                <hr>                
-                <h3 style="margin-bottom: 5px;">Forma de Aquisição: </h3>
-                <p style="margin-bottom: 15px;">{{process.category}}</p>
-            
-                <h3 style="margin-bottom: 5px;">Origem:</h3>
-                <p style="margin-bottom: 15px;">{{process.origin}}</p>
-                <h3 style="margin-bottom: 5px;">Data de Inicio: </h3>
-                <p style="margin-bottom: 15px;">{{process.date}}</p>            
+                <hr>
+                <div style="margin-bottom: 15px;">
+                    <h3 style="display: inline;">Nup:</h3>
+                    <p style="display: inline;">{{process.nup}}</p>
+                </div>
+                <div style="margin-bottom: 15px;">                    
+                    <h3 style="display: inline;">Forma de Aquisição: </h3>
+                    <p style="display: inline;">{{process.category}}</p>
+                </div>
+                <div style="margin-bottom: 15px;">                    
+                    <h3 style="display: inline;">Origem:</h3>
+                    <p style="display: inline;">{{process.origin}}</p>
+                </div>
+                <div style="margin-bottom: 15px;">                    
+                    <h3 style="display: inline;">Data de Inicio: </h3>
+                    <p style="display: inline;">{{process.date}}</p>            
+                </div>
+                <hr>           
                 <h3 style="margin-bottom: 5px;">Descrição: </h3>
                 {{#if process.description}}
                 <p style="margin-bottom: 15px;">{{process.description}}</p>

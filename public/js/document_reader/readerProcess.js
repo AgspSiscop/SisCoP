@@ -1,159 +1,102 @@
-(function readyJS(win, doc){
-    'use strict';
-          
-    let  year = doc.getElementById('year');
-    let list = doc.getElementById('list');  
+import {createElements, clearContainer, createContainer, setAttributes, appendElements} from '/js/builders/elementsFunctions.js';
+import {request} from '/js/builders/ajax.js';
 
-    year.addEventListener('change', () => {
-        let ajax =  new XMLHttpRequest();
-        let params = 'year=' + year.value;
-        for(let child of list.childNodes){                          
-            child.remove();        
-        }
-        for(let child of list.childNodes){                          
-            child.remove();            
-        }
+let  year = document.getElementById('year');
+let list = document.getElementById('list');
+
+year.addEventListener('change', () => {
+    getValues();
+});
+
+async function getValues(){
+    try {
+        const processes = await request({
+            method: 'POST',
+            url: `${document.URL}/${year.value}`,
+            params: `year=${year.value}`
+        });
+        generateProcesses(processes);        
+    } catch (error) {
+        console.log(error);   
+    }
+}
+
+function generateProcesses(processes){
+    clearContainer(list);
+
+    for(let i of processes){       
+        const process = createElements('input', {type: 'submit', class: 'transparentbutton highlighted', value: i.title});
+        const date = createElements('small', {style: 'display: block; margin-top: 5px;'}, i.date);
+        const anotation = createElements('input', {class: 'button', type: 'submit', value: 'Anotação'});
+        const deleteButton = createElements('input', {id: 'deletebutton',class: 'redbutton', type: 'submit', value: 'Apagar'});       
+        const deleteText = createElements('p', {}, `Tem certeza que deseja apagar: <b>${i.title}</b> ?`);
+        const sendDelete = createElements('input', {class: 'button', type: 'submit', value: 'Ok'});
+        const cancelDelete = createElements('input', {type: 'submit', class: 'redbutton', value: 'Cancelar'});       
+        const id = createElements('input', {type: 'hidden', name: 'elementid', value: i._id});
+        const editButton = createElements('input', {type: 'submit', class: 'button', value: 'Editar'});
+        const buttonsDiv = createElements('div',{});
         
-        
-        ajax.open('POST', `/meusprocessos/${year.value}`);
-        ajax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        ajax.onreadystatechange = function(){
-            if(ajax.status === 200 && ajax.readyState === 4){ 
-                console.log(JSON.parse(ajax.responseText))                         
-               for(let i of JSON.parse(ajax.responseText)){     
-                
-                let element = document.createElement('input');        
-                let editButton = document.createElement('input');
-                let deleteButton = document.createElement('input')
-                let form = document.createElement('form');                
-                let sendDelete = document.createElement('input');
-                let cancelDelete = document.createElement('input');
-                let deleteText = document.createElement('p');
-                let anotation = document.createElement('input');        
-                let id = document.createElement('input');
-                let div1 = document.createElement('div');
-                let div2 = document.createElement('div');
-                let textItens = document.createElement('div');
-                let div3 =  document.createElement('div');
-                let buttonsDiv = document.createElement('div');
-                let date = document.createElement('small');
-                
-
-                list.appendChild(form); 
-                
-               
-                
-                //-------------------------------------------------FORM/DIV2
-                //-----------------------------FORM/DIV2/TEXTITENS
-                element.setAttribute('type', 'submit');
-                element.setAttribute('class', 'transparentbutton highlighted');
-                element.setAttribute('value', `${i.title}`);
-                     
-
-                date.textContent = i.date;
-                date.setAttribute('style', 'display: block; margin-top: 5px;');
-                
-                //----------------------------------------FORM/DIV2/BUTTONSDIV
-                
-                editButton.setAttribute('type', 'submit');
-                editButton.setAttribute('value', 'Editar');
-                editButton.setAttribute('class', 'button');
-                     
-                anotation.setAttribute('class', 'button');
-                anotation.setAttribute('type', 'submit');
-                anotation.value = 'Anotação';        
+        if(document.URL.split('/')[3] === 'meusprocessos'){
+            if(i.receiver != null || i.section_receiver != null || i.done != false){
+                const transitionMessage = createElements('label', {}, 'Processo em Transferência.');
+                setAttributes(editButton, {class: 'button_disable', disable: ''});
+                setAttributes(anotation, {class: 'button_disable', disable: ''});                
+                buttonsDiv.appendChild(transitionMessage);
+            }
+            appendElements(buttonsDiv, [editButton, anotation, deleteButton]);  
             
-                deleteButton.setAttribute('type', 'submit');
-                deleteButton.setAttribute('value', 'Apagar');
-                deleteButton.setAttribute('class', 'redbutton');
-
-                //-----------------------------------------------------------------------------FORM/DIV3
-                deleteText.textContent = `Tem certeza que deseja apagar: "${i.title}" ?`;
-
-                sendDelete.setAttribute('type', 'submit');
-                sendDelete.setAttribute('value', 'Ok');
-                sendDelete.setAttribute('class', 'button');
-
-                cancelDelete.setAttribute('type', 'submit');
-                cancelDelete.setAttribute('value', 'Cancelar');
-                cancelDelete.setAttribute('class', 'redbutton');
-                
-                //---------------------------------------------------FORM
-                id.setAttribute('type', 'hidden');
-                id.setAttribute('value', `${i._id}`);
-                id.setAttribute('name', 'elementid');
-                //--------------------------------------------------------------------//                   
-                
-                textItens.appendChild(element);            
-                textItens.appendChild(date);
-                
-                if(i.receiver != null || i.section_receiver != null || i.done != false){
-                    const transitionMessage = document.createElement('label');
-                    transitionMessage.innerHTML = 'Processo em Transferência.';
-                    buttonsDiv.appendChild(transitionMessage);
-                    editButton.setAttribute('class', 'button_disable');
-                    editButton.setAttribute('disabled', '');
-                    anotation.setAttribute('class', 'button_disable')
-                    anotation.setAttribute('disabled', '')
+        }else{
+            appendElements(buttonsDiv, [anotation, deleteButton]);            
+        }
+            
+        const textDiv = createContainer('div', {}, [process, date]);
+        const div1 = createContainer('div', {id: 'div1p', class: 'flexorientation--spaceb'}, [textDiv, buttonsDiv]);
+        const div2 = createContainer('div', {id: 'div2p', class: 'display_none'}, [deleteText, sendDelete, cancelDelete]);
+        const form = createContainer('form', {id: 'formp' ,class: 'list_iten'}, [div1, div2, id]);
+        
+        list.appendChild(form);
+        
+        document.addEventListener('click', (e) =>{
+            const element = e.target;        
+            if(element === deleteButton){
+                e.preventDefault();
+                form.setAttribute('class', 'list_iten_delete');            
+                div2.setAttribute('class', '');
+                div1.setAttribute('class', 'display_none');
+            }
+            if(element === sendDelete){
+                if(document.URL.split('/')[3] === 'meusprocessos'){
+                    setAttributes(form, {method: 'POST', action: `${document.URL}/${year.value}/delete/${i.user_dir}`});
                 }
-                
-                buttonsDiv.appendChild(editButton);
-                buttonsDiv.appendChild(anotation);        
-                buttonsDiv.appendChild(deleteButton);
-
-                div2.setAttribute('class', 'flexorientation--spaceb');
-                div2.appendChild(textItens);
-                div2.appendChild(buttonsDiv);        
-
-                div3.appendChild(deleteText);
-                div3.appendChild(sendDelete);
-                div3.appendChild(cancelDelete);
-                div3.setAttribute('class', 'display_none');
-
-                form.setAttribute('class', 'list_iten');
-                form.appendChild(div1);
-                form.appendChild(div2);        
-                form.appendChild(div3)
-                form.appendChild(id);      
-
-                
-                editButton.addEventListener('click', () =>{
-                    form.setAttribute('method', 'POST');
-                    form.setAttribute('action', `/meusprocessos/${year.value}/editprocess/${i._id}`);                            
-                });
-                
-                anotation.addEventListener('click', (e)  => {
-                    form.setAttribute('method', 'POST');
-                    form.setAttribute('action', `/meusprocessos/${year.value}/${i.user_dir}/anotation/${i.title}`)
-                });
-                
-                deleteButton.addEventListener('click', (e) => {            
-                    e.preventDefault()
-                    form.setAttribute('class', 'list_iten_delete');            
-                    div3.setAttribute('class', '');
-                    div2.setAttribute('class', 'display_none');           
-
-                    sendDelete.addEventListener('click', () =>{
-                        form.setAttribute('method', 'POST');
-                        form.setAttribute('action', `/meusprocessos/${year.value}/delete/${i.user_dir}`);
-                    });
-
-                    cancelDelete.addEventListener('click', (e) =>{
-                        e.preventDefault();
-                        form.setAttribute('class', 'list_iten');                
-                        div3.setAttribute('class', 'display_none');
-                        div2.setAttribute('class', 'flexorientation--spaceb');
-                    });
-                });
-
-                element.addEventListener('click', () => {
-                    form.setAttribute('method', 'POST');
-                    form.setAttribute('action', `/meusprocessos/${year.value}/${i.user_dir}`);
-                });                
-               }               
-            }    
-        };
-        ajax.send(params);
-    });
-
-})(window, document)
+                if(document.URL.split('/')[3] === 'processosrecebidos'){
+                    setAttributes(form, {method: 'POST', action: `${document.URL}/${year.value}/delete/${i.transfer_dir}`});
+                }
+            }
+            if(element === cancelDelete){
+                e.preventDefault();
+                form.setAttribute('class', 'list_iten');                
+                div2.setAttribute('class', 'display_none');
+                div1.setAttribute('class', 'flexorientation--spaceb');
+            }
+            if(element === anotation){
+                if(document.URL.split('/')[3] === 'meusprocessos'){
+                    setAttributes(form, {method: 'POST', action: `${document.URL}/${year.value}/${i.user_dir}/anotation/${i.title}`});
+                }
+                if(document.URL.split('/')[3] === 'processosrecebidos'){
+                    setAttributes(form, {method: 'POST', action: `${document.URL}/${year.value}/${i.transfer_dir}/anotation/${i.title}`});
+                }
+            }
+            if(element === process){
+                if(document.URL.split('/')[3] === 'meusprocessos'){
+                    setAttributes(form, {method: 'POST', action: `${document.URL}/${year.value}/${i.user_dir}`})
+                }
+                if(document.URL.split('/')[3] === 'processosrecebidos'){
+                    setAttributes(form, {method: 'POST', action: `${document.URL}/${year.value}/${i.transfer_dir}`});
+                }                
+            }
+            if(element ===  editButton){                 
+                setAttributes(form, {method: 'POST', action: `${document.URL}/${year.value}/editprocess/${i._id}`});
+            }
+        });
+    }    
+}

@@ -2,7 +2,9 @@ const generatorTR = require('./TRBuysLayout');
 const generatorTRSRP = require('./TRSRPBuysLayout')
 const Extensive = require('../../../../public/js/General/Extensive')
 
+
 class TR  {
+    
     static getValues(body){
         this.nup = body.nup;
         this.resp = body.resp;
@@ -18,6 +20,7 @@ class TR  {
 
     static getMap(object){
         this.map = object
+        console.log(this.map)
         this.values = this.valuesTable()               
     }
     
@@ -38,19 +41,21 @@ class TR  {
     }
 
     static valuesTable(){
-        let itens = []
+        let itens = [];       
         
-        for(let i = 5; i < this.map.Mapa.length; i++){
-            let index = Object.keys(this.map.Mapa[i])
-            itens.push({
-                index: this.map.Mapa[i][index[0]],
-                description: this.map.Mapa[i][index[1]],
-                catmat: this.map.Mapa[i][index[2]],
-                unit: this.map.Mapa[i][index[3]],
-                amount: this.map.Mapa[i][index[4]],
-                unitary: this.map.Mapa[i][index[index.length - 2]],
-                max: this.map.Mapa[i][index[index.length -1]]
-            })                
+        for(let i = 5; i < this.map.Mapa.length; i++){            
+            if(Object.keys(this.map.Mapa[i])[0] === 'MAPA COMPARATIVO E ANÁLISE CRÍTICA DOS ORÇAMENTOS'){
+                let index = Object.keys(this.map.Mapa[i])
+                itens.push({
+                    index: this.map.Mapa[i][index[0]],
+                    description: this.map.Mapa[i][index[1]],
+                    catmat: this.map.Mapa[i][index[2]],
+                    unit: this.map.Mapa[i][index[3]],
+                    amount: this.map.Mapa[i][index[4]],
+                    unitary: this.map.Mapa[i][index[index.length - 2]],
+                    max: this.map.Mapa[i][index[index.length -1]]
+                });
+            }
         }
         return itens        
     }
@@ -327,7 +332,7 @@ class TR  {
         return array
     }
 
-    static analysis(item){
+    static analysis(item){        
         if(this.acquisition == 'T'){
             return generatorTR(this.#processCategory(), '2022', this.nup, this.object, this.#extensiveValue(), '','',this.cmdname,this.cmdpg, this.resp, this.resppg, this.role, this.#generateFristTable(),this.#totalValue(), item[0].object, item[1].object, item[2].object, item[4].object, item[3].object)
         }else if(this.acquisition == 'S'){
@@ -336,5 +341,6 @@ class TR  {
     }
 
 }
+
 
 module.exports = TR

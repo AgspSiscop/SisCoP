@@ -1,8 +1,11 @@
 <div class="mainwindow">
     <div class="content_window">
-        {{#if error}}
-        <p>{{error}}</p>
+        {{#if errors}}
+        {{#each errors}}
+        <div class="error_message"><p>{{text}}</p></div>
         <br>
+        {{/each}}        
+        {{else}}
         {{/if}}
         <h2>Novo Processo</h2>        
         <hr>
@@ -10,6 +13,10 @@
             <div>
                 <label>Nome:</label>
                 <input type="text" class="mediumtext" name="object" required>                
+            </div>
+            <div>
+                <label>Nup:</label>
+                <input type="text" class="mediumtext" name="nup" required>
             </div>
             <div>
                 <label>Origem:</label>
@@ -38,6 +45,7 @@
                     <option value="Licitação">Licitação</option>
                     <option value="Dispensa">Dispensa de Licitação</option>
                     <option value="Inexigibilidade">Inexigibilidade</option>
+                    <option value="Carona">Carona</option>
                 </select>
                 <small>(opcional)</small>
             </div>

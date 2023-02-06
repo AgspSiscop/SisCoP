@@ -1,7 +1,4 @@
-db.users.update({"name" : "jorge luiz"},{
-    "name" : "Jorge Luiz",
-    "password" : "$2a$10$OMpaZ4u4qzH5hr3Np1rCr.OshgzdoILYv3rpL9WkrQKWvTOeVjTVi", 
-    "section" : "ADM",
-    "level" : 10,
+db.analisecriticas.update({"_id" : "1.1.3a"},{
+    "text" : "",    
     "__v" : 0
 })

@@ -29,13 +29,16 @@ class DFD{
     }
 
     static table(){        
-        let itens = []
-        let array = []     
+        let itens = [];
+        let array = [];
+             
         for(let i = 5; i < this.map.Mapa.length; i++){
-            let index = Object.keys(this.map.Mapa[i])
-            array.push({text: `${this.map.Mapa[i][index[0]]}`, margin: [1,7,1,7]}, {text: `${this.map.Mapa[i][index[1]]}`, alignment: 'justify', margin: [1,7,1,7]}, {text: `${this.map.Mapa[i][index[4]]}`, margin: [1,7,1,7]});
-            itens.push(array)
-            array = []
+            if(Object.keys(this.map.Mapa[i])[0] === 'MAPA COMPARATIVO E ANÁLISE CRÍTICA DOS ORÇAMENTOS'){
+                let index = Object.keys(this.map.Mapa[i])
+                array.push({text: `${this.map.Mapa[i][index[0]]}`, margin: [1,7,1,7]}, {text: `${this.map.Mapa[i][index[1]]}`, alignment: 'justify', margin: [1,7,1,7]}, {text: `${this.map.Mapa[i][index[4]]}`, margin: [1,7,1,7]});
+                itens.push(array)
+                array = []
+            }
         }        
         return itens        
     }

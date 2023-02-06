@@ -8,7 +8,7 @@
                     <option value="process_title">Processo</option>                    
                 </select>
                 <div class="bodyguides search_message">
-                <input type="text" id="search">
+                    <input type="text" id="search">
                     <img id="searchimage" src="/img/lupa2.png">
                 </div>
             </div>
@@ -28,56 +28,47 @@
             </div>
         </div>
         <hr>
-        <div id="messagelist">
-        </div>
-        <div id="handlemessage">
-            {{#if messages}}
-            {{#each messages}}
-            <a href="/mensageiro/enviadas/{{_id}}" class="message_style">        
-            <div class="flexorientation--spaceb list_iten">
-                <div class="messenger_body">
-                    <label>{{title}}</label>
+        <div id="maincontainer">
+            <div id="handlemessage">
+                {{#if messages}}
+                {{#each messages}}
+                <a href="/mensageiro/enviadas/{{_id}}" class="message_style">           
+                    <div class="flexorientation--spaceb list_iten">
+                        <div class="messenger_body">
+                            <label>{{title}}</label>
+                        </div>
+                        <div class="messenger_body">
+                            <label>{{process_title}}</label>
+                        </div>
+                        <div class="messenger_body">
+                            <label>{{section_receiver}} {{receiver.pg}} {{receiver.name}}</label>
+                        </div>
+                        <div class="messenger_body">
+                            <label>{{date}}</label>
+                        </div>
+                        <form method="POST" action="/mensageiro/enviadas/{{_id}}/delete">
+                            <button class="redbutton" style="margin-top: 0px; margin-left: 20px;"><img src="/img/trash.png" style="height: 16px;"></button>               
+                        </form>
+                    </div>
+                </a>
+                {{/each}}
+                {{/if}}
+            </div>
+            <div class="flexorientation--spaceb" id="handlearrows">
+                <div class="arrow_disabled" id="handleback">
+                    <a id="handlebacklink"><img src="/img/seta2.png" style="height: 20px; width: 20px;"></a>
                 </div>
-                <div class="messenger_body">
-                    <label>{{process_title}}</label>
+                <p id="handleindex"></p>
+                <div class="arrow_disabled" id="handlenext">
+                    <a id="handlenextlink"><img src="/img/seta.png" style="height: 20px; width: 20px;"></a>
                 </div>
-                <div class="messenger_body">
-                    <label>{{section_receiver}} {{receiver.pg}} {{receiver.name}}</label>
-                </div>
-                <div class="messenger_body">
-                    <label>{{date}}</label>
-                </div>
-                <form method="POST" action="/mensageiro/enviadas/{{_id}}/delete">
-                    <button class="redbutton" style="margin-top: 0px; margin-left: 20px;"><img src="/img/trash.png" style="height: 16px;"></button>               
-                </form>
-            </div>
-            </a>
-            {{/each}}
-            {{/if}}
-        </div>               
-        <div class="flexorientation--spaceb" id="handle">
-            <div class="arrow_disabled" id="handleback">
-                <a id="handlebacklink"><img src="/img/seta2.png" style="height: 20px; width: 20px;"></a>
-            </div>
-            <p id="handleindex"></p>
-            <div class="arrow_disabled" id="handlenext">
-                <a id="handlenextlink"><img src="/img/seta.png" style="height: 20px; width: 20px;"></a>
-            </div>
-        </div>
-        <div class="flexorientation--spaceb display_none" id="searcharrow">
-            <div class="arrow_disabled" id="searchback">
-                <a id="searchbacklink"><img src="/img/seta2.png" style="height: 20px; width: 20px;"></a>
-            </div>
-            <p id="searchindex"></p>
-            <div class="arrow_disabled" id="searchnext">
-                <a id="searchnextlink"><img src="/img/seta.png" style="height: 20px; width: 20px;"></a>
-            </div>
-        </div>                   
+            </div>            
+        </div>                         
     </div>   
 </div>
-<script src="/js/messenger/messageBox.js"></script>
+<script type="module" src="/js/messenger/messageBox.js"></script>
 <script>
-    const index = document.getElementById('handleindex');    
+     const index = document.getElementById('handleindex');    
     const count = '{{count}}'
     const back = document.getElementById('handleback');
     const next = document.getElementById('handlenext');

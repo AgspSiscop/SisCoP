@@ -1,13 +1,24 @@
 <div class="mainwindow">
     <div class="content_window">
+        {{#if errors}}
+        {{#each errors}}
+        <div class="error_message"><p>{{text}}</p></div>
+        <br>
+        {{/each}}        
+        {{else}}
+        {{/if}}
         <div>
             <h2>{{process.title}}</h2>                        
         </div>
-        <hr>
+        <hr>        
          <form method="POST" action="/meusprocessos/{{process.year}}/edit/{{process.user_dir}}">
             <div>
                 <label>Nome:</label>
                 <input type="text" class="mediumtext" name="object" value="{{process.title}}" required>                
+            </div>
+            <div>
+                <label>Nup:</label>
+                <input type="text" class="mediumtext" name="nup" value="{{process.nup}}" required>
             </div>
             <div>
                 <label>Origem:</label>

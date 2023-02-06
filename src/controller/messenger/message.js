@@ -8,14 +8,12 @@ const Processes = require('../../models/document_reader/ProcessesDB');
 const ProcessStates = require('../../models/document_reader/ProcessesStatesDB');
 const Users = require('../../models/profiles/UsersDB');
 
-
 const router = express.Router();
 
 router.get('/caixadeentrada:page', isAuth, resolver( async(req, res) => {   
     const message = new Msg(req.body, res.locals, req.params);    
-    const messageObj = await message.findReceived(15);
-    
-    res.render('messenger/message', {messages: messageObj.messages, index: messageObj.index, count: messageObj.count});
+    const messageObj = await message.findReceived(15); 
+    res.render('messenger/messages', {messages: messageObj.messages, index: messageObj.index, count: messageObj.count});
 }));
 
 router.get('/enviadas:page', isAuth, resolver( async(req, res) => {   

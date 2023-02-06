@@ -40,8 +40,8 @@ router.get('/register', resolver((req, res) =>{
 
 router.post('/saveregister', isAuth, resolver( async(req, res) =>{
     const users = new Users(req.body, res.locals, req.params);
-    const create = await users.register();
-    if(create.errors > 0){
+    const create = await users.register();    
+    if(create.errors.length > 0){
         res.render('profiles/register', {errors: create.errors});
     }else{
         res.redirect('/register');
@@ -58,12 +58,12 @@ router.post('/getuser', isAuth, resolver( async(req,res) => {
     res.send(JSON.stringify(userObj));    
 }));
 
-router.post('/updateuser/update', isAuth, resolver( async(req, res) => {
+router.post('/updateuser/update', isAuth, resolver( async(req, res) => {    
     const user = new Users(req.body, res.locals, req.params);
     const update = await user.updateOne();
     if(update.errors.length > 0){
         res.render('profiles/updateprofile', {errors: update.errors});
-    }else{
+    }else{       
         res.redirect('/updateuser');
     }   
 }));

@@ -75,7 +75,7 @@ class ProcessStates {
 
     async findByParam(param){
         try {
-            const states = await ProcessStateModel.find(param).lean()
+            const states = await ProcessStateModel.find(param).sort({_id: -1}).lean()
             return states;                       
         } catch (error) {
             throw new Error(error);            

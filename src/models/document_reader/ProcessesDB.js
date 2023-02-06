@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema =  mongoose.Schema;
-const {DocumentManipulator} = require('./DocumentManipulator');
+const category = require('../../../config/selectDatas').category
+const sectionsName = require('../../../config/selectDatas').sectionsName
 
 const Process =  new Schema({
     user: {
@@ -65,31 +66,53 @@ class Processes {
         this.erros = [];       
     }
 
-    checkUp(){
-
+    #checkUp(){
+        try {
+            const errors = [];
+            if(this.body.object.length < 15 || !this.body.object || this.body.object == null){
+                errors.push({text: 'Nome inválido! Nome precisa ter no mínimo 15 caracteres'});
+            }
+            if(this.body.nup.replace(/\./g, '').replace(/\//g, '').replace(/-/, '').length !== 17){
+                errors.push({text: 'Nup inválido.'});
+            }
+            if(!category.some(x => x == this.body.category)){
+                errors.push({text: 'Categoria inválida.'});
+            }
+            if(!sectionsName.slice(8).some(x => x == this.body.origin)){
+                errors.push({text: 'Nome da seção de origem inválida.'});
+            }
+            return errors            
+        } catch (error) {
+            throw new Error(error);
+        }
     }
 
     async create(){
         try {
-            const process = {
-                user: this.locals.user,
-                receiver: null,
-                section_receiver: null,
-                origin: this.body.origin,           
-                title: this.body.object,
-                category: this.body.category,
-                user_dir: `${Date.now() + '_' + this.body.object}`,
-                transfer_dir: null,
-                done_dir: null,
-                description: this.body.description,
-                date: Intl.DateTimeFormat('pt-BR', { dateStyle: "full", timeStyle: "short" }).format(new Date()),
-                year: (new Date).getFullYear().toString()
-            };
-            
-            await new ProcessModel(process).save();        
-            //await DocumentManipulator.makeDir(`upload/inProcess/${(new Date).getFullYear()}/${process.user_dir}`);
-            return process;            
-            //res.redirect(307, `/meusprocessos/${(new Date).getFullYear()}/${process.user_dir}`)            
+            const errors = this.#checkUp();
+            if(errors.length > 0){
+                return {errors: errors};
+            }else{
+                this.body.nup = this.body.nup.replace(/\./g, '').replace(/\//g, '').replace(/-/, '');
+                this.body.object = this.body.object.replace(/\./g, '').replace(/\_/g, ' ').replace(/\//g, '')
+                const process = {
+                    user: this.locals.user,
+                    receiver: null,
+                    section_receiver: null,
+                    origin: this.body.origin,           
+                    title: this.body.object,
+                    nup: this.body.nup,
+                    category: this.body.category,
+                    user_dir: `${Date.now() + '_' + this.body.object}`,
+                    transfer_dir: null,
+                    done_dir: null,
+                    description: this.body.description,
+                    date: Intl.DateTimeFormat('pt-BR', { dateStyle: "full", timeStyle: "short" }).format(new Date()),
+                    year: (new Date).getFullYear().toString()
+                };                
+                await new ProcessModel(process).save();               
+                return {process: process, errors: errors};               
+            }
         } catch (error) {            
             if(error.code == 11000){
                 throw new Error('Este processo já existe!');                          
@@ -137,14 +160,22 @@ class Processes {
 
     async updateOne(){
         try {
-            await ProcessModel.updateOne({user_dir: this.params.link}, 
-                {$set: {
-                    title: this.body.object, 
-                    user_dir: `${this.params.link.split('_')[0]}_${this.body.object}`, 
-                    category: this.body.category, 
-                    origin: this.body.origin, 
-                    description: this.body.description
-                }}).lean();            
+            const errors = this.#checkUp();
+            if(errors.length > 0){
+                return {errors: errors}
+            }else{
+                this.body.nup = this.body.nup.replace(/\./g, '').replace(/\//g, '').replace(/-/, '');
+                await ProcessModel.updateOne({user_dir: this.params.link}, 
+                    {$set: {
+                        title: this.body.object,
+                        nup: this.body.nup,
+                        user_dir: `${this.params.link.split('_')[0]}_${this.body.object}`, 
+                        category: this.body.category, 
+                        origin: this.body.origin, 
+                        description: this.body.description
+                    }}).lean();
+                    return {errors: errors}
+            }
         } catch (error) {
             throw new Error(error);            
         }
@@ -203,9 +234,6 @@ class Processes {
             throw new Error(error);            
         }
     }
-
-
-
 }
 
 module.exports = Processes;

@@ -176,9 +176,10 @@ router.post('/analise_critica1', isAuth, resolver((req,res) => {
     
     ACDB.find({_id: ['1.1.1a', AC.item112(), AC.item113(), AC.item114(),
     AC.item115(),AC.item311(), AC.item312()]}).lean().then((item) => {
+        
         const chunks = [];
-        const pdfDoc = printer.createPdfKitDocument(AC.analysis(item))
-        pdfDoc.on('data', (chunk) => {        
+        const pdfDoc = printer.createPdfKitDocument(AC.analysis(item));
+        pdfDoc.on('data', (chunk) => {                  
             chunks.push(chunk);
         });
         AC.resetValues()
@@ -189,8 +190,7 @@ router.post('/analise_critica1', isAuth, resolver((req,res) => {
             res.end(result);
         });
     })
-}))
-
+}));
 
 
 module.exports = router

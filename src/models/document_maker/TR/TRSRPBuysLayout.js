@@ -128,7 +128,7 @@ function generatorTRSRP(category, yearTR, nup, object, extensiveValue, dayTR, mo
             },
             {
                 text: [
-                    '1.5.       O prazo de vigência da contratação é de 30 dias contados do ateste do recebimento da Nota de Empenho (NE),\
+                    '1.5.       O prazo de vigência da contratação é de 120 dias contados do ateste do recebimento da Nota de Empenho (NE),\
  prorrogável na forma do art. 57, § 1°, da Lei n° 8.666/93.\n\n',
                     {text: '1.6.        No que diz respeito aos critérios de sustentabilidade e observando o que é exposto no Anexo I da Instrução Normativa\
  IBAMA n° 06, de 15 de março de 2013, é possível afirmar que para os itens do presente objeto não foram encontrados argumentos\

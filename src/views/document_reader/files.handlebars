@@ -1,0 +1,44 @@
+<div class="mainwindow">
+    <div class="content_window">        
+        <div class="flexorientation--spaceb">            
+            <!--<h2>{{process.title}}</h2>
+            <small>{{process.date}}</small>-->
+        </div>        
+        <hr>       
+        <div id="list" class="process_list">
+            <!--{{#if documents}}
+            {{else}}
+            <p>Não existem documentos dentro deste processo.</p>
+            {{/if}}-->
+        </div>
+        <!--{{#if (compareValue 'Chefe da SALC' section)}}
+                <form id="endprocess" class="bar_color flexorientation--end">
+                    <a href="/conversor/{{process.year}}/{{process.user_dir}}/inProcess" class="button">Juntar em um PDF</a>                    
+                    <input type="submit" class="button" value="Concluir Processo">
+                </form>                
+        {{/if}}-->            
+        <div class="display-float-right">
+            <!--<small>Status</small>
+            <button class="button" id="statusbutton">+</button>-->
+        </div>
+        <div id="states">            
+        </div>            
+        <form id="upload">
+            <!--<label for="file" class="button_file" id="button_file">Upload</label>
+            <input type="file" id="file" name="file" value="" required>
+            <span id="filename"></span required>-->          
+        </form>
+        <br>
+        <p id="message"></p>
+        <!--{{#if error}}        
+        <p style="color:red">{{error}}</p>        
+        {{/if}}-->
+        <div class="flexorientation--spaceb">
+            <div class="arrow">
+                <a href="/meusprocessos"><img src="/img/seta2.png" style="height: 20px; width: 20px;"></a>
+            </div>
+            <form id="sendprocess">
+            </form>
+        </div>
+    </div>
+</div>

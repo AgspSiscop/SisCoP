@@ -8,23 +8,10 @@
                 <input type="text" name="title">
             </div>
              <div class="flexorientation--start">
-                <div>
-                    <label>Destinatário:</label>
-                    <select name="messagesection" id="messagesection">
-                        <option value="0"> </option>
-                        <option value="Orçamentação">Orçamentação</option>
-                        <option value="DPGOT">DPGOT</option>
-                        <option value="Fiscal ADM">Fiscal ADM</option>                        
-                        <option value="Chefe da SALC">Chefe da SALC</option>
-                        <option value="Armamento Pesado">Armamento Pesado</option>
-                        <option value="Armamento Leve">Armamento Leve</option>
-                        <option value="Linha de Blindados">Linha de Blindados</option>
-                        {{#if (compareValue section 'Chefe da SALC')}}
-                        <option value="">SALC</option>
-                        {{/if}}                 
-                    </select>
-                    
-                </div>
+                <label>Destinatário:</label>               
+                <input type="hidden" value="{{user.section}}" id="sectionvalue">
+                <div id="selectsection">                                                         
+                </div>                
                 <div id="receiver" style="margin-left: 10px;">
                 </div>
             </div>
@@ -44,7 +31,7 @@
         </div>               
     </form>   
 </div>
-<script src="/js/messenger/newMessage.js"></script>
+<script type="module" src="/js/messenger/newMessage.js"></script>
 
 
 

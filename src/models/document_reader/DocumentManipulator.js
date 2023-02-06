@@ -99,11 +99,17 @@ const storage = multer.diskStorage({
         cb(null,`upload/${req.params.local}/${req.params.year}/${req.params.link}`);
     },
 
-    filename: function(req, file, cb){        
-        cb(null, file.originalname);
+    filename: function(req, file, cb){
+        let originalName = file.originalname;
+        let clearName = originalName.slice(0, originalName.lastIndexOf('.')).replace(/\./g, ' ');
+        let extension = originalName.slice(originalName.lastIndexOf('.', originalName.length-1));
+        let name = clearName + extension
+
+        cb(null, name.replace(/\_/g, ' '));
              
     }
-})
+});
+
 const multerConfig = multer({limits:{fileSize: 6021505}, storage});
 
 function uploadFile(req, res, next) {

@@ -25,12 +25,17 @@ class AC {
                 this.providersArray.push({text:[{ text: `1.2.1.${i}   `, bold: true },{text: `${body['pname'+i]}`}], style: 'paragraph' });
                 this.providersArray.push({text:[{ text: `Endereço: ${body['paddress' +i]} - CEP: ${body['pcep'+i]}\n`}, {text: `Telefone: ${body['ptel'+i]}\n`}, {text: `CNPJ: ${body['pcnpj'+i]}\n\n`}],style: 'subItem'})
             }
-        }
-        
+        }        
     }
 
     static getMap(object){
-        this.map = object
+
+        this.map = object        
+        for(let i = this.map.Mapa.length -1; i >= 5; i--){
+            if(Object.keys(this.map.Mapa[i])[0] !== 'MAPA COMPARATIVO E ANÁLISE CRÍTICA DOS ORÇAMENTOS'){                
+                this.map.Mapa.pop();
+            }
+        }        
         this.columnsPublic = this.#columnsPublic(this.map);
         this.columnsInternet =  this.#columnsInternet(this.map);
         this.columnsProvider = this.#columnsProvider(this.map)
@@ -102,48 +107,48 @@ class AC {
    }   
 
    static #providersParam(){ // função que filtra todos os orçamentos e retorna um array com todos os itens que precisam passar pela parametrização
-    let providers = this.columnsProvider;
-    let column = []
-    let arrayTable = []
-    let table = {}
-    let rows = []
-    let final =[]
-    for(let i = 0; i < providers[0].length; i++){
-        table['column'+i] = []                
-        for(let j = 0; j < providers.length; j++){            
-            table['column'+i].push(providers[j][i])            
-        }
-    }    
-    for(let i = 0; i < Object.values(table.column0).length;i++){
-        for(let j = 0; j <Object.keys(table).length; j++){
-            if(Object.values(table['column'+j])[i] != null){
-                column.push({line: i,column: j})
-            }            
-        }
-        if(column.length > 2 ){
-            arrayTable.push(column)
-        }
-        column = []
-    }
-    for(let i = 0; i < arrayTable.length; i++){
-        for(let j = 0; j < arrayTable[i].length; j++){            
-            column.push(arrayTable[i][j].column)
-            if(j == 0){
-                rows.push(arrayTable[i][j].line)
+        let providers = this.columnsProvider;
+        let column = []
+        let arrayTable = []
+        let table = {}
+        let rows = []
+        let final =[]
+        for(let i = 0; i < providers[0].length; i++){
+            table['column'+i] = []                
+            for(let j = 0; j < providers.length; j++){            
+                table['column'+i].push(providers[j][i])            
             }
-        }              
-    }
-    final.push({rows: rows})  
-    arrayTable = []
-    final = final.reduce((list,sub) => list.concat(sub), [])
-    final[0].columns = []  
-    for(let i = 0; i <Object.keys(table).length; i++){        
-       if(column.filter(x => x == i).length > 2){                
-                final[0].columns.push(i)
-                final[0].columns.reduce((list,sub) => list.concat(sub), [])
-       }
-    }      
-    return final
+        }    
+        for(let i = 0; i < Object.values(table.column0).length;i++){
+            for(let j = 0; j <Object.keys(table).length; j++){
+                if(Object.values(table['column'+j])[i] != null){
+                    column.push({line: i,column: j})
+                }            
+            }
+            if(column.length > 2 ){
+                arrayTable.push(column)
+            }
+            column = []
+        }
+        for(let i = 0; i < arrayTable.length; i++){
+            for(let j = 0; j < arrayTable[i].length; j++){            
+                column.push(arrayTable[i][j].column)
+                if(j == 0){
+                    rows.push(arrayTable[i][j].line)
+                }
+            }              
+        }
+        final.push({rows: rows})  
+        arrayTable = []
+        final = final.reduce((list,sub) => list.concat(sub), [])
+        final[0].columns = []  
+        for(let i = 0; i <Object.keys(table).length; i++){        
+        if(column.filter(x => x == i).length > 2){                
+                    final[0].columns.push(i)
+                    final[0].columns.reduce((list,sub) => list.concat(sub), [])
+        }
+        }      
+        return final
    }
 
    static #calcParam(){ //função que calcula os valores da parametrização para serem tratados na função que gera o gráfico
@@ -190,6 +195,7 @@ class AC {
     static #internetQnt(){ //verifica se existem 3 orçamentos validos de internet ou não e retorna um array com os indices dos que não possuem
        let itens = []
        let allitens = this.columnsInternet
+       
        for(let i = 0; i < allitens.length; i++){
            let qnt = 0
            let valid = 0
@@ -250,6 +256,9 @@ class AC {
 
     static #numberOfItens(arrayNumbers){ //*** */ função que retorna os numeros de um array tratados com ", 'e'" 
         const finalArray = []    
+        if(this.columnsInternet.length == arrayNumbers.length){
+            return `de ${arrayNumbers[0].toString().padStart(2, '0')} à ${arrayNumbers[arrayNumbers.length -1]}`
+        }
         
         let n = '';   
         for(let i = 0; i < arrayNumbers.length; i++){           
@@ -505,8 +514,9 @@ class AC {
 
    static item115(object){
        let internet = this.#internetQnt();
-       let publics = this.columnsPublic;    
-       if(internet.length == publics.length){
+       let publics = this.columnsPublic;
+          
+       if(internet.length == 0 || publics.length == 0){
            return null
        }else if(internet.length == 1){
            return '1.1.5a'
@@ -528,8 +538,8 @@ class AC {
                    down = true
                }                    
            }                 
-       }
-       if(up == false && down == false){
+       }       
+       if(up == false && down == false){        
            return '3.1.1a'
        }else if(up == true && down == true){
            return '3.1.1b'
@@ -540,7 +550,7 @@ class AC {
        }
    }
 
-    static item312(){
+    static item312(){        
         if(this.item311() == '3.1.1a'){
             return '3.1.2a'
         }else{

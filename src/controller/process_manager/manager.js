@@ -27,9 +27,10 @@ router.post('/search', isAuth, resolver( async(req, res) =>{
 
 router.post('/:id', isAuth, resolver( async(req, res) => {
   const process = new Processes(req.body, res.locals, req.params);
-  const processObj = await process.findOne();
   const state = new ProcessStates(req.body, res.locals, req.params);
   const states = await state.find();
+  let processObj = await process.findOne(); 
+  processObj.nup = processObj.nup.replace(/([0-9]{5})([0-9]{6})([0-9]{4})([0-9]{2})/, '$1.$2/$3-$4');
   res.render('process_manager/managerstatus', {process: processObj, states: states});  
 }));
 
