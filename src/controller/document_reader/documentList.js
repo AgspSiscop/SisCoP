@@ -54,15 +54,14 @@ router.post('/:year/delete/:link', isAuth, resolver( async(req, res) => {
     }   
 }));
 
-router.post('/:year/:link', isAuth, resolver( async(req, res) =>{
-    let documents;
+router.post('/:year/:link', isAuth, resolver( async(req, res) =>{    
     const process = new Processes(req.body, res.locals, req.params);
     const processObj = await process.findOneByParam({user_dir: req.params.link});
     const state =  new ProcessStates(req.body, res.locals, req.params);
     const states = await state.findByParam({process: processObj});
     let message = req.session.error || null; //mudar isso
     req.session.error = null;
-    documents = await DocumentManipulator.readDir(`upload/inProcess/${req.params.year}/${req.params.link}`);
+    let documents = await DocumentManipulator.readDir(`upload/inProcess/${req.params.year}/${req.params.link}`);
     res.render('document_reader/documents', {process: processObj, documents: documents, error: message, states: states});       
 }));
 

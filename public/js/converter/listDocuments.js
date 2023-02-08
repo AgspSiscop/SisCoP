@@ -1,4 +1,4 @@
-import {createElements,clearContainer, createContainer, createSelect, appendElements, setAttributes } from '/js/builders/elementsFunctions.js';
+import {createElements, createSelect, appendElements, setAttributes} from '/js/builders/elementsFunctions.js';
 import {request} from '/js/builders/ajax.js';
 
 window.addEventListener('load', () => {       
