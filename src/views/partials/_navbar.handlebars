@@ -7,11 +7,8 @@
             </div>               
         </div>
         {{#if user}}
-        <div class="navbar_profile">
-            <!--<div class="navbar_profile_button ">
-                <img class="navbar_image_user" src="/img/user.png">
-            </div>-->
-            <a href="/profile/{{name}}" class="navbar_link"><p>{{pg}} {{name}}</p></a>
+        <div class="navbar_profile">            
+            <a href="/profile/{{name}}" class="navbar_link flexorientation--start"><p>{{pg}} </p><p id="idusername">{{name}}</p><p id="idusersection">{{section}}</p></a>            
             <p>|</p>
             <a href="/logout" class="navbar_link"><p>Sair</p></a>
         </div>

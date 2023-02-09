@@ -44,12 +44,13 @@ hbs.handlebars.registerHelper('admin', (level, number) => {
 });
 
 hbs.handlebars.registerHelper('compareValue', (section, nameOf) => {
-    if(section == nameOf){
+    
+    if(section === nameOf){
         return true;
     }else{
         return false;
     }
-})
+});
 
 
 module.exports = hbs;

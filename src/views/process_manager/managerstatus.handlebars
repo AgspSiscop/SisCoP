@@ -1,8 +1,9 @@
 <div class="flexorientation--start">
     <div class="mainwindow" style="border-radius: 3px 0px 0px 3px;">
             <div class="content_window">
-                <div>
-                    <h2>{{process.title}}</h2>                        
+                <div class="flexorientation--spaceb">
+                    <h2>{{process.title}}</h2>
+                    <h2 id="year">{{process.year}}</h2>                       
                 </div>                
                 <hr>
                 <div style="margin-bottom: 15px;">
@@ -31,6 +32,9 @@
                 <hr>
                 <h3 style="margin-bottom: 5px;">Documentações:</h3>
                 {{#if process.done}}
+                <div id="list" class="flexorientation--start" style="flex-wrap: wrap; width: 100px;">
+                    <input type="hidden" id="done" value="{{process.done_dir}}">
+                </div>
                 {{else}}
                 <p>Os documentos são exibidos quando o processo é concluído.</p>
                 {{/if}}                 
@@ -63,3 +67,4 @@
         </div>
     </div>
 </div>
+<script type="module" src="/js/process_manager/managerFiles.js"></script>

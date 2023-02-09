@@ -16,6 +16,12 @@
                     <a href="/conversor/{{process.year}}/{{process.transfer_dir}}/inTransfer" class="button">Juntar em um PDF</a>                    
                     <input type="submit" class="button" value="Concluir Processo">
                 </form>                
+        {{/if}}
+        {{#if (compareValue 'SALC' section)}}
+                <form id="endprocess" class="bar_color flexorientation--end">
+                    <a href="/conversor/{{process.year}}/{{process.transfer_dir}}/inTransfer" class="button">Juntar em um PDF</a>                    
+                    <input type="submit" class="button" value="Concluir Processo">
+                </form>                
         {{/if}}       
         {{#if states}}
         <div class="display-float-right">

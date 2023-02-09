@@ -7,11 +7,11 @@ const CAM = require('../../models/converter/ConverterAndMerger');
 
 const router = express.Router();
 
-router.get('/:year/:link/:local', isAuth, resolver( async(req, res) => {   
+router.post('/:year/:link/:local', isAuth, resolver( async(req, res) => {   
     res.render('converter/converter', {processName: req.params.link.split('_')[1]})
 }));
 
-router.post('/:year/:link/:local', isAuth, resolver ( async(req, res) => {
+router.post('/:year/:link/:local/search/files', isAuth, resolver ( async(req, res) => {
     let documents = await DocumentManipulator.readDir(`upload/${req.params.local}/${req.params.year}/${req.params.link}`) || [];
     res.send(JSON.stringify({documents: documents, path: `upload/${req.params.local}/${req.params.year}/${req.params.link}`}));
 }));

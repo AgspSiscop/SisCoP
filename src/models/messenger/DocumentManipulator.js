@@ -82,9 +82,16 @@ class DocumentManipulator  {
         });
     }) 
     
-    static copy(src, dest){        
-        fsExtra.copy(src, dest, ()=>{})
-    }
+
+    static copy = (src, dest) => new Promise((resolve, reject) => {        
+        fsExtra.copy(src, dest, (error, content) => {
+            if(error){
+                reject(error)
+            }else{
+                resolve()
+            }
+        });        
+    });    
 }
 
 module.exports = {DocumentManipulator};

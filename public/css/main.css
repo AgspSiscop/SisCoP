@@ -185,7 +185,7 @@ select{
     background-color:  rgb(233, 236, 232);;    
     color: rgb(105, 105, 105);
     border-radius: 0px 3px 3px 0px;
-    height: 700px;    
+    /*height:700px;*/ 
     width: 350px;
     box-shadow: 6px 6px 10px -3px rgb(24, 24, 24);
     margin-bottom: 30px;
@@ -268,7 +268,7 @@ select{
 }
 .status_content{
     width: 400px;
-    min-height: 200px;
+    
     background-color: rgb(170, 255, 85);
     padding: 10px;
     margin-bottom: 20px;
@@ -528,6 +528,17 @@ select{
 }
 .transparentbutton:hover{
     color: rgb(179, 179, 179); 
+}
+.manager_button{
+    width: auto;
+    padding: 10px;
+    background-color: rgb(225, 225, 230);
+    border: none;
+    border-radius: 2px;
+}
+.manager_button:hover{
+    background-color: rgb(217, 217, 218);;
+    cursor: pointer;
 }
 .search_button{
     padding: 1px 3px 1px 3px;

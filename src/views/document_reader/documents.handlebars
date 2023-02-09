@@ -17,6 +17,12 @@
                     <input type="submit" class="button" value="Concluir Processo">
                 </form>                
         {{/if}}
+        {{#if (compareValue 'SALC' section)}}
+                <form id="endprocess" class="bar_color flexorientation--end">
+                    <a href="/conversor/{{process.year}}/{{process.user_dir}}/inProcess" class="button">Juntar em um PDF</a>                    
+                    <input type="submit" class="button" value="Concluir Processo">
+                </form>                
+        {{/if}}
        <!-- <div class="bar_color" style="padding-top: 20px; background-color:dimgrey; margin-bottom: -20px;"> -->                
             <div class="display-float-right">
                 <small>Status</small>

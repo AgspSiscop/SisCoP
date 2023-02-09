@@ -105,6 +105,36 @@ class ProcessStates {
             throw new Error(error);            
         }
     }
+
+    async doneState(){
+        try {
+            let newState = {
+                    process: this.body.process,
+                    state: 'Processo Concluído',
+                    anotation: ``,
+                    date: Intl.DateTimeFormat('pt-BR', { dateStyle: "full", timeStyle: "short" }).format(new Date())
+                }              
+            await ProcessStateModel(newState).save();            
+        } catch (error) {
+            throw new Error(error);            
+        }
+
+    }
+
+    async returnState(){
+        try {
+            let newState = {
+                    process: this.body.process,
+                    state: 'Retificando Processo',
+                    anotation: ``,
+                    date: Intl.DateTimeFormat('pt-BR', { dateStyle: "full", timeStyle: "short" }).format(new Date())
+                }              
+            await ProcessStateModel(newState).save();            
+        } catch (error) {
+            throw new Error(error);            
+        }
+
+    }
 }
 
 module.exports = ProcessStates;

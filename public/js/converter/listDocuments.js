@@ -9,7 +9,7 @@ async function getValues(){
     try {
         const documents = await request({
             method: 'POST',
-            url: document.URL,
+            url: `${document.URL}/search/files`,
             params: ''
         });       
 
@@ -38,8 +38,7 @@ function elementGenerator(documents){
         }
         if(element.id === 'deleteselect'){
             e.preventDefault()                     
-            const selects = (listDocuments.children.length/3);
-            console.log(selects)
+            const selects = (listDocuments.children.length/3);            
             if(selects > 1){
                 for(let i = 0; i < 3; i++){
                    listDocuments.removeChild(listDocuments.lastChild);

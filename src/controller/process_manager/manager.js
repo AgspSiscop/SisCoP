@@ -3,6 +3,7 @@ const isAuth =require('../../../config/isAuth');
 const resolver =  require('../../../config/errorHandler');
 const Processes = require('../../models/document_reader/ProcessesDB');
 const ProcessStates = require('../../models/document_reader/ProcessesStatesDB');
+const {DocumentManipulator} = require('../../models/process_manager/DocumentManipulator');
 
 const router = express.Router();
 
@@ -32,6 +33,18 @@ router.post('/:id', isAuth, resolver( async(req, res) => {
   let processObj = await process.findOne(); 
   processObj.nup = processObj.nup.replace(/([0-9]{5})([0-9]{6})([0-9]{4})([0-9]{2})/, '$1.$2/$3-$4');
   res.render('process_manager/managerstatus', {process: processObj, states: states});  
+}));
+
+router.post('/:id/files', isAuth, resolver( async(req, res) => {
+  const process =  new Processes(req.body, res.locals, req.params);
+  const processObj = await process.findOneByParam({_id: req.params.id});
+  const documents = await DocumentManipulator.readDir(`upload/done/${processObj.year}/${processObj.done_dir}`);
+  res.send(JSON.stringify(documents));
+}));
+
+router.post('/:year/:link/:file', isAuth, resolver( async(req, res) =>{
+  const doc = await DocumentManipulator.readDocument(`upload/done/${req.params.year}/${req.params.link}/${req.params.file}`);
+  res.end(doc);         
 }));
 
 module.exports = router;

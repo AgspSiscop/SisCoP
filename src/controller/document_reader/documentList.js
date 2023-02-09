@@ -54,7 +54,7 @@ router.post('/:year/delete/:link', isAuth, resolver( async(req, res) => {
     }   
 }));
 
-router.post('/:year/:link', isAuth, resolver( async(req, res) =>{    
+/*router.post('/:year/:link', isAuth, resolver( async(req, res) =>{    
     const process = new Processes(req.body, res.locals, req.params);
     const processObj = await process.findOneByParam({user_dir: req.params.link});
     const state =  new ProcessStates(req.body, res.locals, req.params);
@@ -62,7 +62,31 @@ router.post('/:year/:link', isAuth, resolver( async(req, res) =>{
     let message = req.session.error || null; //mudar isso
     req.session.error = null;
     let documents = await DocumentManipulator.readDir(`upload/inProcess/${req.params.year}/${req.params.link}`);
-    res.render('document_reader/documents', {process: processObj, documents: documents, error: message, states: states});       
+    res.render('document_reader/documents', {process: processObj, documents: documents, error: message, states: states, done: [{name: 'Chefe da SALC'}, {name: 'SALC'}]});       
+}))*/
+
+router.post('/:year/:link', isAuth, resolver( async(req, res) => {
+    const process = new Processes(req.body, res.locals, req.params);
+    const processObj = await process.findOneByParam({user_dir: req.params.link});
+    const state =  new ProcessStates(req.body, res.locals, req.params);
+    const states = await state.findByParam({process: processObj});
+    let message = req.session.error || null; //mudar isso
+    req.session.error = null;
+    res.render('document_reader/files', {process: processObj, error: message, states: states});
+}));
+
+router.post('/search/meus/documents', isAuth, resolver( async(req, res) => {      
+    let documents = await DocumentManipulator.readDir(`upload/${req.body.local}/${req.body.year}/${req.body.link}`);
+    res.send(JSON.stringify(documents));
+      
+}));
+
+router.post('/search/meus/process', isAuth, resolver(async(req, res) => {        
+    const process = new Processes(req.body, res.locals, req.params);
+    const processObj = await process.findOneByParam({user_dir: req.body.link});
+    const state =  new ProcessStates(req.body, res.locals, req.params);
+    const states = await state.findByParam({process: processObj});
+    res.send(JSON.stringify({process: processObj, states: states}));
 }));
 
 router.post('/:year/:link/edit/:file', isAuth, resolver( async(req, res) => {          
