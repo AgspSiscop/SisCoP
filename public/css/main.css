@@ -143,9 +143,21 @@ select{
     margin-left: 5px;
     padding-top: 5px;   
 }
+.reader{    
+    width: 880px;
+    padding: 0px 20px 10px 20px;
+    min-height: 300px;
+    margin: 10px;
+    border-radius: 5px;
+    background-color: rgb(218, 218, 218);
+    border: 2px solid rgb(192, 192, 192);    
+}
+.message{
+    margin: 10px;
+}
 #reader p{
-    width: 900px;
-    padding: 0px 10px 10px 10px;
+    width: 880px;
+    padding: 0px 20px 10px 20px;
     min-height: 300px;
     margin: 10px;
     border-radius: 5px;
@@ -223,10 +235,19 @@ select{
 }
 .content_window{
     border-radius: 3px;
-    margin:0px 70px 0px 15px;
+    margin:0px 15px 0px 15px;
     padding: 20px 0px 20px 0px;       
 }
 .content_window input[type = text]{
+    margin-bottom: 15px;
+    margin-right: 10px;
+    background-color: rgb(224, 230, 228);
+    color: rgb(70, 70, 70);
+    border: 1px solid rgb(185, 184, 184);
+    padding: 1px; 
+    border-radius: 3px;
+}
+.mainwindow input[type = text]{
     margin-bottom: 15px;
     margin-right: 10px;
     background-color: rgb(224, 230, 228);
@@ -251,6 +272,13 @@ select{
 }
 .content_window label{
     margin-right: 15px;
+}
+.mainwindow select{
+    background-color: rgb(224, 230, 228);
+    border-radius: 3px;
+    border: 1px solid rgb(185, 184, 184);
+    padding: 1px;
+    color: rgb(70, 70, 70);
 }
 .content_window select{
     background-color: rgb(224, 230, 228);
@@ -290,13 +318,13 @@ select{
     background-color: rgb(70, 70, 70);
     width: auto;    
     border-radius: 2px 2px 0px 0px;
-    margin:-20px -70px 10px -15px;
+    margin: 0px 0px 10px 0px;
     padding: 20px 0px 10px 0px
 }
 .bar_color{
     background-color:  rgb(81, 85, 88);
     width: auto;    
-    margin:0px -70px 10px -15px;       
+    margin:0px -15px 10px -15px;       
 }
 .header_color h2{
     margin-left: 15px;
@@ -347,7 +375,7 @@ select{
 .process_list{
     background-color: rgb(226, 226, 226); 
     margin-left: 0px; 
-    margin-right: -55px; 
+    margin-right: 0px; 
     padding-bottom:10px;
     border-radius: 4px; 
 }

@@ -3,21 +3,25 @@ import {request} from '/js/builders/ajax.js';
 
 async function getValue(){
     try {
-        const processName = document.getElementById('process');
+        const processName = document.getElementById('process');        
         const process = await request({
             method: 'POST',
             url: '/mensageiro/process',
             params: `process=${processName.value}`
         })
-        generateLink(process);
+        await generateLink(process);
     } catch (error) {
         console.log(error);
     }
 }
 
-function generateLink(process){    
+async function generateLink(process){      
     if(process){
-        setAttributes(document.getElementById('processmessage'), {method: 'POST', action: `/processosrecebidos/${process.year}/${process.transfer_dir}`});
+        if(process.done === true){
+            document.getElementById('processbutton').innerHTML += ' (Concluído)';
+        }else{
+            setAttributes(document.getElementById('processmessage'), {method: 'POST', action: `/processosrecebidos/${process.year}/${process.transfer_dir}`});
+        }
     }
 }
 

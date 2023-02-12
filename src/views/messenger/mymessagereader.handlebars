@@ -5,8 +5,14 @@
             <h2>{{message.title}}</h2>
             <small>{{message.date}}</small>
         </div>       
-        <hr>        
-        <p>{{message.content}}</p>
+        <hr>
+        <input type="hidden" id="messagecontent" value="{{message.content}}">
+            
+        <div id="message" class="reader">
+
+        </div>        
+        
+        
         <small>Destinatário: {{message.section_receiver}} {{message.receiver.pg}} {{message.receiver.name}}</small>
         <div class="flexorientation--spaceb">
             <div>
@@ -20,3 +26,4 @@
         {{/if}}             
     </div>   
 </div>
+<script src="/js/messenger/messageEncoder.js"></script>

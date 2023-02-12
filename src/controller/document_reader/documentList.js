@@ -13,7 +13,7 @@ router.get('/', isAuth, resolver((req, res) => {
 
 router.post('/:year', isAuth, resolver( async(req,res) => {
     const process = new Processes(req.body, res.locals, req.params);
-    const processObj = await process.findByFilter();    
+    const processObj = await process.findByParam({user: res.locals.id, done: false, year: req.params.year, user_dir: {$not: {$in: null}}});    
     res.send(JSON.stringify(processObj));      
 }));
 
@@ -53,17 +53,6 @@ router.post('/:year/delete/:link', isAuth, resolver( async(req, res) => {
         res.redirect(`/meusprocessos/`);
     }   
 }));
-
-/*router.post('/:year/:link', isAuth, resolver( async(req, res) =>{    
-    const process = new Processes(req.body, res.locals, req.params);
-    const processObj = await process.findOneByParam({user_dir: req.params.link});
-    const state =  new ProcessStates(req.body, res.locals, req.params);
-    const states = await state.findByParam({process: processObj});
-    let message = req.session.error || null; //mudar isso
-    req.session.error = null;
-    let documents = await DocumentManipulator.readDir(`upload/inProcess/${req.params.year}/${req.params.link}`);
-    res.render('document_reader/documents', {process: processObj, documents: documents, error: message, states: states, done: [{name: 'Chefe da SALC'}, {name: 'SALC'}]});       
-}))*/
 
 router.post('/:year/:link', isAuth, resolver( async(req, res) => {
     const process = new Processes(req.body, res.locals, req.params);

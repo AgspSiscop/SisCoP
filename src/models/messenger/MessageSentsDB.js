@@ -34,8 +34,7 @@ const MessageSent =  new Schema({
         required: true            
     },
     visualized: {
-        type: Boolean,
-        default: false
+        type: Array
     }    
 });
 
@@ -55,8 +54,6 @@ class MsgSent {
                 this.erros.push('Valor inválido!');
             }
         }
-        console.log(this.body.section);
-
         /*if(!sectionsName.some(this.body.section)){
             this.erros.push('Valor inválido!')
         }*/
@@ -143,7 +140,7 @@ class MsgSent {
                     process: this.body.process,
                     title: this.body.title,
                     process_title: this.params.title,            
-                    content: this.body.content,
+                    content: this.body.content[1],
                     date: Intl.DateTimeFormat('pt-BR', { dateStyle: "full", timeStyle: "short" }).format(new Date()),            
                 }
             }else{
@@ -153,7 +150,7 @@ class MsgSent {
                     process: this.body.process,
                     title: this.body.title,
                     process_title: this.params.title,            
-                    content: this.body.content,
+                    content: this.body.content[1],
                     date: Intl.DateTimeFormat('pt-BR', { dateStyle: "full", timeStyle: "short" }).format(new Date()),            
                 }
             }
@@ -161,6 +158,24 @@ class MsgSent {
            await new MessageModel(newMessage).save();            
         } catch (error) {
             throw new Error(error);            
+        }
+    }
+
+    async createAlternative(receiver){
+        try {
+            let newMessage = {            
+                sender: this.locals.user,
+                receiver: receiver,
+                process: this.body.process,
+                title: this.body.title,
+                process_title: this.params.title,            
+                content: this.body.content[1],
+                date: Intl.DateTimeFormat('pt-BR', { dateStyle: "full", timeStyle: "short" }).format(new Date()),            
+            }
+            await new MessageModel(newMessage).save();
+            
+        } catch (error) {
+            throw new Error(error);
         }
     }
 }

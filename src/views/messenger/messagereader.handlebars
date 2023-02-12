@@ -6,7 +6,11 @@
             <small>{{message.date}}</small>
         </div>               
         <hr>        
-        <p>{{message.content}}</p>
+        <input type="hidden" id="messagecontent" value="{{message.content}}">
+            
+        <div id="message" class="reader">
+
+        </div>        
         <small>Remetente: {{message.sender.pg}} {{message.sender.name}}</small>
         <div class="flexorientation--spaceb">
             <div>
@@ -24,3 +28,4 @@
     </div>   
 </div>
 <script type="module" src="/js/messenger/processInMessage.js"></script>
+<script src="/js/messenger/messageEncoder.js"></script>

@@ -1,7 +1,8 @@
 <div class="mainwindow">
-    <form class="content_window" id="formm" method="POST">
+    <div class="header_color">
         <h2>Nova Mensagem</h2>
-        <hr>
+        </div>
+    <form class="content_window" id="formm" method="POST" style="margin-right: 5px;">
         <div class="flexorientation--start">
             <div>
                 <label>Titulo:</label>
@@ -10,13 +11,73 @@
              <div class="flexorientation--start">
                 <label>Destinatário:</label>               
                 <input type="hidden" value="{{user.section}}" id="sectionvalue">
+                <div id="selectmethod">                    
+                </div>
                 <div id="selectsection">                                                         
                 </div>                
-                <div id="receiver" style="margin-left: 10px;">
+                <div id="receiver">
                 </div>
             </div>
         </div>
-        <textarea class="param_text" name="content" style="height: 500px;"></textarea>
+        <hr>
+        <input type="hidden" id="editorcontent" name="content">
+        
+        <div class="container">
+            <div class="toolbar">
+                <div class="head">			
+                    <select onchange="formatDoc('formatBlock', this.value); this.selectedIndex=0;">
+                        <option value="" selected="" hidden="" disabled="">Formatação</option>
+                        <option value="h1">Cabeçalho 1</option>
+                        <option value="h2">Cabeçalho 2</option>
+                        <option value="h3">Cabeçalho 3</option>
+                        <option value="h4">Cabeçalho 4</option>
+                        <option value="h5">Cabeçalho 5</option>
+                        <option value="h6">Cabeçalho 6</option>
+                        <option value="p">Normal</option>
+                    </select>
+                    <select onchange="formatDoc('fontSize', this.value); this.selectedIndex=0;">
+                        <option value="" selected="" hidden="" disabled="">Tamanho da F.</option>
+                        <option value="1">6</option>
+                        <option value="2">8</option>
+                        <option value="3">12</option>
+                        <option value="4">14</option>
+                        <option value="5">18</option>
+                        <option value="6">24</option>
+                        <option value="7">32</option>
+                    </select>
+                    <div class="color">
+                        <span>Cor</span>
+                        <input type="color" oninput="formatDoc('foreColor', this.value); this.value='#000000';">
+                    </div>                    
+                </div>
+                <div class="btn-toolbar">
+                    <button onclick="formatDoc('undo')"><img class="buttonm" src="/img/bx-undo.svg"/></button>
+                    <button onclick="formatDoc('redo')"><img class="buttonm" src="/img/bx-redo.svg"/></button>
+                    <p>|</p>
+                    <button onclick="formatDoc('bold')" ><img class="buttonm" src="/img/bx-bold.svg"/></button>
+                    <button onclick="formatDoc('underline')" ><img class="buttonm" src="/img/bx-underline.svg"/></button>
+                    <button onclick="formatDoc('italic')" ><img class="buttonm" src="/img/bx-italic.svg"/></button>
+                    <button onclick="formatDoc('strikeThrough')" ><img class="buttonm" src="/img/bx-strikethrough.svg"/></button>
+                    <p>|</p>
+                    <button onclick="formatDoc('justifyLeft')"><img class="buttonm" src="/img/bx-align-left.svg"/></button>
+                    <button onclick="formatDoc('justifyCenter')"><img class="buttonm" src="/img/bx-align-middle.svg"/></button>
+                    <button onclick="formatDoc('justifyRight')"><img class="buttonm" src="/img/bx-align-right.svg"/></button>
+                    <button onclick="formatDoc('justifyFull')"><img class="buttonm" src="/img/bx-align-justify.svg"/></button>
+                    <p>|</p>
+                    <button onclick="formatDoc('insertOrderedList')"><img class="buttonm" src="/img/bx-list-ol.svg"/></button>
+                    <button onclick="formatDoc('insertUnorderedList')"><img class="buttonm" src="/img/bx-list-ul.svg"/></button>
+                    <p>|</p>
+                    <button onclick="addLink()"><img class="buttonm" src="/img/bx-link.svg"/></button>
+                    <button onclick="formatDoc('unlink')"><img class="buttonm" src="/img/bx-unlink.svg"/></button>
+                    <button id="show-code" data-active="false">&lt;/&gt;</button>
+                </div>
+                
+            </div>
+            <div id="content" contenteditable="true" spellcheck="false">
+                
+            </div>
+	    </div>
+        <hr>
         <div style="margin-top: 10px;">
             <label>Processo:</label>
             <select name="year" id="year">
@@ -32,6 +93,7 @@
     </form>   
 </div>
 <script type="module" src="/js/messenger/newMessage.js"></script>
+<script src="/js/textEditor/textEditor.js"></script>
 
 
 

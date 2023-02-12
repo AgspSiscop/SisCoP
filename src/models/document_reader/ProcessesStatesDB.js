@@ -118,7 +118,6 @@ class ProcessStates {
         } catch (error) {
             throw new Error(error);            
         }
-
     }
 
     async returnState(){

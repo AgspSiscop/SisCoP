@@ -35,7 +35,7 @@ class ConverterAndMerger{
         return filesPath
     }
 
-    #converter = (file) => new Promise((resolve, reject) => {             
+    #converter = (file) => new Promise((resolve, reject) => {                    
         exec(`libreoffice --convert-to pdf --outdir "${this.path}" ${file}`, (error, stdout, stderr) => {
             if(error){
                 reject(error);
@@ -43,9 +43,9 @@ class ConverterAndMerger{
             if(stderr){
                 resolve(stderr);
             }
-            if(stdout){
-                resolve(stdout);
-            }
+            else{
+                resolve();
+            }            
         })
     });
 
@@ -75,14 +75,14 @@ class ConverterAndMerger{
         });
     })
 
-    async converter(){
+    async converter(){        
         try {
             if(this.filesPath.length == 1){
                 await this.#converter(this.filesPath[0]);
                 return 
             }
             if(this.filesPath.length > 1){
-                for(let document of this.filesPath){
+                for(let document of this.filesPath){                    
                     await this.#converter(document);                    
                 }
                 await this.#merger();

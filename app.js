@@ -33,7 +33,7 @@ app.use((req, res, next) => {
     res.locals.section =  user.section;
     res.locals.level =  user.level;
     res.locals.id = user._id;
-    res.locals.pg = user.pg         
+    res.locals.pg = user.pg            
     next();
 });
 

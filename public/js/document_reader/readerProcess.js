@@ -37,13 +37,13 @@ function generateProcesses(processes){
         const buttonsDiv = createElements('div',{});
         
 
-        if(i.done != false){
+        /*if(i.done != false){
             const transitionMessage = createElements('label', {}, 'Processo Concluído.');
             setAttributes(editButton, {class: 'button_disable', disable: ''});
             setAttributes(anotation, {class: 'button_disable', disable: ''});                
             buttonsDiv.appendChild(transitionMessage);
-            appendElements(buttonsDiv, [editButton, anotation, deleteButton]); 
-        }else{
+            appendElements(buttonsDiv, [editButton, anotation]); 
+        }else{*/
             if(document.URL.split('/')[3] === 'meusprocessos'){
                 if(i.receiver != null || i.section_receiver != null){
                     const transitionMessage = createElements('label', {}, 'Processo em Transferência.');
@@ -55,7 +55,7 @@ function generateProcesses(processes){
             }else{            
                 appendElements(buttonsDiv, [anotation, deleteButton]);            
             }
-        }
+        //}
             
         const textDiv = createContainer('div', {}, [process, date]);
         const div1 = createContainer('div', {id: 'div1p', class: 'flexorientation--spaceb'}, [textDiv, buttonsDiv]);

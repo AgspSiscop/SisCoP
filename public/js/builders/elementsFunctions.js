@@ -29,7 +29,7 @@ export const createMessageUsersSelect = (optionsArray, selectName, selectID) => 
     for(let i = 0; i < optionsArray.length; i++){
         const options = document.createElement('option');
         options.value = optionsArray[i]._id;
-        options.innerHTML = `${optionsArray[i].pg} ${optionsArray[i].name}`;
+        options.innerHTML = `${optionsArray[i].pg} ${optionsArray[i].name} - ${optionsArray[i].section}`;
         select.appendChild(options);       
     }
     return select;   

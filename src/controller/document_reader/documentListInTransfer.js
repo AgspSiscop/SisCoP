@@ -13,14 +13,19 @@ router.get('/', isAuth, resolver((req, res) => {
 
 router.post('/:year', isAuth, resolver( async(req,res) => {
     const process = new Processes(req.body, res.locals, req.params);    
-    const processObj = await process.findByParam({$or: [{receiver: res.locals.id}, {section_receiver: res.locals.section}]}, {$where: {year: req.params.year}});    
+    const processObj = await process.findByParam({$or: [{receiver: res.locals.id, done: false}, {section_receiver: res.locals.section, done: false}]}, {$where: {year: req.params.year}});    
     res.send(JSON.stringify(processObj));  
 }));
 
 router.post('/:year/delete/:link', isAuth, resolver( async(req, res) => {
     const process = new Processes(req.body, res.locals, req.params);
     const processObj = await process.findOne();
-    if(processObj.user == null && (processObj.receiver == null || processObj.section_receiver == null) && processObj.done == false){
+    const states = new ProcessStates(req.body, res.locals, req.params);
+        await states.delete();
+        await process.deleteOne();
+        await DocumentManipulator.removeProcess(`upload/inTransfer/${req.params.year}/${req.params.link}`);
+        res.redirect(`/processosrecebidos/`);
+    /*if(processObj.user == null && (processObj.receiver == null || processObj.section_receiver == null) && processObj.done == false){
         const states = new ProcessStates(req.body, res.locals, req.params);
         await states.delete();
         await process.deleteOne();
@@ -30,20 +35,8 @@ router.post('/:year/delete/:link', isAuth, resolver( async(req, res) => {
         process.deleteInTransfer();
         await DocumentManipulator.removeProcess(`upload/inTransfer/${req.params.year}/${req.params.link}`);
         res.redirect(`/processosrecebidos/`);
-    }   
+    }*/
 }));
-
-/*router.post('/:year/:link', isAuth, resolver( async(req, res) =>{ 
-    let documents;
-    const process = new Processes(req.body, res.locals, req.params);
-    const processObj = await process.findOneByParam({transfer_dir: req.params.link});
-    const state =  new ProcessStates(req.body, res.locals, req.params);
-    const states = await state.findByParam({process: processObj});
-    let message = req.session.error || null; //mudar isso
-    req.session.error = null;
-    documents = await DocumentManipulator.readDir(`upload/inTransfer/${req.params.year}/${req.params.link}`);
-    res.render('document_reader/documentsInTransfer', {process: processObj, documents: documents, error: message, states: states});         
-}));*/
 
 router.post('/:year/:link', isAuth, resolver( async(req, res) => {
     const process = new Processes(req.body, res.locals, req.params);

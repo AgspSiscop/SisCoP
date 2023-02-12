@@ -10,14 +10,19 @@
             <a href="/mensageiro/enviadas000"><p>Mensagens Enviadas</p></a> 
         </div>
         <div class="leftbar_itens" id="newprocess">
-            <a href="/novoprocesso"><p>Novo Processo</p></a>          
+            <a href="/novoprocesso"><p>Cadastrar Processo</p></a>          
         </div>
         <div class="leftbar_itens" id="developmentprocess">
             <a href="/meusprocessos"><p>Processos em Elaboração</p></a> 
         </div>
         <div class="leftbar_itens" id="processreceived">
             <a href="/processosrecebidos"><p>Processos Recebidos</p></a>
-        </div>        
+        </div>
+        {{#if (compareValue section 'Chefe da SALC')}}        
+        <div class="leftbar_itens" id="processreceived">
+            <a href="/concluidos"><p>Processos Concluídos</p></a>
+        </div>
+        {{/if}}       
         <!--<div class="leftbar_itens" id="processmaker">
             <a href="/novoprocesso/montagemdeprocesso"><p>Modelo a partir de Mapa Comparativo</p></a>
         </div>-->
@@ -38,4 +43,5 @@
     </div>
 </div>
 <script type="module" src="/js/leftBar/leftBarSelected.js"></script>
+
      

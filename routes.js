@@ -25,7 +25,7 @@ router.use(profile);
 //router.use('/montagem', documentMaker);
 router.use('/meusprocessos', documentReader);
 router.use('/processosrecebidos', documentReaderT);
-router.use('/done', documentReaderD);
+router.use('/concluidos', documentReaderD);
 router.use('/novoprocesso', createProcess);
 router.use('/mensageiro', messenger);
 router.use('/acompanharprocessos', processManager);

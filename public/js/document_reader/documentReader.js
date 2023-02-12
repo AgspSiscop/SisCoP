@@ -49,11 +49,10 @@ document.addEventListener('click', (e) => {
         setAttributes(optionsForm, {method: 'POST', action: `/conversor/${processInfo}/${local}`});
     }
     if(element === doneProcess){        
-        setAttributes(optionsForm, {method: 'POST', action: `/done/${processInfo}/${local}`});
+        setAttributes(optionsForm, {method: 'POST', action: `/concluidos/${processInfo}/${local}/done/process`});
     }
     if(element === returnProcess){
-        setAttributes(optionsForm, {method: 'POST', action: `/done/${processInfo}/${local}/return`})
-
+        setAttributes(optionsForm, {method: 'POST', action: `/concluidos/${processInfo}/${local}/return/process`});
     }
 });
 
@@ -130,8 +129,7 @@ function generateStatesClickListener(deleteState, block){
 }
 
 async function getDocuments(){
-    try {
-        console.log(`year=${document.URL.split('/')[4]}&link=${document.URL.split('/')[5]}`)
+    try {        
         const documents = await request({
             method: 'POST',
             url: `/${document.URL.split('/')[3]}/search/meus/documents`,
@@ -142,7 +140,8 @@ async function getDocuments(){
             url: `/${document.URL.split('/')[3]}/search/meus/process`,
             params: `year=${document.URL.split('/')[4]}&link=${document.URL.split('/')[5]}`
         });        
-        generateElements(documents, process, getLocal());                      
+        generateElements(documents, process, getLocal());
+                           
     } catch (error) {
         console.log(error);
     }
@@ -165,8 +164,8 @@ function getLocal(){
     if(local === 'processosrecebidos'){
         return 'inTransfer';
     }
-    if(local === 'teste'){
-        return 'inProcess';
+    if(local === 'concluidos'){
+        return 'done';
     }
 }
 
@@ -294,12 +293,12 @@ function listStates(process, processStates, local){
 
 function generateStatesBlocks(process, processStates, states){
     for(let i of processStates){
-        const label1 = createElements('label', {}, 'Observação');
-        const label2 = createElements('label', {}, 'Status');
+        const label1 = createElements('label', {}, 'Status');
+        const label2 = createElements('label', {}, 'Observação');
         const stateId = createElements('input', {type: 'hidden', name: 'elementid', value: i._id});
         const deleteState = createElements('input', {type: 'submit', class: 'transparentbutton', value: 'Apagar'});
-        const prgh1 = createElements('p', {}, i.anotation);
-        const prgh2 = createElements('p', {}, i.state);
+        const prgh1 = createElements('p', {}, i.state);
+        const prgh2 = createElements('p', {}, i.anotation);
         const date = createElements('small', {}, i.date);
         const div1 = createContainer('div', {class: 'flexorientation--start'}, [label1, prgh1]);
         const div2 = createContainer('div', {class: 'flexorientation--start'}, [label2, prgh2]);
