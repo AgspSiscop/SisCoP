@@ -127,7 +127,7 @@ router.post('/message', isAuth, resolver( async(req, res) => {
 
 router.post('/users', isAuth, resolver( async(req, res) => {  //se alterar a forma de envio para usuários acrescentar o :section  e usar como parametro de busca     
     const users =  new Users(req.body, res.locals, req.params);
-    const usersObj = await users.findByParam();
+    const usersObj = await users.findByParam({_id: {$not: {$in: res.locals.id}}});
     res.send(JSON.stringify(usersObj));      
       
 }));
