@@ -38,7 +38,7 @@ function elementsGenerator(user){
         const title = createElements('p',{}, `Você tem certeza que dejesa apagar o usuário ${user.name}?`);
         const name = createElements('input', {type: 'hidden', value: user.name, name: 'name'});
         const pg = createElements('small', {}, `Posto/Graduação: ${user.pg}`);
-        const section = createElements('small', {}, `Seção: ${user.section}`);
+        const section = createElements('small', {}, `Seção: ${user.section.name}`);
         const level = createElements('small', {}, `level: ${user.level}`);
         const confirmButton = createElements('input', {class: 'button', type: 'submit', value: 'Apagar', id: 'confirmbutton'});
         const cancelButton = createElements('input', {class: 'redbutton', type: 'submit', value: 'Cancelar', id: 'cancelbutton'});

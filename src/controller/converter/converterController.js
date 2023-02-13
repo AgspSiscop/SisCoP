@@ -25,7 +25,6 @@ router.post('/conversion/:local/:year/:link', isAuth, resolver( async(req, res) 
     if(req.params.local === 'inProcess'){
         res.redirect(307, `/meusprocessos/${req.params.year}/${req.params.link}`);
     }
-
 }));
 
 

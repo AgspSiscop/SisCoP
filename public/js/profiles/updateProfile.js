@@ -1,5 +1,5 @@
 import {pg as pgOptions, sectionsName as sectionsOptions} from '/js/builders/selectDatas.js';
-import {createElements, createSelect, clearContainer, appendElements} from '/js/builders/elementsFunctions.js';
+import {createElements, createSelect, clearContainer, appendElements, createSectionsSelect} from '/js/builders/elementsFunctions.js';
 import {request} from '/js/builders/ajax.js';
 
 const formu = document.getElementById('formu');
@@ -23,14 +23,19 @@ async function getValues() {
             method: 'POST',
             url: `/getuser`,
             params: `name=${username.value}`
-        });       
-        elementsGenerator(user);
+        });
+        const sections = await request({
+            method: 'POST',
+            url: '/sections',
+            params: ''
+        });      
+        elementsGenerator(user, sections);
     } catch (error) {
         console.log(error);
     }
 }
 
-function elementsGenerator(user){
+function elementsGenerator(user, sections){
     clearContainer(divMain);
     if(user){        
         const titles = ['Nome:', 'Senha:', 'Posto/Graduação', 'Seção:', 'Level:', '', ''];        
@@ -40,7 +45,7 @@ function elementsGenerator(user){
         const sendButton = createElements('input', {type: 'submit', value: 'atualizar', class: 'button', id: 'update'});       
         const userSelected = createElements('input', {type: 'hidden', value: user.name, name: 'userselected'});
         const pg = createSelect(pgOptions, pgOptions, user.pg, 'pg');
-        const section = createSelect(sectionsOptions.slice(2) ,sectionsOptions.slice(2), user.section, 'section');        
+        const section = createSectionsSelect(sections, user.section._id, 'section', 'section');        
         const entries = [name, password, pg, section, level, userSelected, sendButton];        
         appendUpdateElements(titles, entries);
     }else{
