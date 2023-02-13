@@ -26,7 +26,7 @@ router.post('/:year/:link', isAuth, resolver( async(req, res) => {
     const states = await state.findByParam({process: processObj});
     let message = req.session.error || null; //mudar isso
     req.session.error = null;
-    res.render('document_reader/files', {process: processObj, error: message, states: states});
+    res.render('document_reader/donefiles', {process: processObj, error: message, states: states});
 }));
 
 router.post('/search/meus/documents', isAuth, resolver( async(req, res) => {      

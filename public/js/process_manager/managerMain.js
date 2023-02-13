@@ -6,19 +6,22 @@ const searchBar = document.getElementById('search');
 const processList = document.getElementById('list');
 
 window.addEventListener('load', () => {
-    for(let i of sectionsName.slice(8).sort()){
+    /*for(let i of sectionsName.slice(8).sort()){
         const div = createElements('div', {class: 'manager_body'});
         const label = createElements('label', {id: i}, i);        
         appendElements(div, [label]);
         appendElements(list, [div]);
-    }
+    }*/
+    getSections();
 });
 
-document.addEventListener('click', (e) => {    
-    if(e.target.id === e.target.innerHTML && e.target.tagName.toLowerCase() === 'label'){
-        document.getElementById('sectiontitle').innerHTML = e.target.innerHTML;  
-        getValues(e.target.innerHTML);        
-    }
+document.addEventListener('click', (e) => {
+    if(e.target.tagName.toLowerCase() === 'label'){
+        if(e.target.attributes.name.nodeValue === 'sectionslabel'){
+            document.getElementById('sectiontitle').innerHTML = e.target.innerHTML;        
+            getValues(e.target.id);        
+        }
+    }    
     if(e.target.id === 'element' && e.target.tagName.toLowerCase() === 'button'){
         setAttributes(document.getElementById(e.target.value), {method: 'POST', action: `/acompanharprocessos/${e.target.value}`});        
     }
@@ -27,6 +30,18 @@ document.addEventListener('click', (e) => {
 searchBar.addEventListener('keyup', async() => {    
     await getSearchValues();   
 });
+
+async function getSections(){
+    try {
+        const sections = await request({
+            method: 'POST',
+            url: 'acompanharprocessos/sections'
+        });        
+        generateSections(sections);
+    } catch (error) {
+        console.log(error);        
+    }
+}
 
 async function getValues(param){
     try {
@@ -63,6 +78,15 @@ function elementGenerator(processes){
     for(let i of processes){
         createBodyList(i);
     }   
+}
+
+function generateSections(sections){
+    for(let i of sections){
+        const div = createElements('div', {class: 'manager_body'});
+        const label = createElements('label', {id: i._id, name: 'sectionslabel'}, i.name);        
+        appendElements(div, [label]);
+        appendElements(list, [div]);
+    }
 }
 
 function createHeaderList(){

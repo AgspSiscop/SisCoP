@@ -1,10 +1,9 @@
-import {sectionsName} from '/js/builders/selectDatas.js';
-import {createElements, createSelect, createMessageUsersSelect, createMessageProcessesSelect,clearContainer, appendElements} from '/js/builders/elementsFunctions.js';
+import {createElements, createSelect, createMessageUsersSelect, createMessageProcessesSelect,clearContainer, appendElements, createSectionsSelect} from '/js/builders/elementsFunctions.js';
 import {request} from '/js/builders/ajax.js';
 const receiver = document.getElementById('receiver');
 
 window.addEventListener('load', () => {
-    generateElements();
+    generateElements();    
 });
 
 function generateElements(){
@@ -31,20 +30,19 @@ document.addEventListener('change', async (e) =>{
         if(methodSelected === 'section'){
             getSectionsValues();                      
         }
-        if(methodSelected === 'user'){
-            console.log('aqui')
+        if(methodSelected === 'user'){            
            await getUserValues();
         }        
     }    
 });
 
-function getSectionsValues(){
+/*function getSectionsValues(){
     const selectSections = document.getElementById('selectsection');
     const sectionsLabel = createElements('label', {style: 'margin-left: 10px;'}, 'Seção:');                        
     const sections = createSelect(sectionsName.slice(2).sort(), sectionsName.slice(2).sort(), '', 'messagesection', 'messagesection'); //alterar quando passar pro banco de dados
     appendElements(selectSections, [sectionsLabel, sections]); 
 
-}
+}*/
 
 document.addEventListener('click', (e) => {
     const element =  e.target;
@@ -175,6 +173,19 @@ async function getProcessValues(){
     }
 }
 
+async function getSectionsValues(){    
+    try {
+        const sections = await request({
+            method: 'POST',
+            url:'/mensageiro/sections',
+            params: ''
+        });
+        generateSections(sections)        
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 function generateUsers(users){               
     const usersSelect = createMessageUsersSelect(users, 'user', 'user');            
     const labelUsers = createElements('label', {style: 'margin-left: 10px'}, 'Usuário:');
@@ -186,5 +197,13 @@ function generateProcesses(processes){
     clearContainer(process);
     const selectProcess = createMessageProcessesSelect(processes, 'process', 'process');    
     appendElements(process, [selectProcess]);
+}
+
+function generateSections(sections){
+    const selectSections = document.getElementById('selectsection');
+    const messageSections = createSectionsSelect(sections, '', 'messagesection', 'messagesection');
+    const sectionsLabel = createElements('label', {style: 'margin-left: 10px;'}, 'Seção:');                        
+    //const sections = createSelect(sectionsName.slice(2).sort(), sectionsName.slice(2).sort(), '', 'messagesection', 'messagesection'); //alterar quando passar pro banco de dados
+    appendElements(selectSections, [sectionsLabel, messageSections]);
 }
 

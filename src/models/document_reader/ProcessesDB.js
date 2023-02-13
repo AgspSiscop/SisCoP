@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Schema =  mongoose.Schema;
 const category = require('../../../config/selectDatas').category
-const sectionsName = require('../../../config/selectDatas').sectionsName
 
 const Process =  new Schema({
     user: {
@@ -13,15 +12,16 @@ const Process =  new Schema({
         ref: 'user'
     },
     section_receiver: {
-        type: String,
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'section'
     },
     done:{
         type: Boolean,
         default: false     
     },    
     origin:{
-        type: String,
-        required: true
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'section'
     },
     title: {
         type: String,
@@ -77,10 +77,7 @@ class Processes {
             }
             if(!category.some(x => x == this.body.category)){
                 errors.push({text: 'Categoria inválida.'});
-            }
-            if(!sectionsName.slice(8).some(x => x == this.body.origin)){
-                errors.push({text: 'Nome da seção de origem inválida.'});
-            }
+            }            
             return errors            
         } catch (error) {
             throw new Error(error);
@@ -133,7 +130,7 @@ class Processes {
 
     async findByParam(param){
         try {
-            const process = await ProcessModel.find(param).lean()
+            const process = await ProcessModel.find(param).populate('section_receiver').lean()
             return process;                       
         } catch (error) {
             throw new Error(error);            
@@ -142,7 +139,7 @@ class Processes {
 
     async findOne(){
         try {            
-            const process = await ProcessModel.findOne({_id: this.body.elementid}).lean();
+            const process = await ProcessModel.findOne({_id: this.body.elementid}).populate('origin').lean();
             return process;         
         } catch (error) {
             throw new Error(error);         

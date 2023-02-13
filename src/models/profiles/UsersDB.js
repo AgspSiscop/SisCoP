@@ -19,8 +19,8 @@ const User =  new Schema({
         type: String
     },
     section:{
-        type: String,
-        required: true
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'section'
     },
     level:{
         type: Number,
@@ -201,11 +201,11 @@ class Users {
         } catch (error) {
             throw new Error(error);            
         }
-    }
+    }  
 
     async findOneByParam(param){
         try {
-            const user = await UsersModel.findOne(param).lean();
+            const user = await UsersModel.findOne(param).populate('section').lean();
             return user;            
         } catch (error) {
             throw new Error(error);            
@@ -214,7 +214,7 @@ class Users {
 
     async findByParam(param){
         try {
-            const users = await UsersModel.find(param);
+            const users = await UsersModel.find(param).populate('section').lean();
             return users;            
         } catch (error) {
             throw new Error(error);            

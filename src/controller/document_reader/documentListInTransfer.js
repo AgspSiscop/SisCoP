@@ -13,7 +13,7 @@ router.get('/', isAuth, resolver((req, res) => {
 
 router.post('/:year', isAuth, resolver( async(req,res) => {
     const process = new Processes(req.body, res.locals, req.params);    
-    const processObj = await process.findByParam({$or: [{receiver: res.locals.id, done: false}, {section_receiver: res.locals.section, done: false}]}, {$where: {year: req.params.year}});    
+    const processObj = await process.findByParam({$or: [{receiver: res.locals.id, done: false}, {section_receiver: res.locals.sectionID, done: false}]}, {$where: {year: req.params.year}});    
     res.send(JSON.stringify(processObj));  
 }));
 

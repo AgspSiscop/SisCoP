@@ -7,6 +7,7 @@ const MsgSent = require('../../models/messenger/MessageSentsDB');
 const Processes = require('../../models/document_reader/ProcessesDB');
 const ProcessStates = require('../../models/document_reader/ProcessesStatesDB');
 const Users = require('../../models/profiles/UsersDB');
+const Sections = require('../../models/profiles/SectionsDB');
 
 const router = express.Router();
 
@@ -18,7 +19,7 @@ router.get('/caixadeentrada:page', isAuth, resolver( async(req, res) => {
 
 router.get('/enviadas:page', isAuth, resolver( async(req, res) => {   
     const message = new MsgSent(req.body, res.locals, req.params);
-    const messageObj = await message.findSent(15);
+    const messageObj = await message.findSent(15);    
     res.render('messenger/mymessages', {messages: messageObj.messages, index: messageObj.index, count: messageObj.count});
 }));
 
@@ -60,19 +61,16 @@ router.post('/nova/user/:title', isAuth, resolver( async(req, res) => {
     res.redirect('/mensageiro/enviadas000');
 }));
 
-router.post('/nova/section/:title', isAuth, resolver( async(req, res) => {
-    /*console.log(req.params.title);
-    console.log(req.body);
-    res.send('oks')*/    
+router.post('/nova/section/:title', isAuth, resolver( async(req, res) => {     
     const message = new Msg(req.body, res.locals, req.params);
+    const sections = new Sections(req.body, res.locals, req.params);
     const messageSent = new MsgSent(req.body, res.locals, req.params);
-    const process = new Processes(req.body, res.locals, req.params);
-    const state = new ProcessStates(req.body, res.locals, req.params);    
-    const processObj = await process.findOneByParam({_id: req.body.process});    
-    const processUpdate =  new Object();
-    
+    const process = new Processes(req.body, res.locals, req.params);        
+    const processObj = await process.findOneByParam({_id: req.body.process});
+    const sectionsValue = await sections.findOneByParam({_id: req.body.messagesection});
+    const processUpdate =  new Object();    
     processUpdate.receiver =  null;
-    processUpdate.section_receiver = req.body.messagesection;
+    processUpdate.section_receiver = req.body.messagesection;    
 
     if(processObj.transfer_dir == null){
         await message.create();
@@ -88,56 +86,12 @@ router.post('/nova/section/:title', isAuth, resolver( async(req, res) => {
         await message.create();
         await messageSent.create();           
         await process.sendProcess(processUpdate);        
-    }   
+    }
+    req.body.messagesection = sectionsValue.name;
+    const state = new ProcessStates(req.body, res.locals, req.params);
     await state.sendState();
     res.redirect('/mensageiro/enviadas000');
 }));
-
-/*router.post('/nova/:title', isAuth, resolver( async(req, res) => {    
-    const message = new Msg(req.body, res.locals, req.params);
-    const messageSent = new MsgSent(req.body, res.locals, req.params);
-    const process = new Processes(req.body, res.locals, req.params);
-    const state = new ProcessStates(req.body, res.locals, req.params);
-    const user = new Users(req.body, res.locals, req.params);
-    const processObj = await process.findOneByParam({_id: req.body.process});
-    const userProcess =  await user.findOneByParam({_id: processObj.user});
-    const processUpdate =  new Object();
-
-    processUpdate.section_receiver = req.body.messagesection || null;
-    processUpdate.receiver =  req.body.user || null;
-
-    if(processObj.transfer_dir == null){
-        await message.create();
-        await messageSent.create();
-        const transferDir = `${Date.now()}_${processObj.title}`;
-        processUpdate.transfer_dir = transferDir;
-        processUpdate.user_dir = null;
-        await process.sendProcess(processUpdate);
-        await DocumentManipulator.copy(`upload/inProcess/${processObj.year}/${processObj.user_dir}`, 
-        `upload/inTransfer/${processObj.year}/${transferDir}`);
-        await DocumentManipulator.removeProcess(`upload/inProcess/${processObj.year}/${processObj.user_dir}`);       
-    }else{
-        if(userProcess.section === processUpdate.section_receiver || userProcess._id === processUpdate.receiver){
-            const userDir = `${Date.now()}_${processObj.title}`;
-            processUpdate.transfer_dir = null;
-            processUpdate.section_receiver = null;
-            processUpdate.receiver = null;
-            processUpdate.user_dir = userDir;
-            await message.createAlternative(userProcess._id);
-            await messageSent.createAlternative(userProcess._id)
-            await process.sendProcess(processUpdate);
-            await DocumentManipulator.copy(`upload/inTransfer/${processObj.year}/${processObj.transfer_dir}`, 
-            `upload/inProcess/${processObj.year}/${userDir}`);
-            await DocumentManipulator.removeProcess(`upload/inTransfer/${processObj.year}/${processObj.transfer_dir}`);            
-        }else{
-            await message.create();
-            await messageSent.create();           
-            await process.sendProcess(processUpdate);
-        }
-    }   
-    await state.sendState();
-    res.redirect('/mensageiro/caixadeentrada000');    
-}));*/
 
 router.post('/novasemprocesso/user/:title', isAuth, resolver( async(req, res) => {    //******
     const message = new Msg(req.body, res.locals, req.params);
@@ -159,7 +113,7 @@ router.post('/processes', isAuth, resolver( async(req, res) =>{
     const process = new Processes(req.body, res.locals, req.params);
     const processObj = await process.findByParam({ $or: [
         {user: res.locals.id, year: req.body.year, receiver: null, section_receiver: null}, 
-        {section_receiver: res.locals.section, year: req.body.year}, 
+        {section_receiver: res.locals.sectionID, year: req.body.year}, 
         {receiver: res.locals.id, year: req.body.year}
     ]});    
     res.send(JSON.stringify(processObj));         
@@ -220,8 +174,17 @@ router.post('/enviadas/search:page', isAuth, resolver( async(req, res) => {
 
 router.post('/process', isAuth, resolver( async(req, res) => {
     const process =  new Processes(req.body, res.locals, req.params);
-    const processObj = await process.findOneByParam({_id: req.body.process || null});      
-    res.send(JSON.stringify(processObj));   
+    const processObj = await process.findOneByParam({$or: [
+        {_id: req.body.process || null, receiver: res.locals.id},
+        {_id: req.body.process || null, section_receiver: res.locals.sectionID}    
+    ]});      
+    res.send(JSON.stringify(processObj));  
+}));
+
+router.post('/sections', isAuth, resolver( async(req, res) => {
+    const sections = new Sections(req.body, res.locals, req.params);
+    const sectionsValues =  await sections.findByParam({level:{$not:{$in: 10}}});    
+    res.send(JSON.stringify(sectionsValues));    
 }));
 
 module.exports = router;

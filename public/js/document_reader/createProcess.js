@@ -1,9 +1,24 @@
-import {sectionsName} from '/js/builders/selectDatas.js';
-import {createElements, createSelect, appendElements, setAttributes} from '/js/builders/elementsFunctions.js';
+import {appendElements, createSectionsSelect} from '/js/builders/elementsFunctions.js';
 import {request} from '/js/builders/ajax.js';
 
-window.addEventListener('load', () => {
-    const sections = createSelect(sectionsName.slice(8).sort(), sectionsName.slice(8).sort(), '', 'origin', 'origin');
-    appendElements(document.getElementById('origindiv'), [sections]);            
-
+window.addEventListener('load', async() => {    
+    await getSections();
 });
+
+async function getSections(){
+    try {
+        const sections = await request({
+            method: 'POST',
+            url:'/novoprocesso/sections',
+            params:''
+        });
+        generateSections(sections);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+function generateSections(sections){
+    const sectionsSelect = createSectionsSelect(sections, '','origin', 'origin');
+    appendElements(document.getElementById('origindiv'), [sectionsSelect]);
+}

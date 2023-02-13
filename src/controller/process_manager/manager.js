@@ -1,8 +1,9 @@
 const express = require('express');
-const isAuth =require('../../../config/isAuth');
+const isAuth = require('../../../config/isAuth');
 const resolver =  require('../../../config/errorHandler');
 const Processes = require('../../models/document_reader/ProcessesDB');
 const ProcessStates = require('../../models/document_reader/ProcessesStatesDB');
+const Sections = require('../../models/profiles/SectionsDB');
 const {DocumentManipulator} = require('../../models/process_manager/DocumentManipulator');
 
 const router = express.Router();
@@ -12,18 +13,28 @@ router.get('/', isAuth, resolver( async(req, res) => {
 }));
 
 router.post('/', resolver( async(req,res) => {
-  const process = new Processes(req.body, res.locals, req.params);
-  const processObj = await process.aggregateStates({origin: req.body.origin});
+  const process = new Processes(req.body, res.locals, req.params);  
+  const sections = new Sections(req.body, res.locals, req.params);
+  const sectionObjId = await sections.findOneByParam({_id: req.body.origin}); 
+  const processObj = await process.aggregateStates({origin: sectionObjId._id});  
   res.send(JSON.stringify(processObj));   
 }));
 
-router.post('/search', isAuth, resolver( async(req, res) =>{  
-  const search = new Object();
-  search.origin = req.body.origin;
-  search[req.body.type] = new RegExp(`${req.body.search}`, 'i');
+router.post('/search', isAuth, resolver( async(req, res) =>{
   const process = new Processes(req.body, res.locals, req.params);
+  const sections = new Sections(req.body, res.locals, req.params);  
+  const sectionObjId = await sections.findOneByParam({name: req.body.origin}); 
+  const search = new Object();  
+  search.origin = sectionObjId._id;
+  search[req.body.type] = new RegExp(`${req.body.search}`, 'i');
   const processObj = await process.aggregateStates(search);
   res.send(JSON.stringify(processObj));  
+}));
+
+router.post('/sections', isAuth, resolver( async(req, res) => {
+  const sections = new Sections(req.body, res.locals, req.params);
+  const sectionsValues =  await sections.findByParam({level: 1});
+  res.send(JSON.stringify(sectionsValues));
 }));
 
 router.post('/:id', isAuth, resolver( async(req, res) => {

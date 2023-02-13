@@ -14,7 +14,7 @@ const app = express();
 
 app.use(session({
     secret: 'LKnlka1spk,ansmn7bç jbsaçm KJ46SDLJBÇ4SMmaKm sabs ekasbdçq82',
-    store:  MongoConnect.create({mongoUrl: 'mongodb://localhost/licitacao'}),
+    store:  MongoConnect.create({mongoUrl: 'mongodb://localhost/siscop'}),
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -29,11 +29,14 @@ app.use(passport.session());
 app.use((req, res, next) => {
     let user = req.user || 0;
     res.locals.user =  user;
-    res.locals.name = user.name;
-    res.locals.section =  user.section;
+    res.locals.name = user.name;    
     res.locals.level =  user.level;
     res.locals.id = user._id;
-    res.locals.pg = user.pg            
+    res.locals.pg = user.pg
+    if(user.section){
+        res.locals.section =  user.section.name;
+        res.locals.sectionID = user.section._id;
+    }        
     next();
 });
 
@@ -53,7 +56,7 @@ app.set('views', path.join(__dirname, '/src', 'views'));
 
 mongoose.Promise =  global.Promise;
 mongoose.set('strictQuery', false);
-mongoose.connect('mongodb://localhost/licitacao').then(() => {
+mongoose.connect('mongodb://localhost/siscop').then(() => {
     console.log('Conected to the Database');
     app.emit('done')
 }).catch((e) => {

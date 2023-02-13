@@ -13,7 +13,8 @@ const Message =  new Schema({
         ref: 'user'        
     },
     section_receiver: {
-        type: String
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'section'
     }, 
     process: {
         type: mongoose.SchemaTypes.ObjectId,
@@ -70,10 +71,10 @@ class Msg {
 
     async findReceived(numMessages){
         try {
-            const messages = await MessageModel.find({$or: [{section_receiver: this.locals.section}, {receiver: this.locals.id}]})
+            const messages = await MessageModel.find({$or: [{section_receiver: this.locals.sectionID}, {receiver: this.locals.id}]})
             .sort({_id: -1}).limit(numMessages).skip((this.params.page * numMessages)).populate('sender').populate('process').lean();
 
-            const number = await MessageModel.find({$or: [{section_receiver: this.locals.section}, {receiver: this.locals.id}]}).sort({date: -1}).count();
+            const number = await MessageModel.find({$or: [{section_receiver: this.locals.sectionID}, {receiver: this.locals.id}]}).sort({date: -1}).count();
 
             return {messages: messages, index: this.params.page, count: number};            
         } catch (error) {
@@ -82,16 +83,16 @@ class Msg {
     }    
 
     async findOneReceived(){
-        try {
-            const message = await  MessageModel.findOne({_id: this.params.id}).populate('process').populate('sender').populate('receiver').lean(); 
+        try {            
+            const message = await  MessageModel.findOne({_id: this.params.id}).populate('process').populate('sender').populate('receiver').populate('section_receiver').lean(); 
             if(message.receiver){                
                 if(message.receiver.name == this.locals.name){
                     return {message: message};
                 }else{
                     return '';
                 }
-            }else{
-                if(message.section_receiver == this.locals.section){
+            }else{                            
+                if(message.section_receiver.name === this.locals.section){                    
                     return {message: message};
                 }else{
                     return '';
@@ -114,7 +115,7 @@ class Msg {
         try {
             let search1 =  new Object();
             let search2 = new Object();            
-            search1.section_receiver = this.locals.section;
+            search1.section_receiver = this.locals.sectionID;
             search1[this.body.type] = new RegExp(`${this.body.search}`, 'i');
             search2.receiver = this.locals.id;
             search2[this.body.type] = new RegExp(`${this.body.search}`, 'i');

@@ -3,5 +3,5 @@ module.exports = (req,res,next) => {
         next()
     }else{
         res.redirect('/');
-    }   
+    }
 }

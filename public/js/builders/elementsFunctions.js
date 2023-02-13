@@ -29,10 +29,26 @@ export const createMessageUsersSelect = (optionsArray, selectName, selectID) => 
     for(let i = 0; i < optionsArray.length; i++){
         const options = document.createElement('option');
         options.value = optionsArray[i]._id;
-        options.innerHTML = `${optionsArray[i].pg} ${optionsArray[i].name} - ${optionsArray[i].section}`;
+        options.innerHTML = `${optionsArray[i].pg} ${optionsArray[i].name} - ${optionsArray[i].section.name}`;
         select.appendChild(options);       
     }
     return select;   
+}
+
+export const createSectionsSelect = (optionsArray, sectionAtributeName,selectName, selectID) => {
+    const select = document.createElement('select');
+    select.name = selectName;
+    select.id = selectID;
+    for(let i = 0; i < optionsArray.length; i++){
+        const options = document.createElement('option');
+        options.value = optionsArray[i]._id;
+        options.innerHTML = optionsArray[i].name;
+        select.appendChild(options);
+        if(optionsArray[i]._id == sectionAtributeName){
+            options.selected = true;
+        }      
+    }
+    return select;
 }
 
 export const createMessageProcessesSelect = (optionsArray, selectName, selectID) => {

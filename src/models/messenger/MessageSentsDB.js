@@ -12,7 +12,8 @@ const MessageSent =  new Schema({
         ref: 'user'        
     },
     section_receiver: {
-        type: String
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'section'
     }, 
     process: {
         type: mongoose.SchemaTypes.ObjectId,
@@ -65,7 +66,7 @@ class MsgSent {
 
     async findSent(numMessages){
         try {
-            const messages = await MessageModel.find({sender: this.locals.user}).populate('process').populate('receiver')
+            const messages = await MessageModel.find({sender: this.locals.user}).populate('section_receiver').populate('process').populate('receiver')
             .sort({_id: -1}).limit(numMessages).skip((this.params.page * numMessages)).lean();
     
             const number = await MessageModel.find({sender: this.locals.user}).count();
@@ -78,7 +79,7 @@ class MsgSent {
 
     async findOneSent(){
         try {
-            const message = await  MessageModel.findOne({_id: this.params.id}).populate('process').populate('sender').populate('receiver').lean();                    
+            const message = await  MessageModel.findOne({_id: this.params.id}).populate('process').populate('sender').populate('receiver').populate('section_receiver').lean();                    
             if(message.sender.name == this.locals.name){
                 return {message: message};
             }else{
