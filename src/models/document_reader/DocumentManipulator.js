@@ -121,10 +121,12 @@ const storage = multer.diskStorage({
     }
 });
 
-const multerConfig = multer({limits:{fileSize: 6021505}, storage});
+
+
+const multerConfig = multer({limits:{fileSize: 6021505, files: 15}, storage});
 
 function uploadFile(req, res, next) {
-    const upload = multerConfig.single('file');
+    const upload = multerConfig.fields([{name:'file',maxCount:15}]);
     upload(req, res, function (err) {
         if (err) {
             if(err.message == 'File too large'){               
@@ -143,7 +145,7 @@ function uploadFile(req, res, next) {
 }
 
 function uploadAsync(req,res){
-    const upload = multerConfig.single('file')
+    const upload = multerConfig.fields([{name:'file',maxCount:15}]);
     return new Promise(function(resolve,reject){
          upload(req,res,function(err){
             if (err) {

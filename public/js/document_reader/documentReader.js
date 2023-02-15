@@ -18,23 +18,23 @@ document.addEventListener('click', (e) => {
     const conversor =  document.getElementById('conversor');
     const doneProcess = document.getElementById('doneprocess');
     const returnProcess = document.getElementById('returnprocess');
-    const optionsForm = document.getElementById('endprocess');
+    const optionsForm = document.getElementById('endprocess');       
 
     if(element === newStatusButton){
         const newStatusForm =  document.getElementById('newstatusform');            
         newStatusForm.setAttribute('method', 'POST');
         newStatusForm.setAttribute('action', `${url}/anotation/${processTitle}`);
     }
-    if(element === statusButton){
+    if(element === statusButton || element.parentElement.id === 'statusbutton'){
         e.preventDefault();
         const states = document.getElementById('states');      
         
         if(states.getAttribute('class') == 'display_none'){
-            states.setAttribute('class', '');
-            statusButton.textContent = '-';                               
+            states.setAttribute('class', 'states_list');
+            statusButton.innerHTML = '<img src="/img/up.png" style="width: 9px;"/>';                               
         }else{
             states.setAttribute('class', 'display_none');
-            statusButton.textContent = '+';                               
+            statusButton.innerHTML = '<img src="/img/down.png" style="width: 9px;"/>';                               
         }
     }
     if(element === sendFile){
@@ -53,7 +53,7 @@ document.addEventListener('click', (e) => {
     }
     if(element === returnProcess){
         setAttributes(optionsForm, {method: 'POST', action: `/concluidos/${processInfo}/${local}/return/process`});
-    }
+    }    
 });
 
 function generateListClickListener(editButton, deleteButton, file, div1, div2, div3, form, elements){
@@ -150,7 +150,7 @@ async function getDocuments(){
 function generateElements(documents, process, local){
     generetaTitle(process.process);
     generateFiles(documents, process.process, local);
-    upload(process.process, local);
+    upload(process.process, 0);    
     listStates(process.process, process.states, local);
     sendProcess(process.process, local);
     generateOptions(process.process, local);
@@ -213,66 +213,80 @@ function generateFilesButtons(process){
     }  
 }
 
-function upload(process, local){    
-    const uploadForm = document.getElementById('upload');
+function upload(process, index){    
+    const uploadForm = document.getElementById('upload');    
     const message = document.getElementById('message');
-    const fileLabel = createElements('label', {for: 'file', class: 'button_file', id: 'button_file'}, 'Upload');
-    const inputFile =  createElements('input', {type: 'file', id: 'file', name: 'file', value: '', required: ''});
-    const spanName = createElements('span', {id: 'filename', required: ''});    
-    appendElements(uploadForm, [fileLabel, inputFile, spanName]);
-
+    const fileLabel = createElements('label', {for: `file${index}`, class: 'button_file', id: 'button_file'}, 'Upload');
+    const inputFile =  createElements('input', {type: 'file', id: `file${index}`, name: 'file', class: 'file', value: '', required: '', multiple: ''});
+    const spanName = createElements('span', {class: 'filename', required: ''});    
+    const uploadDiv = createContainer('div', {style: 'margin-top: 15px;'}, [fileLabel, inputFile, spanName]);   
+    uploadForm.prepend(uploadDiv);
     
-    if(process.transfer_dir === null  && process.done_dir === null){
+    if(process.done === false){
         const sendFile = document.createElement('input');
 
         inputFile.addEventListener('change', () => {
+            message.innerHTML = ' '
             sendFile.setAttribute('id', 'sendfile');
-            let text = inputFile.value.split("\\");
-            let extension = text[2].split('.')[text[2].split('.').length -1];
-            const extensionArray = ['txt', 'xlsx', 'pdf', 'docx', 'doc', 'jpg', 'jpeg', 'ods', 'zip', 'rar', 'jar', 'png'];
-            spanName.textContent = text[2];
-            if(extensionArray.some( x => x === extension.toLowerCase())){
-                setAttributes(sendFile, {type: 'submit', class: 'button', value: 'Enviar'});
-                uploadForm.appendChild(sendFile);                              
-            }else{
-                if(uploadForm.querySelector('#sendfile') != null){                
-                    uploadForm.removeChild(sendFile);
-                } 
-                message.innerHTML = 'Só é possível fazer upload de arquivos: pdf, ods, xlsx, docx, doc, jpg, jpeg, png, ods e arquivos compactados em até 60MB'; 
-            }
-        });
-    }else if(process.transfer_dir !== null && process.done_dir === null && local === 'inTransfer'){
-        const sendFile = document.createElement('input');
+            const extensionArray = ['txt', 'xlsx', 'pdf', 'docx', 'doc', 'jpg', 'jpeg', 'ods', 'zip', 'rar', 'jar', 'png', 'odt'];
+            const erroMsg = 'Só é possível fazer upload de arquivos: pdf, ods, xlsx, docx, doc, jpg, jpeg, png, ods e arquivos compactados em até 60MB';
+            let text
+            if(inputFile.files.length > 1 && inputFile.files.length < 16){
+                text = `${inputFile.files.length} arquivos selecionados`;
+                spanName.textContent = text;                
+                let matches = 0;
+                for(let element of inputFile.files){
+                    const extension = (element.name).split('.')[(element.name).split('.').length -1];
+                    if(extensionArray.some( x => x === extension.toLowerCase())){
+                        matches++;
+                    }
+                }
+                if(matches === inputFile.files.length){
+                    setAttributes(sendFile, {type: 'submit', class: 'button', value: 'Enviar', style: 'margin-top: -5px;'});
+                    uploadDiv.appendChild(sendFile); 
+                }
+                else{
+                    if(uploadDiv.querySelector('#sendfile') != null){                
+                        uploadDiv.removeChild(sendFile);
+                    } 
+                    message.innerHTML = erroMsg
+                }      
 
-        inputFile.addEventListener('change', () => {
-            sendFile.setAttribute('id', 'sendfile');
-            let text = inputFile.value.split("\\");
-            let extension = text[2].split('.')[text[2].split('.').length -1];
-            const extensionArray = ['txt', 'xlsx', 'pdf', 'docx', 'doc', 'jpg', 'jpeg', 'ods', 'zip', 'rar', 'jar', 'png'];
-            spanName.textContent = text[2];
-            if(extensionArray.some( x => x === extension.toLowerCase())){
-                setAttributes(sendFile, {type: 'submit', class: 'button', value: 'Enviar'});
-                uploadForm.appendChild(sendFile);                              
+            }else if(inputFile.files.length === 1){
+                text = inputFile.value.split("\\");
+                let extension = text[2].split('.')[text[2].split('.').length -1];                
+                spanName.textContent = text[2];
+                if(extensionArray.some( x => x === extension.toLowerCase())){
+                    setAttributes(sendFile, {type: 'submit', class: 'button', value: 'Enviar', style: 'margin-top: -5px;'});
+                    uploadDiv.appendChild(sendFile);                              
+                }else{
+                    if(uploadDiv.querySelector('#sendfile') != null){                
+                        uploadDiv.removeChild(sendFile);
+                    } 
+                    message.innerHTML = erroMsg 
+                }               
             }else{
-                if(uploadForm.querySelector('#sendfile') != null){                
-                    uploadForm.removeChild(sendFile);
+                text = `${inputFile.files.length} arquivos selecionados`;
+                spanName.textContent = text;
+                if(uploadDiv.querySelector('#sendfile') != null){                
+                    uploadDiv.removeChild(sendFile);
                 } 
-                message.innerHTML = 'Só é possível fazer upload de arquivos: pdf, ods, xlsx, docx, doc, jpg, jpeg, png, ods e arquivos compactados em até 60MB'; 
-            }
+                message.innerHTML = 'Só é possível fazer upload de 15 arquivos por vez'
+            }            
         });
     }else{
         fileLabel.setAttribute('class', 'button_disable');
         fileLabel.setAttribute('disabled', '');
         inputFile.setAttribute('type', '');
-    }  
+    }      
 }
 
 function listStates(process, processStates, local){
     const buttonDiv =  document.getElementById('statusbuttondiv');
     const states = document.getElementById('states');
     const smallButton = createElements('small', {}, 'Status');
-    const statusButton = createElements('button', {class: 'button', id: 'statusbutton'}, '+');
-    const newStatusForm = createElements('form', {id: 'newstatusform',style: 'margin-top: 34px;'});    ;
+    const statusButton = createElements('button', {class: 'button', id: 'statusbutton'}, '<img src="/img/down.png" style="width: 9px;"/>');
+    const newStatusForm = createElements('form', {id: 'newstatusform',style: 'margin-top: 34px;'});
     
     appendElements(buttonDiv, [smallButton, statusButton]);
 

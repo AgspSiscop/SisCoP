@@ -104,7 +104,7 @@ class MsgSent {
             search1.sender = this.locals.id;
             search1[this.body.type] = new RegExp(`${this.body.search}`, 'i');
     
-            const messages = await MessageModel.find(search1).sort({_id: -1}).limit(numMessages).skip((this.params.page * numMessages)).populate('sender').populate('process').lean()
+            const messages = await MessageModel.find(search1).sort({_id: -1}).limit(numMessages).skip((this.params.page * numMessages)).populate('sender').populate('section_receiver').populate('receiver').populate('process').lean()
             const number = await MessageModel.find(search1).sort({date: -1}).count()
             return {messages: messages, count: number};           
         } catch (error) {

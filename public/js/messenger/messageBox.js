@@ -16,7 +16,6 @@ document.addEventListener('click', (e) => {
     if(e.target.id === 'backimg' && searchBack.className === 'arrow'){
         getSearchValues(document.getElementById('searchindex').innerHTML -2);
     }
-
 });
 
 async function getSearchValues(number){
@@ -43,12 +42,20 @@ function generateElements(messages, number){
         const delButton = createContainer('button', {class: 'redbutton', style: 'margin-top: 0px; margin-left: 20px;'}, [delImg]);
         const delForm = createContainer('form', {method: 'POST', action: `${document.URL.slice(0, -3)}/${i._id}/delete`}, [delButton]);
         const divFather = createContainer('div', {class: 'flexorientation--spaceb list_iten'}, []);
-        const a = createContainer('a', {href: `${document.URL.slice(0, -3)}/${i._id}`, class: 'message_style'}, [divFather]);    
-    
-        for(let j of [i.title, i.process_title, i.section_receiver, i.date]){
-            let div = createContainer('div', {class: 'messenger_body'},[createElements('label', {}, j)]);
-            divFather.appendChild(div);
+        const a = createContainer('a', {href: `${document.URL.slice(0, -3)}/${i._id}`, class: 'message_style'}, [divFather]);
+        
+        if(i.section_receiver){
+            for(let j of [i.title, i.process_title, i.section_receiver.name, i.date]){
+                let div = createContainer('div', {class: 'messenger_body'},[createElements('label', {}, j)]);
+                divFather.appendChild(div);
+            }
+        }else{
+            for(let j of [i.title, i.process_title, `${i.receiver.pg} ${i.receiver.name}`,i.date]){
+                let div = createContainer('div', {class: 'messenger_body'},[createElements('label', {}, j)]);
+                divFather.appendChild(div);
+            }
         }
+    
         divFather.appendChild(delForm);
         mainContainer.appendChild(a);
     }   
