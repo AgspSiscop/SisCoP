@@ -25,7 +25,7 @@ document.addEventListener('click', (e) => {
         newStatusForm.setAttribute('method', 'POST');
         newStatusForm.setAttribute('action', `${url}/anotation/${processTitle}`);
     }
-    if(element === statusButton || element.parentElement.id === 'statusbutton'){
+    if(element === statusButton || element.parentElement === statusButton){
         e.preventDefault();
         const states = document.getElementById('states');      
         
@@ -41,7 +41,7 @@ document.addEventListener('click', (e) => {
         const uploadForm = document.getElementById('upload');
         setAttributes(uploadForm, {action: `${url}/upload/${local}`, method: 'POST', enctype: 'multipart/form-data'});
     }
-    if(element === sendButton){
+    if(element === sendButton || element.parentElement === sendButton){
         const forms = document.getElementById('sendprocess');
         setAttributes(forms, {method: 'POST', action: '/mensageiro/nova/'});        
     }
@@ -328,7 +328,7 @@ function generateStatesBlocks(process, processStates, states){
 }
 
 function sendProcess(process){
-    const sendButton = createElements('input', {type: 'submit', id: 'sendbutton',class: 'button', value: 'Enviar Processo'});
+    const sendButton = createElements('button', {id: 'sendbutton',class: 'button'}, '<img style="width: 20px;" src="/img/email.png"/>');
     const forms = document.getElementById('sendprocess');
     const idI =  createElements('input', {type: 'hidden', name: 'id', value: process._id});
     const titleI =  createElements('input', {type: 'hidden', name: 'title', value: process.title});
@@ -336,11 +336,11 @@ function sendProcess(process){
     const local = getLocal()
     appendElements(forms, [sendButton, idI, titleI, yearI]);
     if(process.transfer_dir === null  && process.done_dir === null){
-        setAttributes(sendButton, {type: 'submit', class: 'button', value: 'Enviar Processo'});
+        setAttributes(sendButton, {class: 'arrow'});
     }else if(process.transfer_dir !== null && process.done_dir === null && local === 'inTransfer'){
-        setAttributes(sendButton, {type: 'submit', class: 'button', value: 'Enviar Processo'});
+        setAttributes(sendButton, {class: 'arrow'});
     }else{
-        setAttributes(sendButton, {type: 'submit', class: 'arrow_disabled', value: 'Enviar Processo', disabled: ''});        
+        setAttributes(sendButton, { class: 'arrow_disabled', disabled: ''});        
     }    
 }
 

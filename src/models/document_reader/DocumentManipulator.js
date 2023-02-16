@@ -111,7 +111,7 @@ const storage = multer.diskStorage({
     },
 
     filename: function(req, file, cb){
-        let originalName = file.originalname;
+        let originalName = Buffer.from(file.originalname, 'latin1').toString('utf8');
         let clearName = originalName.slice(0, originalName.lastIndexOf('.')).replace(/\./g, ' ');
         let extension = originalName.slice(originalName.lastIndexOf('.', originalName.length-1));
         let name = clearName + extension

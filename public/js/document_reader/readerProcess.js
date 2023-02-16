@@ -23,6 +23,7 @@ async function getValues(){
             url: `${document.URL}/${year.value}`,
             params: `year=${year.value}`
         });
+        console.log(year.value)
         generateProcesses(processes);        
     } catch (error) {
         console.log(error);   

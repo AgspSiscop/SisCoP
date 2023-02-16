@@ -1,15 +1,36 @@
-import {createElements, createSelect, createMessageUsersSelect, createMessageProcessesSelect,clearContainer, appendElements, createSectionsSelect} from '/js/builders/elementsFunctions.js';
+import {createElements, createSelect, createMessageUsersSelect, createYearSelect, createMessageProcessesSelect,clearContainer, appendElements, createSectionsSelect} from '/js/builders/elementsFunctions.js';
 import {request} from '/js/builders/ajax.js';
 const receiver = document.getElementById('receiver');
 
 window.addEventListener('load', () => {
-    generateElements();    
+    generateElements();
+    getYearsValues();   
 });
 
 function generateElements(){
     const selectMethod = document.getElementById('selectmethod');
     const method = createSelect(['', 'section', 'user'], ['', 'Seção', 'Usuário'], '', 'method', 'method');
     selectMethod.appendChild(method)
+}
+
+async function getYearsValues(){
+    try {
+        const year = await request({
+            method: 'POST',
+            url: '/requests/allyears',
+            params: ''
+        });
+        generateYears(year);        
+    } catch (error) {
+        console.log(error);        
+    }
+}
+
+function generateYears(values){
+    const yearDiv = document.getElementById('yeardiv');
+    const label = createElements('label',{}, 'Processo: ');
+    const years = createYearSelect(values, 'year', 'year');
+    appendElements(yearDiv, [label, years]);
 }
 
 document.addEventListener('change', async (e) =>{
