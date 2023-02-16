@@ -70,7 +70,7 @@ class Processes {
         try {
             const errors = [];
             if(this.body.object.length < 15 || !this.body.object || this.body.object == null){
-                errors.push({text: 'Nome inválido! Nome precisa ter no mínimo 15 caracteres'});
+                errors.push({text: 'Nome inválido! Nome precisa ter no mínimo 15 caracteres'});                
             }
             if(this.body.nup.replace(/\./g, '').replace(/\//g, '').replace(/-/, '').length !== 17){
                 errors.push({text: 'Nup inválido.'});
@@ -83,6 +83,7 @@ class Processes {
             throw new Error(error);
         }
     }
+    
 
     async create(){
         try {
@@ -105,7 +106,7 @@ class Processes {
                     done_dir: null,
                     description: this.body.description,
                     date: Intl.DateTimeFormat('pt-BR', { dateStyle: "full", timeStyle: "short" }).format(new Date()),
-                    year: (new Date).getFullYear().toString()
+                    year: this.body.year
                 };                
                 await new ProcessModel(process).save();               
                 return {process: process, errors: errors};               

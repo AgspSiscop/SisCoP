@@ -79,6 +79,6 @@ app.on('done', () => {
     const PORT = 8903;
     const hostname = '127.0.0.1'
     app.listen(PORT, hostname, () => {
-        console.log(`Server listen to http://${hostname}:${PORT}`)
+        console.log(`Server listen to http://${hostname}:${PORT} ${new Date().getFullYear()}`)
     });
 });

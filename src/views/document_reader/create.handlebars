@@ -9,7 +9,7 @@
         {{/if}}
         <h2>Novo Processo</h2>        
         <hr>
-        <form method="POST" action="/novoprocesso/cadastro">
+        <form id="formp">
             <div>
                 <label>Nome:</label>
                 <input type="text" class="mediumtext" name="object" required>                
@@ -37,7 +37,7 @@
                 <textarea class="param_text_description" name="description"></textarea>
                 <small>(opicional)</small>
             </div>
-            <input type="submit" value="Criar" class="button">
+            <input id="submitprocess" type="submit" value="Criar" class="button">
         </form>            
     </div>
 </div>

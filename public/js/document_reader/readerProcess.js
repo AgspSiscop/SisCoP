@@ -1,15 +1,23 @@
-import {createElements, clearContainer, createContainer, setAttributes, appendElements} from '/js/builders/elementsFunctions.js';
+import {createElements, clearContainer, createContainer, createYearSelect, setAttributes, appendElements} from '/js/builders/elementsFunctions.js';
 import {request} from '/js/builders/ajax.js';
 
-let  year = document.getElementById('year');
+
 let list = document.getElementById('list');
 
-year.addEventListener('change', () => {
-    getValues();
+window.addEventListener('load', () => {
+    getYearValues();
+})
+
+document.addEventListener('change', (e) => {
+    const element = e.target;
+    if(element.id === 'year'){
+        getValues();
+    }
 });
 
 async function getValues(){
     try {
+        let  year = document.getElementById('year');
         const processes = await request({
             method: 'POST',
             url: `${document.URL}/${year.value}`,
@@ -19,6 +27,26 @@ async function getValues(){
     } catch (error) {
         console.log(error);   
     }
+}
+
+async function getYearValues(){
+    try {
+        const year = await request({
+            method: 'POST',
+            url: '/requests/allyears',
+            params: ''
+        });
+        generateYears(year);        
+    } catch (error) {
+        console.log(error);        
+    }
+}
+
+function generateYears(values){
+    const yearDiv = document.getElementById('yeardiv');
+    const label = createElements('label',{}, 'Ano: ');
+    const years = createYearSelect(values, 'year', 'year');
+    appendElements(yearDiv, [label, years]);
 }
 
 function generateProcesses(processes){
@@ -35,27 +63,18 @@ function generateProcesses(processes){
         const id = createElements('input', {type: 'hidden', name: 'elementid', value: i._id});
         const editButton = createElements('input', {type: 'submit', class: 'button', value: 'Editar'});
         const buttonsDiv = createElements('div',{});
-        
-
-        /*if(i.done != false){
-            const transitionMessage = createElements('label', {}, 'Processo Concluído.');
-            setAttributes(editButton, {class: 'button_disable', disable: ''});
-            setAttributes(anotation, {class: 'button_disable', disable: ''});                
-            buttonsDiv.appendChild(transitionMessage);
-            appendElements(buttonsDiv, [editButton, anotation]); 
-        }else{*/
-            if(document.URL.split('/')[3] === 'meusprocessos'){
-                if(i.receiver != null || i.section_receiver != null){
-                    const transitionMessage = createElements('label', {}, 'Processo em Transferência.');
-                    setAttributes(editButton, {class: 'button_disable', disable: ''});
-                    setAttributes(anotation, {class: 'button_disable', disable: ''});                
-                    buttonsDiv.appendChild(transitionMessage);
-                }
-                appendElements(buttonsDiv, [editButton, anotation, deleteButton]);             
-            }else{            
-                appendElements(buttonsDiv, [anotation, deleteButton]);            
+                
+        if(document.URL.split('/')[3] === 'meusprocessos'){
+            if(i.receiver != null || i.section_receiver != null){
+                const transitionMessage = createElements('label', {}, 'Processo em Transferência.');
+                setAttributes(editButton, {class: 'button_disable', disable: ''});
+                setAttributes(anotation, {class: 'button_disable', disable: ''});                
+                buttonsDiv.appendChild(transitionMessage);
             }
-        //}
+            appendElements(buttonsDiv, [editButton, anotation, deleteButton]);             
+        }else{            
+            appendElements(buttonsDiv, [anotation, deleteButton]);            
+        }       
             
         const textDiv = createContainer('div', {}, [process, date]);
         const div1 = createContainer('div', {id: 'div1p', class: 'flexorientation--spaceb'}, [textDiv, buttonsDiv]);

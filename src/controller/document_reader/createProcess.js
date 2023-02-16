@@ -1,16 +1,22 @@
 const express = require('express');
 const isAuth =require('../../../config/isAuth');
 const resolver =  require('../../../config/errorHandler');
-const router = express.Router();
 const {DocumentManipulator} =  require('../../models/document_reader/DocumentManipulator')
 const Processes =  require('../../models/document_reader/ProcessesDB');
 const Sections = require('../../models/profiles/SectionsDB');
+const Year =  require('../../models/document_reader/YearDB');
+const router = express.Router();
 
 router.get('/', isAuth, resolver((req,res) =>{
     res.render('document_reader/create');
 }));
 
 router.post('/cadastro', isAuth, resolver( async(req, res) =>{
+    const year = new Year(req.body, res.locals, req.params);
+    const processYear =  await year.findOneYear(req.body.year);
+    if(!processYear){
+        await year.create();
+    }
     const process = new Processes(req.body, res.locals);
     const processObj = await process.create();    
     if(processObj.errors.length > 0){
@@ -32,6 +38,8 @@ router.post('/processsection', isAuth, resolver( async(req, res) => {
     const processObj =  await process.findOneByParam({_id: req.body.process});
     res.send(JSON.stringify(processObj));     
 }));
+
+router.post
 
 router.get('/montagemdeprocesso', isAuth, resolver((req,res) => {    
     res.render('document_maker/index');   

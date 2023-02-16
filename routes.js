@@ -19,6 +19,8 @@ const processManager = require('./src/controller/process_manager/manager');
 
 const converter = require('./src/controller/converter/converterController');
 
+const ajaxController =  require('./src/controller/xmlHttpRequest/ajaxRequestControler');
+
 
 router.use(log);
 router.use(profile);
@@ -30,6 +32,7 @@ router.use('/novoprocesso', createProcess);
 router.use('/mensageiro', messenger);
 router.use('/acompanharprocessos', processManager);
 router.use('/conversor', converter);
+router.use('/requests', ajaxController);
 
 
 module.exports = router;

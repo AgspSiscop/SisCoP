@@ -22,6 +22,20 @@ export const createSelect = (optionsValues,optionsArray, userAtributeName, selec
     return select;
 }
 
+export const createYearSelect = (optionsValues, selectName, selectID) => {
+    const select = document.createElement('select');
+    select.name = selectName;
+    select.id = selectID;
+    select.appendChild(createElements('option', {value: ''}, ''));
+    for(let i = 0; i < optionsValues.length; i++){
+        const options = document.createElement('option');
+        options.value = optionsValues[i].year;
+        options.innerHTML = optionsValues[i].year;
+        select.appendChild(options);        
+    }
+    return select;
+}
+
 export const createMessageUsersSelect = (optionsArray, selectName, selectID) => {
     const select = document.createElement('select');
     select.name = selectName;
@@ -39,6 +53,7 @@ export const createSectionsSelect = (optionsArray, sectionAtributeName,selectNam
     const select = document.createElement('select');
     select.name = selectName;
     select.id = selectID;
+    select.appendChild(createElements('option', {value: ''}, ''))
     for(let i = 0; i < optionsArray.length; i++){
         const options = document.createElement('option');
         options.value = optionsArray[i]._id;
