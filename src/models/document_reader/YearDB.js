@@ -5,7 +5,7 @@ const Year =  new Schema({
     year: {
         type: String,
         required: true,        
-    }       
+    }    
 });
 
 const YearModel = mongoose.model('year', Year);
