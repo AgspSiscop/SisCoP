@@ -242,7 +242,7 @@ function upload(process, index){
                     }
                 }
                 if(matches === inputFile.files.length){
-                    setAttributes(sendFile, {type: 'submit', class: 'button', value: 'Carregar', style: 'margin-top: -5px;'});
+                    setAttributes(sendFile, {type: 'submit', class: 'button', value: 'Enviar', style: 'margin-top: -5px;'});
                     uploadDiv.appendChild(sendFile); 
                 }
                 else{
@@ -257,7 +257,7 @@ function upload(process, index){
                 let extension = text[2].split('.')[text[2].split('.').length -1];                
                 spanName.textContent = text[2];
                 if(extensionArray.some( x => x === extension.toLowerCase())){
-                    setAttributes(sendFile, {type: 'submit', class: 'button', value: 'Carregar', style: 'margin-top: -5px;'});
+                    setAttributes(sendFile, {type: 'submit', class: 'button', value: 'Enviar', style: 'margin-top: -5px;'});
                     uploadDiv.appendChild(sendFile);                              
                 }else{
                     if(uploadDiv.querySelector('#sendfile') != null){                
