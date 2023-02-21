@@ -46,7 +46,7 @@ document.addEventListener('click', (e) => {
         setAttributes(forms, {method: 'POST', action: '/mensageiro/nova/'});        
     }
     if(element === conversor){        
-        setAttributes(optionsForm, {method: 'POST', action: `/conversor/${processInfo}/${local}`});
+        setAttributes(optionsForm, {method: 'POST', action: `/conversor/arquivos/${processInfo}/${processTitle}/${local}`});
     }
     if(element === doneProcess){        
         setAttributes(optionsForm, {method: 'POST', action: `/concluidos/${processInfo}/${local}/done/process`});
@@ -64,7 +64,7 @@ function generateListClickListener(editButton, deleteButton, file, div1, div2, d
         if(element === editButton){
             e.preventDefault();                
             const editFieldMessage =  document.createElement('p');
-            const editField = createElements('input', {type: 'text', name: 'ename', class: 'mediumtext', value: (elements.name).split('.')[0]});
+            const editField = createElements('input', {type: 'text', name: 'ename', class: 'mediumtext', value: (elements.filename)});
             const sendEdit = createElements('input', {type: 'submit', class: 'button', value: 'Ok'});
             const cancelEdit = createElements('input', {type: 'submit', class: 'redbutton', value: 'Cancelar'});
             appendElements(div1, [editFieldMessage, editField, sendEdit, cancelEdit]);
@@ -76,7 +76,7 @@ function generateListClickListener(editButton, deleteButton, file, div1, div2, d
                     editFieldMessage.textContent = 'Este campo deve ser preenchido e não aceita os caracteres: "_" , ".", "/", "\\"';
                 }else{
                 form.setAttribute('method', 'POST');
-                form.setAttribute('action', `${url}/edit/${elements.name}`);
+                form.setAttribute('action', `${url}/edit/${elements._id}`);
                 form.setAttribute('target', '');
                 }                   
             });
@@ -91,7 +91,7 @@ function generateListClickListener(editButton, deleteButton, file, div1, div2, d
         if(element === deleteButton){
             e.preventDefault();
             form.setAttribute('class', 'list_iten_delete');
-            const deleteText = createElements('p', {}, `Tem certeza que deseja apagar: <b>${elements.name}</b>?`);
+            const deleteText = createElements('p', {}, `Tem certeza que deseja apagar: <b>${elements.filename}</b>?`);
             const sendDelete = createElements('input', {type: 'submit', class:'button', value: 'Ok'});
             const cancelDelete = createElements('input', {type: 'submit', class: 'redbutton', value: 'Cancelar'});
             appendElements(div3, [deleteText, sendDelete, cancelDelete]);
@@ -99,7 +99,7 @@ function generateListClickListener(editButton, deleteButton, file, div1, div2, d
 
             sendDelete.addEventListener('click', () =>{
                 form.setAttribute('method', 'POST');
-                form.setAttribute('action', `${url}/delete/${elements.name}`);
+                form.setAttribute('action', `${url}/delete/${elements._id}`);
                 form.setAttribute('target', '');
             });
 
@@ -113,7 +113,7 @@ function generateListClickListener(editButton, deleteButton, file, div1, div2, d
         if(element === file){
             form.setAttribute('target', '_blank');
             form.setAttribute('method', 'POST');
-            form.setAttribute('action', `${url}/${elements.name}`);
+            form.setAttribute('action', `${url}/${elements._id}`);
         }        
     });
 }
@@ -129,52 +129,54 @@ function generateStatesClickListener(deleteState, block){
 }
 
 async function getDocuments(){
-    try {        
-        const documents = await request({
-            method: 'POST',
-            url: `/${document.URL.split('/')[3]}/search/meus/documents`,
-            params: `year=${document.URL.split('/')[4]}&link=${document.URL.split('/')[5]}&local=${getLocal()}`
-        });
+    try {
+        const local = getLocal();              
         const process = await request({
             method: 'POST',
-            url: `/${document.URL.split('/')[3]}/search/meus/process`,
-            params: `year=${document.URL.split('/')[4]}&link=${document.URL.split('/')[5]}`
-        });        
-        generateElements(documents, process, getLocal());
-                           
+            url: `/requests/${local}/process`,
+            params: `year=${document.URL.split('/')[4]}&id=${document.URL.split('/')[5]}`
+        });
+        if(process){
+            const documents = await request({
+                method: 'POST',
+                url: `/requests/documents`,
+                params: `id=${document.URL.split('/')[5]}`
+            });               
+            generateElements(documents, process);
+        }                           
     } catch (error) {
         console.log(error);
     }
 }
 
-function generateElements(documents, process, local){
+function generateElements(documents, process){
     generetaTitle(process.process);
-    generateFiles(documents, process.process, local);
+    generateFiles(documents, process.process);
     upload(process.process, 0);    
-    listStates(process.process, process.states, local);
-    sendProcess(process.process, local);
-    generateOptions(process.process, local);
+    listStates(process.process, process.states, process.user);
+    sendProcess(process.process);
+    generateOptions(process.process);
 }
 
 function getLocal(){
     const local = document.URL.split('/')[3]
     if(local === 'meusprocessos'){
-        return 'inProcess';
+        return 'myprocess';
     }
     if(local === 'processosrecebidos'){
-        return 'inTransfer';
+        return 'processreceived';
     }
     if(local === 'concluidos'){
-        return 'done';
+        return 'processdone'
     }
 }
 
-function generateFiles(documents, process, local){
+function generateFiles(documents, process){
     const list = document.getElementById('list');
     if(documents.length > 0){
         for(let i of documents){
-            const file = createElements('input', {type: 'submit', class: 'transparentbutton highlighted', value: i.name});
-            const [editButton, deleteButton] = generateFilesButtons(process, local);
+            const file = createElements('input', {type: 'submit', class: 'transparentbutton highlighted', value: `${i.filename}${i.extension}`});
+            const [editButton, deleteButton] = generateFilesButtons(process);
             const buttonsDiv = createContainer('div', {}, [editButton, deleteButton]);
             const div1 = createContainer('div', {}, []);
             const div2 = createContainer('div', {class: 'flexorientation--spaceb'}, [file, buttonsDiv]);
@@ -196,13 +198,8 @@ function generetaTitle(process){
     appendElements(divTitle, [Title, Date]);
 }
 
-function generateFilesButtons(process){
-    const local = getLocal()  
-    if(process.transfer_dir === null  && process.done_dir === null){
-        const editButton = createElements('input', {type: 'submit', class: 'button', value: 'Renomear'});
-        const deleteButton = createElements('input', {type: 'submit', class: 'redbutton', value: 'Apagar'});
-        return [editButton, deleteButton];
-    }else if(process.transfer_dir !== null && process.done_dir === null && local === 'inTransfer'){
+function generateFilesButtons(process){    
+    if(process.done === false){
         const editButton = createElements('input', {type: 'submit', class: 'button', value: 'Renomear'});
         const deleteButton = createElements('input', {type: 'submit', class: 'redbutton', value: 'Apagar'});
         return [editButton, deleteButton];
@@ -210,7 +207,7 @@ function generateFilesButtons(process){
         const editButton = createElements('input', {type: 'submit', class: 'button_disable', value: 'Renomear', disabled: ''});
         const deleteButton = createElements('input', {type: 'submit', class: 'button_disable', value: 'Apagar', disabled: ''});
         return [editButton, deleteButton];
-    }  
+    }
 }
 
 function upload(process, index){    
@@ -228,7 +225,7 @@ function upload(process, index){
         inputFile.addEventListener('change', () => {
             message.innerHTML = ' '
             sendFile.setAttribute('id', 'sendfile');
-            const extensionArray = ['txt', 'xlsx', 'pdf', 'docx', 'doc', 'jpg', 'jpeg', 'ods', 'zip', 'rar', 'jar', 'png', 'odt'];
+            const extensionArray = ['txt', 'xlsx', 'pdf', 'docx', 'doc', 'jpg', 'jpeg', 'ods', 'zip', 'rar', 'tar', 'png', 'odt'];
             const erroMsg = 'Só é possível fazer upload de arquivos: pdf, ods, xlsx, docx, doc, jpg, jpeg, png, ods e arquivos compactados em até 60MB';
             let text
             if(inputFile.files.length > 1 && inputFile.files.length < 16){
@@ -281,47 +278,86 @@ function upload(process, index){
     }      
 }
 
-function listStates(process, processStates, local){
+function listStates(process, processStates, user){
     const buttonDiv =  document.getElementById('statusbuttondiv');
     const states = document.getElementById('states');
     const smallButton = createElements('small', {}, 'Status');
     const statusButton = createElements('button', {class: 'button', id: 'statusbutton'}, '<img src="/img/down.png" style="width: 9px;"/>');
     const newStatusForm = createElements('form', {id: 'newstatusform',style: 'margin-top: 34px;'});
+    const newStatus = createElements('input', {type: 'submit', class: 'button', value: 'Novo Status', id: 'newstatusbutton'});
+    const elementID = createElements('input', {type: 'hidden', name: 'elementid', value: process._id});
     
     appendElements(buttonDiv, [smallButton, statusButton]);
-
-    if(process.transfer_dir === null  && process.done_dir === null){
-        const newStatus = createElements('input', {type: 'submit', class: 'button', value: 'Novo Status', id: 'newstatusbutton'});
-        const elementID = createElements('input', {type: 'hidden', name: 'elementid', value: process._id});
+    
+    if( process.done === false){        
         appendElements(newStatusForm, [newStatus, elementID]);
     }
-    if(process.transfer_dir !== null && process.done_dir === null && local === 'inTransfer'){
-        const newStatus = createElements('input', {type: 'submit', class: 'button', value: 'Novo Status', id: 'newstatusbutton'});
-        const elementID = createElements('input', {type: 'hidden', name: 'elementid', value: process._id});
-        appendElements(newStatusForm, [newStatus, elementID]);
-    }
-    generateStatesBlocks(process, processStates, states);
+    generateStatesBlocks(process, processStates, states, user);
     states.setAttribute('class', 'display_none');
     states.appendChild(newStatusForm)
 }
 
-function generateStatesBlocks(process, processStates, states){
+function generateStatesBlocks(process, processStates, states, user){
     for(let i of processStates){
-        const label1 = createElements('label', {}, 'Status');
-        const label2 = createElements('label', {}, 'Observação');
+        const label1 = createElements('label', {}, 'Status:');
+        const label2 = createElements('label', {}, 'Obs:');
         const stateId = createElements('input', {type: 'hidden', name: 'elementid', value: i._id});
-        const deleteState = createElements('input', {type: 'submit', class: 'transparentbutton', value: 'Apagar'});
-        const prgh1 = createElements('p', {}, i.state);
-        const prgh2 = createElements('p', {}, i.anotation);
-        const date = createElements('small', {}, i.date);
+        const deleteState = createElements('input', {type: 'submit', class: 'delete_status', value: 'Apagar'});
+        const prgh1 = createElements('p', {style: 'font-size: 15px;'}, i.state);
+        const prgh2 = createElements('p', {style: 'font-size: 15px;'}, i.anotation);
+        const date = createElements('small', {},'');
+        if(i.user){
+            date.innerHTML = `<b>De:</b> ${i.user.pg} ${i.user.name} - ${i.date}`
+        }else{
+            date.innerHTML = `<b>De:</b> Sistema - ${i.date}`
+        }
         const div1 = createContainer('div', {class: 'flexorientation--start'}, [label1, prgh1]);
         const div2 = createContainer('div', {class: 'flexorientation--start'}, [label2, prgh2]);
         const div3 = createContainer('div', {}, [date]);
-        const block = createContainer('form', {class: 'status_content display-column-spaceb', name: 'statusblock'}, [div1, div2, div3, stateId]);
+        let block;
         
-        if(process.transfer_dir === null  && process.done_dir === null && i.state != 'Em transferência'){
-            block.appendChild(deleteState);
+        if(i.state == 'Coleta de Orçamentos'){
+            block = createContainer('form', {class: 'status_content display-column-spaceb', name: 'statusblock', 
+            style: 'background-color: rgb(236, 255, 61);color: rgb(80, 80, 80);'}, [div1, div2, div3, stateId]);
         }
+        else if(i.state == 'Em Montagem'){
+            block = createContainer('form', {class: 'status_content display-column-spaceb', name: 'statusblock',
+            style: 'background-color: rgb(159, 85, 255);color: rgb(70, 70, 70);'}, [div1, div2, div3, stateId]);
+        }
+        else if(i.state == 'Montagem Finalizada'){
+            block = createContainer('form', {class: 'status_content display-column-spaceb', name: 'statusblock',
+            style: 'background-color: rgb(170, 255, 85);color: rgb(80, 80, 80);'}, [div1, div2, div3, stateId]);
+        }
+        else if(i.state == 'Em Transferência'){
+            block = createContainer('form', {class: 'status_content display-column-spaceb', name: 'statusblock',
+        style: 'background-color: rgb(50, 214, 255);color: rgb(80, 80, 80);'}, [div1, div2, div3, stateId]);
+        }
+        else if(i.state == 'Em Análise'){
+            block = createContainer('form', {class: 'status_content display-column-spaceb', name: 'statusblock',
+            style:'background-color: rgb(250, 81, 137);color: rgb(70, 70, 70);'}, [div1, div2, div3, stateId]);
+        }
+        else if(i.state == 'Outro'){
+            block = createContainer('form', {class: 'status_content display-column-spaceb', name: 'statusblock',
+            style: 'background-color: rgb(255, 190, 71);color: rgb(80, 80, 80);'}, [div1, div2, div3, stateId]);
+        }
+        else if(i.state == 'Retificando Processo'){
+            block = createContainer('form', {class: 'status_content display-column-spaceb', name: 'statusblock',
+            style: 'background-color: rgb(255, 67, 92);color: rgb(70, 70, 70);'}, [div1, div2, div3, stateId]);
+        }
+        else if(i.state == 'Processo Concluído'){
+            block = createContainer('form', {class: 'status_content display-column-spaceb', name: 'statusblock',
+            style: 'background-color: rgb(79, 252, 79);color: rgb(80, 80, 80);'}, [div1, div2, div3, stateId]);
+        }else{
+            block = createContainer('form', {class: 'status_content display-column-spaceb', name: 'statusblock',
+            style: 'background-color: rgb(79, 252, 79);color: rgb(80, 80, 80);'}, [div1, div2, div3, stateId]);        
+        }
+        
+
+        if(i.user){
+            if(process.done === false && user === i.user._id){
+                block.appendChild(deleteState);
+            }
+        }        
         states.appendChild(block);
         generateStatesClickListener(deleteState, block);
     }
@@ -333,29 +369,22 @@ function sendProcess(process){
     const idI =  createElements('input', {type: 'hidden', name: 'id', value: process._id});
     const titleI =  createElements('input', {type: 'hidden', name: 'title', value: process.title});
     const yearI = createElements('input', {type: 'hidden', name: 'year', value: process.year});
-    const local = getLocal()
-    appendElements(forms, [sendButton, idI, titleI, yearI]);
-    if(process.transfer_dir === null  && process.done_dir === null){
-        setAttributes(sendButton, {class: 'arrow'});
-    }else if(process.transfer_dir !== null && process.done_dir === null && local === 'inTransfer'){
+    
+    appendElements(forms, [sendButton, idI, titleI, yearI]);    
+
+    if(process.done === false){
         setAttributes(sendButton, {class: 'arrow'});
     }else{
         setAttributes(sendButton, { class: 'arrow_disabled', disabled: ''});        
-    }    
+    }
+
 }
 
-function generateOptions(process, local){
+function generateOptions(process){
     const section = document.getElementById('idusersection');    
     const processOptions = document.getElementById('processoptions');       
     
-    if(section.innerHTML === 'Chefe da SALC' || section.innerHTML === 'SALC'){        
-        if(local === 'inProcess' && process.transfer_dir !== null){
-            const conversor = createElements('input', {type: 'submit', id: 'conversor', class: 'button_disable', value: 'Juntar em um PDF', disabled: ''});
-            const doneProcess = createElements('input', {type: 'submit', id: 'doneprocess', class: 'button_disable', value: 'Concluir Processo', disabled: ''});
-            const form = createContainer('form', {id: 'endprocess', class: 'bar_color flexorientation--end'}, [conversor, doneProcess]);
-            processOptions.appendChild(form);
-            return         
-        }
+    if(section.innerHTML === 'Chefe da SALC' || section.innerHTML === 'SALC'){         
         if(process.done === true){
             const conversor = createElements('input', {type: 'submit', id: 'conversor', class: 'button_disable', value: 'Juntar em um PDF', disabled: ''});
             const returnProcess = createElements('input', {type: 'submit', id: 'returnprocess', class: 'redbutton', value: 'Retificar Processo'})

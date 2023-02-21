@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
 const Schema =  mongoose.Schema;
 
-
-const Message =  new Schema({
+const MessageArchived =  new Schema({
     sender: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'user',
@@ -30,17 +29,14 @@ const Message =  new Schema({
     date: {
         type: String,
         required: true            
-    },
-    visualized: {
-        type: Array        
-    }    
+    }      
 });
 
-const MessageModel = mongoose.model('message', Message);
+const MessageModel = mongoose.model('messagearchived', MessageArchived);
 
 
 
-class Msg {
+class Archived {
     constructor(body, locals, params){
         this.body = body;
         this.locals = locals;
@@ -53,14 +49,18 @@ class Msg {
             if(typeof(this.body[key]) !== 'string'){
                 this.erros.push('Valor inválido!');
             }
-        }        
+        }       
+
+        /*if(!sectionsName.some(this.body.section)){
+            this.erros.push('Valor inválido!')
+        }*/
 
         if(this.erros.length > 0){
             throw new Error('Valor inválido!');
         }
     }
 
-    async findReceived(numMessages){
+    async find(numMessages){
         try {
             const messages = await MessageModel.find({receiver: this.locals.id})
             .sort({_id: -1}).limit(numMessages).skip((this.params.page * numMessages)).populate('sender').populate('process').lean();
@@ -73,22 +73,20 @@ class Msg {
         }
     }    
 
-    async findOneReceived(){
+    async findOne(){
         try {            
-            const message = await  MessageModel.findOne({_id: this.params.id}).populate('process').populate('sender').populate('receiver').lean();            
-                            
+            const message = await  MessageModel.findOne({_id: this.params.id}).populate('process').populate('sender').populate('receiver').lean();                          
             if(message.receiver.name == this.locals.name){
                 return {message: message};
             }else{
                 return '';
-            }
-            
+            }            
         } catch (error) {
             throw new Error(error.message);            
         }
     }
 
-    async deleteOneReceived(){
+    async deleteOne(){
         try {
             await MessageModel.deleteOne({_id: this.params.id});            
         } catch (error) {
@@ -97,15 +95,14 @@ class Msg {
     }
     
     async findByFilter(numMessages){
-        try {         
+        try {            
             let search = new Object();            
-            
             search.receiver = this.locals.id;
             search[this.body.type] = new RegExp(`${this.body.search}`, 'i');
             
             const messages = await MessageModel.find(search).sort({_id: -1}).
-            limit(numMessages).skip((this.params.page * numMessages)).populate('sender').populate('process').populate('receiver').lean()
-            const number = await MessageModel.find(search).sort({_id: -1}).count();
+            limit(numMessages).skip((this.params.page * numMessages)).populate('sender').populate('process').lean()
+            const number = await MessageModel.find(search).sort({date: -1}).count();
             return {messages: messages, count: number};            
         } catch (error) {
             throw new Error(error.message);           
@@ -134,35 +131,33 @@ class Msg {
     async create(){
         try {            
             const newMessage = {            
-                sender: this.locals.user,
-                receiver: this.body.user,
-                process: this.body.process,
-                title: this.body.title,
-                process_title: this.params.title,            
-                content: this.body.content[1],
-                date: Intl.DateTimeFormat('pt-BR', { dateStyle: "full", timeStyle: "short" }).format(new Date()),            
-            }            
+                    sender: this.locals.user,
+                    receiver: this.body.user,
+                    process: this.body.process,
+                    title: this.body.title,
+                    process_title: this.params.title,            
+                    content: this.body.content[1],
+                    date: Intl.DateTimeFormat('pt-BR', { dateStyle: "full", timeStyle: "short" }).format(new Date())         
+                }            
     
-           await new MessageModel(newMessage).save();            
+        await new MessageModel(newMessage).save();            
         } catch (error) {
             throw new Error(error);            
         }
     }
 
-    async createAlternative(receivers){
+    async createAlternative(receiver){
         try {
-            for(let receiver of receivers){
-                const newMessage = {            
-                    sender: this.locals.user,
-                    receiver: receiver._id,
-                    process: this.body.process,
-                    title: this.body.title,
-                    process_title: this.params.title,            
-                    content: this.body.content[1],
-                    date: Intl.DateTimeFormat('pt-BR', { dateStyle: "full", timeStyle: "short" }).format(new Date()),            
-                }
-                await new MessageModel(newMessage).save();
+            const newMessage = {            
+                sender: this.locals.user,
+                receiver: receiver,
+                process: this.body.process,
+                title: this.body.title,
+                process_title: this.params.title,            
+                content: this.body.content[1],
+                date: Intl.DateTimeFormat('pt-BR', { dateStyle: "full", timeStyle: "short" }).format(new Date()),            
             }
+            await new MessageModel(newMessage).save();
             
         } catch (error) {
             throw new Error(error);
@@ -170,4 +165,4 @@ class Msg {
     }
 }
 
-module.exports = Msg
+module.exports = Archived

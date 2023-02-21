@@ -4,7 +4,8 @@ const Schema =  mongoose.Schema;
 const Year =  new Schema({
     year: {
         type: String,
-        required: true,        
+        required: true,
+        unique: true        
     }    
 });
 

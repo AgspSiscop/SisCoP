@@ -6,7 +6,6 @@ function formatDoc(cmd, value=null) {
 	}
 }
 
-
 function addLink() {
 	const url = prompt('Insert url');    
     if(url.slice(0,4) === 'http'){
@@ -15,9 +14,6 @@ function addLink() {
         formatDoc('createLink', `//${url}`);
     }
 }
-
-
-
 
 const content = document.getElementById('content');
 

@@ -17,13 +17,12 @@ document.addEventListener('change', (e) => {
 
 async function getValues(){
     try {
-        let  year = document.getElementById('year');
+        let  year = document.getElementById('year');       
         const processes = await request({
             method: 'POST',
-            url: `${document.URL}/${year.value}`,
+            url: `/requests/${getLocal()}/`,
             params: `year=${year.value}`
-        });
-        console.log(year.value)
+        });              
         generateProcesses(processes);        
     } catch (error) {
         console.log(error);   
@@ -41,6 +40,16 @@ async function getYearValues(){
     } catch (error) {
         console.log(error);        
     }
+}
+
+function getLocal(){
+    const local = document.URL.split('/')[3]
+    if(local === 'meusprocessos'){
+        return 'myprocess';
+    }
+    if(local === 'processosrecebidos'){
+        return 'processreceived';
+    }    
 }
 
 function generateYears(values){
@@ -63,19 +72,9 @@ function generateProcesses(processes){
         const cancelDelete = createElements('input', {type: 'submit', class: 'redbutton', value: 'Cancelar'});       
         const id = createElements('input', {type: 'hidden', name: 'elementid', value: i._id});
         const editButton = createElements('input', {type: 'submit', class: 'button', value: 'Editar'});
-        const buttonsDiv = createElements('div',{});
-                
-        if(document.URL.split('/')[3] === 'meusprocessos'){
-            if(i.receiver != null || i.section_receiver != null){
-                const transitionMessage = createElements('label', {}, 'Processo em Transferência.');
-                setAttributes(editButton, {class: 'button_disable', disable: ''});
-                setAttributes(anotation, {class: 'button_disable', disable: ''});                
-                buttonsDiv.appendChild(transitionMessage);
-            }
-            appendElements(buttonsDiv, [editButton, anotation, deleteButton]);             
-        }else{            
-            appendElements(buttonsDiv, [anotation, deleteButton]);            
-        }       
+        const buttonsDiv = createElements('div',{});                
+        
+        appendElements(buttonsDiv, [editButton, anotation, deleteButton]);      
             
         const textDiv = createContainer('div', {}, [process, date]);
         const div1 = createContainer('div', {id: 'div1p', class: 'flexorientation--spaceb'}, [textDiv, buttonsDiv]);
@@ -85,19 +84,20 @@ function generateProcesses(processes){
         list.appendChild(form);
         
         document.addEventListener('click', (e) =>{
-            const element = e.target;        
+            const element = e.target;
+            let  year = document.getElementById('year');      
             if(element === deleteButton){
                 e.preventDefault();
                 form.setAttribute('class', 'list_iten_delete');            
                 div2.setAttribute('class', '');
                 div1.setAttribute('class', 'display_none');
             }
-            if(element === sendDelete){
+            if(element === sendDelete){               
                 if(document.URL.split('/')[3] === 'meusprocessos'){
-                    setAttributes(form, {method: 'POST', action: `${document.URL}/${year.value}/delete/${i.user_dir}`});
+                    setAttributes(form, {method: 'POST', action: `${document.URL}/${year.value}/delete/${i._id}`});
                 }
                 if(document.URL.split('/')[3] === 'processosrecebidos'){
-                    setAttributes(form, {method: 'POST', action: `${document.URL}/${year.value}/delete/${i.transfer_dir}`});
+                    setAttributes(form, {method: 'POST', action: `${document.URL}/${year.value}/delete/${i._id}`});
                 }
             }
             if(element === cancelDelete){
@@ -106,21 +106,21 @@ function generateProcesses(processes){
                 div2.setAttribute('class', 'display_none');
                 div1.setAttribute('class', 'flexorientation--spaceb');
             }
-            if(element === anotation){
+            if(element === anotation){                
                 if(document.URL.split('/')[3] === 'meusprocessos'){
-                    setAttributes(form, {method: 'POST', action: `${document.URL}/${year.value}/${i.user_dir}/anotation/${i.title}`});
+                    setAttributes(form, {method: 'POST', action: `${document.URL}/${year.value}/${i._id}/anotation/${i.title}`});
                 }
                 if(document.URL.split('/')[3] === 'processosrecebidos'){
-                    setAttributes(form, {method: 'POST', action: `${document.URL}/${year.value}/${i.transfer_dir}/anotation/${i.title}`});
+                    setAttributes(form, {method: 'POST', action: `${document.URL}/${year.value}/${i._id}/anotation/${i.title}`});
                 }
             }
-            if(element === process){
+            if(element === process){                
                 if(document.URL.split('/')[3] === 'meusprocessos'){
-                    setAttributes(form, {method: 'POST', action: `${document.URL}/${year.value}/${i.user_dir}`})
+                    setAttributes(form, {method: 'POST', action: `${document.URL}/${year.value}/${i._id}`})
                 }
                 if(document.URL.split('/')[3] === 'processosrecebidos'){
-                    setAttributes(form, {method: 'POST', action: `${document.URL}/${year.value}/${i.transfer_dir}`});
-                }                
+                    setAttributes(form, {method: 'POST', action: `${document.URL}/${year.value}/${i._id}`});
+                }            
             }
             if(element ===  editButton){                 
                 setAttributes(form, {method: 'POST', action: `${document.URL}/${year.value}/editprocess/${i._id}`});

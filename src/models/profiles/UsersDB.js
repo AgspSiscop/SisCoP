@@ -2,8 +2,6 @@ const mongoose = require('mongoose');
 const bcrypt =  require('bcryptjs');
 const Schema =  mongoose.Schema;
 const pg = require('../../../config/selectDatas').pg;
-const sectionsName = require('../../../config/selectDatas').sectionsName;
-
 
 const User =  new Schema({
     name:{
@@ -228,7 +226,6 @@ class Users {
             throw new Error(error);            
         }
     }
-
 }
 
 module.exports = Users;

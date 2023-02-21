@@ -14,8 +14,7 @@ async function getSectionsValues(){
         });
         generateSectionsSelect(sections);            
     } catch (error) {
-        console.log(error);
-        
+        console.log(error);        
     }
 }
 

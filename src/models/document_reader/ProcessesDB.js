@@ -35,17 +35,7 @@ const Process =  new Schema({
     },
     description: {
         type: String
-    },
-    user_dir:{
-        type:  String,
-        required: true        
-    },
-    transfer_dir:{
-        type: String        
-    },
-    done_dir:{
-        type: String        
-    },
+    },    
     date: {
         type: String,
         required: true            
@@ -100,16 +90,13 @@ class Processes {
                     origin: this.body.origin,           
                     title: this.body.object,
                     nup: this.body.nup,
-                    category: this.body.category,
-                    user_dir: `${Date.now() + '_' + this.body.object}`,
-                    transfer_dir: null,
-                    done_dir: null,
+                    category: this.body.category,                    
                     description: this.body.description,
                     date: Intl.DateTimeFormat('pt-BR', { dateStyle: "full", timeStyle: "short" }).format(new Date()),
                     year: this.body.year
                 };                
-                await new ProcessModel(process).save();               
-                return {process: process, errors: errors};               
+                const newProcess = await new ProcessModel(process).save();               
+                return {process: newProcess, errors: errors};               
             }
         } catch (error) {            
             if(error.code == 11000){
@@ -128,7 +115,7 @@ class Processes {
             throw new Error(error);            
         }        
     }
-
+    
     async findByParam(param){
         try {
             const process = await ProcessModel.find(param).populate('section_receiver').lean()
@@ -140,12 +127,21 @@ class Processes {
 
     async findOne(){
         try {            
-            const process = await ProcessModel.findOne({_id: this.body.elementid}).populate('origin').lean();
+            const process = await ProcessModel.findOne({_id: this.params.id}).populate('origin').lean();
             return process;         
         } catch (error) {
             throw new Error(error);         
         }
     }
+
+    /*async findOne(){
+        try {            
+            const process = await ProcessModel.findOne({_id: this.body.elementid}).populate('origin').lean();
+            return process;         
+        } catch (error) {
+            throw new Error(error);         
+        }
+    }*/
 
     async findOneByParam(param){
         try {
@@ -163,11 +159,10 @@ class Processes {
                 return {errors: errors}
             }else{
                 this.body.nup = this.body.nup.replace(/\./g, '').replace(/\//g, '').replace(/-/, '');
-                await ProcessModel.updateOne({user_dir: this.params.link}, 
+                await ProcessModel.updateOne({_id: this.params.id}, 
                     {$set: {
                         title: this.body.object,
-                        nup: this.body.nup,
-                        user_dir: `${this.params.link.split('_')[0]}_${this.body.object}`, 
+                        nup: this.body.nup,                         
                         category: this.body.category, 
                         origin: this.body.origin, 
                         description: this.body.description
@@ -181,11 +176,19 @@ class Processes {
 
     async deleteOne(){
         try {
-            await ProcessModel.deleteOne({_id: this.body.elementid});            
+            await ProcessModel.deleteOne({_id: this.params.id});            
         } catch (error) {
             throw new Error(error);            
         }
     }
+
+    /*async deleteOne(){
+        try {
+            await ProcessModel.deleteOne({_id: this.body.elementid});            
+        } catch (error) {
+            throw new Error(error);            
+        }
+    }*/
 
     async deleteUser(){
         try {
@@ -204,7 +207,7 @@ class Processes {
     }
 
     async aggregateStates(param){
-        try {
+        try {                      
             const processes = await ProcessModel.aggregate([
                 {
                   $match: param      
@@ -217,9 +220,36 @@ class Processes {
                     as: 'status'             
                   },                    
                 },
-              ]).sort({_id: -1})
-    
-              return processes;            
+                {
+                    $skip: this.params.page * 10
+                },
+                {
+                    $limit: 10
+                }
+              ]).sort({_id: -1});
+              const number = await ProcessModel.find(param).sort({_id: -1}).count();                    
+                return {processes: processes, count: number};  
+                         
+        } catch (error) {
+            throw new Error(error);            
+        }
+    }
+
+    async aggregateAllStates(){
+        try {            
+            const processes = await ProcessModel.aggregate([                               
+                {
+                  $lookup: {
+                    from: 'processstates',
+                    localField: '_id',
+                    foreignField: 'process',            
+                    as: 'status'             
+                  },                    
+                }                
+            ]).sort({_id: -1}).limit(10).skip((this.params.page * 10));
+            const number = await ProcessModel.find().sort({_id: -1}).count();
+            console.log(processes)    
+              return {processes: processes, count: number};            
         } catch (error) {
             throw new Error(error);            
         }

@@ -128,7 +128,7 @@ async function getUserValues(){
     try {        
         const users = await request({
             method: 'POST',
-            url: '/mensageiro/users',
+            url: '/requests/users',
             params: ''
         });               
         generateUsers(users);
@@ -142,7 +142,7 @@ async function getProcessValues(){
         const year = document.getElementById('year');
         const processes = await request({
             method: 'POST',
-            url: '/mensageiro/processes',
+            url: '/requests/messageprocesses',
             params: `year=${year.value}`
         });
         generateProcesses(processes);
@@ -155,7 +155,7 @@ async function getSectionsValues(){
     try {
         const sections = await request({
             method: 'POST',
-            url:'/mensageiro/sections',
+            url:'/requests/sections9',
             params: ''
         });
         generateSections(sections)        
@@ -180,8 +180,7 @@ function generateProcesses(processes){
 function generateSections(sections){
     const selectSections = document.getElementById('selectsection');
     const messageSections = createSectionsSelect(sections, '', 'messagesection', 'messagesection');
-    const sectionsLabel = createElements('label', {style: 'margin-left: 10px;'}, 'Seção:');                        
-    //const sections = createSelect(sectionsName.slice(2).sort(), sectionsName.slice(2).sort(), '', 'messagesection', 'messagesection'); //alterar quando passar pro banco de dados
+    const sectionsLabel = createElements('label', {style: 'margin-left: 10px;'}, 'Seção:');  
     appendElements(selectSections, [sectionsLabel, messageSections]);
 }
 

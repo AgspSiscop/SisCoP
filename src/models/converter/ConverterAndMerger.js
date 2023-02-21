@@ -5,7 +5,7 @@ class ConverterAndMerger{
     constructor(file, path){
         this.file = file;
         this.path = path
-        this.filesPath = this.#pathTratament();
+        this.filesPath = this.#pathTratament();        
     }
 
     #pathTratament(){
@@ -25,11 +25,12 @@ class ConverterAndMerger{
 
     #pathOfPdfs(){
         let filesPath = []
-        for(let i of this.file){
+        for(let i of this.file){            
             if(i[0] !== '.' && i[1] !== '/'){
                 filesPath += `"./${i.split('.')[0]}.pdf" `
             }else{
-                filesPath += `"${i.split('.')[0]}.pdf" `
+                
+                filesPath += `".${i.split('.')[1]}.pdf" `
             }
         }
         return filesPath
@@ -43,21 +44,22 @@ class ConverterAndMerger{
             if(stderr){
                 resolve(stderr);
             }
-            else{
+            else{                                
                 resolve();
             }            
         })
     });
 
-    #merger = () => new Promise((resolve, reject) => {       
-        exec(`pdftk ${this.#pathOfPdfs()} output "${this.path}/Processo${Date.now()}.pdf"`, (error, stdout, stderr) =>{
+    #merger = () => new Promise((resolve, reject) => {
+        const name = `${this.path}/Processo ${Date.now()}.pdf`           
+        exec(`pdftk ${this.#pathOfPdfs()} output "${name}"`, (error, stdout, stderr) =>{
             if(error){
                 reject(error);
             }
             if(stderr){
                 reject(stderr);
             }
-            resolve()
+            resolve(name);
         });
     });
 
@@ -79,23 +81,23 @@ class ConverterAndMerger{
         try {
             if(this.filesPath.length == 1){
                 await this.#converter(this.filesPath[0]);
-                return 
+                const filePath = this.#pathOfPdfs().split('"')[1];
+                return filePath;
             }
             if(this.filesPath.length > 1){
                 for(let document of this.filesPath){                    
                     await this.#converter(document);                    
                 }
-                await this.#merger();
+                const filePath = await this.#merger();
                 for(let pdfs of this.filesPath){                                   
                    await this.#deletefiles(`.${pdfs.split('.')[1]}.pdf`);
                 }
-                return
+                return filePath;
             }
         } catch (error) {
             throw new Error(error);            
         }
     }
-
 }
 
 module.exports = ConverterAndMerger

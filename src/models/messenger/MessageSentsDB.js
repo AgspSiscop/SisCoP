@@ -33,10 +33,7 @@ const MessageSent =  new Schema({
     date: {
         type: String,
         required: true            
-    },
-    visualized: {
-        type: Array
-    }    
+    }        
 });
 
 const MessageModel = mongoose.model('messagesent', MessageSent);

@@ -1,7 +1,6 @@
 const express = require('express');
 const isAuth =require('../../../config/isAuth');
 const resolver =  require('../../../config/errorHandler');
-const {DocumentManipulator} =  require('../../models/document_reader/DocumentManipulator')
 const Processes =  require('../../models/document_reader/ProcessesDB');
 const Sections = require('../../models/profiles/SectionsDB');
 const Year =  require('../../models/document_reader/YearDB');
@@ -21,9 +20,8 @@ router.post('/cadastro', isAuth, resolver( async(req, res) =>{
     const processObj = await process.create();    
     if(processObj.errors.length > 0){
         res.render('document_reader/create', {errors: processObj.errors});
-    }else{
-        await DocumentManipulator.makeDir(`upload/inProcess/${(new Date).getFullYear()}/${processObj.process.user_dir}`);
-        res.redirect(307, `/meusprocessos/${(new Date).getFullYear()}/${processObj.process.user_dir}`);
+    }else{       
+        res.redirect(307, `/meusprocessos/${processObj.process.year}/${processObj.process._id}`);
     }
 }));
 

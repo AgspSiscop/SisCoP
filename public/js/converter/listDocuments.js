@@ -2,17 +2,17 @@ import {createElements, createSelect, appendElements, setAttributes} from '/js/b
 import {request} from '/js/builders/ajax.js';
 
 window.addEventListener('load', () => {       
-    getValues()
+    getValues();
 });
 
 async function getValues(){
     try {
         const documents = await request({
             method: 'POST',
-            url: `${document.URL}/search/files`,
-            params: ''
-        });       
-
+            url: `/requests/documents`,
+            params: `id=${document.URL.split('/')[6]}`            
+        });        
+        
         elementGenerator(documents);
         
     } catch (error) {
@@ -21,23 +21,23 @@ async function getValues(){
 }
 
 function elementGenerator(documents){
-    generateSelects(documents, 1)
+    generateSelects(documents, 1);
     
     document.addEventListener('click', (e) => {
         const element = e.target;        
         const listDocuments = document.getElementById('listdocuments');
         if(element.id === 'createSelect'){
-            e.preventDefault()
+            e.preventDefault();
             const selects = (listDocuments.children.length/3);
             if(selects < 10){
-                generateSelects(documents, selects+1)                                                    
+                generateSelects(documents, selects+1);                                                    
             }
             if(!document.getElementById('deleteselect')){
-                deleteSelect()
+                deleteSelect();
             }            
         }
         if(element.id === 'deleteselect'){
-            e.preventDefault()                     
+            e.preventDefault();                   
             const selects = (listDocuments.children.length/3);            
             if(selects > 1){
                 for(let i = 0; i < 3; i++){
@@ -52,27 +52,25 @@ function elementGenerator(documents){
            
             document.getElementsByName('file').forEach(x => {
                 if(x.value === ''){
-                    e.preventDefault()
-                    document.getElementById('message').innerHTML = 'Existem Campos em Branco'
+                    e.preventDefault();
+                    document.getElementById('message').innerHTML = 'Existem Campos em Branco';
                 }
             })
-            const form = document.getElementById('convertform');
-            setAttributes(form, {method: 'POST', action: `/conversor/${documents.path.replace('upload', 'conversion')}`})
-            
-        }
-        
+            const form = document.getElementById('convertform');            
+            setAttributes(form, {method: 'POST', action: `/conversor/conversion/${document.URL.split('/')[5]}/${document.URL.split('/')[6]}/${document.URL.split('/')[8]}`});            
+        }        
     });  
 }
 
 function generateSelects(documents, index){
-    const listDocuments = document.getElementById('listdocuments');
-    const paths = ['']
-    const files = ['']
-    for(let document of documents.documents){
-        paths.push(`${documents.path}/${document.name}`);
-        files.push(document.name);
+    const listDocuments = document.getElementById('listdocuments');    
+    const filename = [''];
+    const fileId = [''];
+    for(let document of documents){        
+        filename.push(`${document.filename}${document.extension}`);
+        fileId.push(document._id);
     }
-    const select = createSelect(paths, files, '', 'file', index);       
+    const select = createSelect(fileId, filename, '', 'file', index);       
     const label = createElements('label',{}, `Arquivo ${index} -`);
     appendElements(listDocuments, [label, select, createElements('br',{})]);    
 }

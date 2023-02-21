@@ -26,7 +26,7 @@ router.post('/', resolver((req, res) => {
                     if(error){
                         res.send('Erro: ' + error);
                     }else{
-                        res.redirect('/mensageiro/caixadeentrada000');
+                        res.redirect('/mensageiro/caixadeentrada');
                     }
                 });
             }

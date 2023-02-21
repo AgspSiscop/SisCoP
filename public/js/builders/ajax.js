@@ -12,6 +12,7 @@ export const request = obj => new Promise((resolve, reject) => {
             }
         });        
     }
+    
     if(obj.method.toUpperCase() === 'POST'){
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         xhr.send(obj.params);

@@ -1,41 +1,43 @@
-import {sectionsName} from '/js/builders/selectDatas.js';
-import {createElements, clearContainer, appendElements, setAttributes} from '/js/builders/elementsFunctions.js';
+import {createElements, clearContainer, createContainer, appendElements, setAttributes} from '/js/builders/elementsFunctions.js';
 import {request} from '/js/builders/ajax.js';
 const list =  document.getElementById('sectionslist');
 const searchBar = document.getElementById('search');
 const processList = document.getElementById('list');
 
-window.addEventListener('load', () => {
-    /*for(let i of sectionsName.slice(8).sort()){
-        const div = createElements('div', {class: 'manager_body'});
-        const label = createElements('label', {id: i}, i);        
-        appendElements(div, [label]);
-        appendElements(list, [div]);
-    }*/
+window.addEventListener('load', () => {    
     getSections();
 });
 
 document.addEventListener('click', (e) => {
+    const searchNext = document.getElementById('searchnext');
+    const searchBack = document.getElementById('searchback');
+
     if(e.target.tagName.toLowerCase() === 'label'){
         if(e.target.attributes.name.nodeValue === 'sectionslabel'){
             document.getElementById('sectiontitle').innerHTML = e.target.innerHTML;        
-            getValues(e.target.id);        
+            getSearchValues(0);        
         }
     }    
     if(e.target.id === 'element' && e.target.tagName.toLowerCase() === 'button'){
         setAttributes(document.getElementById(e.target.value), {method: 'POST', action: `/acompanharprocessos/${e.target.value}`});        
+    }    
+    if(e.target.id === 'nextimg' && searchNext.className === 'arrow'){        
+        getSearchValues(document.getElementById('searchindex').innerHTML);
+    }
+    if(e.target.id === 'backimg' && searchBack.className === 'arrow'){
+        getSearchValues(document.getElementById('searchindex').innerHTML -2);
     }
 });
 
 searchBar.addEventListener('keyup', async() => {    
-    await getSearchValues();   
+    await getSearchValues(0);   
 });
 
 async function getSections(){
     try {
         const sections = await request({
             method: 'POST',
-            url: 'acompanharprocessos/sections'
+            url: 'requests/sections1'
         });        
         generateSections(sections);
     } catch (error) {
@@ -43,41 +45,42 @@ async function getSections(){
     }
 }
 
-async function getValues(param){
-    try {
+/*async function getValues(param, number){
+    try {        
         const processes = await request({
             method: 'POST',
-            url:'/acompanharprocessos',
+            url:`/requests/processinmanager${String(number)}`,
             params: `origin=${param}`
         });
-        elementGenerator(processes)      
+        elementGenerator(processes, number)      
     } catch (error) {
         console.log(error)      
     }
-}
+}*/
 
-async function getSearchValues(){
+async function getSearchValues(number){
     try{
         const sectionTitle = document.getElementById('sectiontitle');
         const typeSearch = document.getElementById('typeofsearch');
         const searchBar = document.getElementById('search');
         const processes = await request({
             method: 'POST',
-            url: '/acompanharprocessos/search',
+            url: `/requests/manager/search${String(number)}`,
             params: `origin=${sectionTitle.innerHTML}&type=${typeSearch.value}&search=${searchBar.value}`
         });        
-        elementGenerator(processes);  
+        elementGenerator(processes, number);  
     }catch(error){
         console.log(error);
     }
 }
 
-function elementGenerator(processes){
+function elementGenerator(processes, number){
     clearContainer(processList);
     createHeaderList();
-    for(let i of processes){
+    for(let i of processes.processes){
         createBodyList(i);
     }   
+    generateArrows(processes, 10, parseInt(number))
 }
 
 function generateSections(sections){
@@ -87,6 +90,11 @@ function generateSections(sections){
         appendElements(div, [label]);
         appendElements(list, [div]);
     }
+         
+    const generalLabel = createElements('label', {id: '', name: 'sectionslabel'}, 'Busca Geral');
+    const generalDiv = createContainer('div', {class: 'manager_body'}, [generalLabel]);
+    const div = createContainer('div', {}, [document.createElement('br'), generalDiv])
+    appendElements(list, [div]);
 }
 
 function createHeaderList(){
@@ -134,4 +142,20 @@ function createBodyList(process){
 
     appendElements(form, [div1, div2, div3, elementID]);    
     processList.appendChild(form);
+}
+
+function generateArrows(processes, elementsInPage, number){
+    const searchIndex = createElements('p', {id: 'searchindex', style: 'padding-top:35px;', class: 'footer_index'}, number +1);
+    const aNext = createContainer('a', {id: 'searchnextlink'},[createElements('img', {src: '/img/seta.png', style: 'height: 20px; width: 20px;', id: 'nextimg'})]);
+    const searchNext = createContainer('div', {class: 'arrow_disabled', id: 'searchnext'}, [aNext]);
+    const aBack = createContainer('a', {id: 'searchbacklink'},[createElements('img', {src: '/img/seta2.png', style: 'height: 20px; width: 20px;', id: 'backimg'})]);
+    const searchBack = createContainer('div', {class: "arrow_disabled", id: 'searchback'}, [aBack]);
+    const searchArrows = createContainer('div', {class: 'flexorientation--spaceb', id: 'searcharrow'},[searchBack, searchIndex,searchNext]);    
+    if(processes.count -((number + 1) * elementsInPage) > 0){ 
+        searchNext.setAttribute('class', 'arrow');
+    }
+    if((number+1) > 1){
+        searchBack.setAttribute('class', 'arrow');
+    }
+    processList.appendChild(searchArrows) 
 }

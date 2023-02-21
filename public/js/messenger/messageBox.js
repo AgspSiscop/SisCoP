@@ -3,11 +3,16 @@ import {request} from '/js/builders/ajax.js';
 
 const search =  document.getElementById('search');
 
+window.addEventListener('load', () => {
+    getSearchValues(0);
+
+});
+
 search.addEventListener('keyup', async () => {    
     await getSearchValues(0);
 });
 
-document.addEventListener('click', (e) => {
+document.addEventListener('click', (e) => {    
     const searchNext = document.getElementById('searchnext');
     const searchBack = document.getElementById('searchback');
     if(e.target.id === 'nextimg' && searchNext.className === 'arrow'){        
@@ -20,11 +25,12 @@ document.addEventListener('click', (e) => {
 
 async function getSearchValues(number){
     try {
+        const local = getLocal();      
         const search =  document.getElementById('search');
         const typeSearch = document.getElementById('typeofsearch');
         const messages = await request({
             method: 'POST',
-            url: `${document.URL.slice(0, -3)}/search${String(number).padStart(3, 0)}`,
+            url: `/requests/${local}/search${String(number)/*.padStart(3, 0)*/}`,
             params: `type=${typeSearch.value}&search=${search.value}`
         });
         generateElements(messages, number);        
@@ -33,16 +39,27 @@ async function getSearchValues(number){
     }
 }
 
+function getLocal(){
+    if(document.URL.split('/')[4] === 'caixadeentrada'){
+        return 'inbox';
+    }
+    if(document.URL.split('/')[4] === 'enviadas'){
+        return 'sent'
+    }
+    
+}
+
 function generateElements(messages, number){
+    const local = getLocal();
     const mainContainer = document.getElementById('maincontainer');
     clearContainer(mainContainer);
     
     for(let i of messages.messages){        
         const delImg = createElements('img', {src: '/img/trash.png', style: 'height: 16px;'});
         const delButton = createContainer('button', {class: 'redbutton', style: 'margin-top: 0px; margin-left: 20px;'}, [delImg]);
-        const delForm = createContainer('form', {method: 'POST', action: `${document.URL.slice(0, -3)}/${i._id}/delete`}, [delButton]);
+        const delForm = createContainer('form', {method: 'POST', action: `${document.URL}/${i._id}/delete`}, [delButton]);
         const divFather = createContainer('div', {class: 'flexorientation--spaceb list_iten'}, []);
-        const a = createContainer('a', {href: `${document.URL.slice(0, -3)}/${i._id}`, class: 'message_style'}, [divFather]);
+        const a = createContainer('a', {href: `${document.URL}/${i._id}`, class: 'message_style'}, [divFather]);
         
         if(i.section_receiver){
             for(let j of [i.title, i.process_title, i.section_receiver.name, i.date]){
@@ -50,9 +67,17 @@ function generateElements(messages, number){
                 divFather.appendChild(div);
             }
         }else{
-            for(let j of [i.title, i.process_title, `${i.receiver.pg} ${i.receiver.name}`,i.date]){
-                let div = createContainer('div', {class: 'messenger_body'},[createElements('label', {}, j)]);
-                divFather.appendChild(div);
+            if(local === 'sent'){
+                for(let j of [i.title, i.process_title, `${i.receiver.pg} ${i.receiver.name}`,i.date]){
+                    let div = createContainer('div', {class: 'messenger_body'},[createElements('label', {}, j)]);
+                    divFather.appendChild(div);
+                }
+            }
+            if(local === 'inbox'){
+                for(let j of [i.title, i.process_title, `${i.sender.pg} ${i.sender.name}`,i.date]){
+                    let div = createContainer('div', {class: 'messenger_body'},[createElements('label', {}, j)]);
+                    divFather.appendChild(div);
+                }
             }
         }
     
@@ -63,7 +88,7 @@ function generateElements(messages, number){
 }
 
 function generateArrows(messages, elementsInPage, number){
-    const searchIndex = createElements('p', {id: 'searchindex'}, number +1);
+    const searchIndex = createElements('p', {id: 'searchindex', style: 'padding-top:35px;', class: 'footer_index'}, number +1);
     const aNext = createContainer('a', {id: 'searchnextlink'},[createElements('img', {src: '/img/seta.png', style: 'height: 20px; width: 20px;', id: 'nextimg'})]);
     const searchNext = createContainer('div', {class: 'arrow_disabled', id: 'searchnext'}, [aNext]);
     const aBack = createContainer('a', {id: 'searchbacklink'},[createElements('img', {src: '/img/seta2.png', style: 'height: 20px; width: 20px;', id: 'backimg'})]);

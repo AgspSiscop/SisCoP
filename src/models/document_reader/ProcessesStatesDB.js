@@ -7,6 +7,10 @@ const ProcessState =  new Schema({
         ref: 'process',
         required: true
     },
+    user: {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'user'
+    },
     state: {
         type: String,
         required: true
@@ -36,11 +40,11 @@ class ProcessStates {
 
     async delete() {
         try {
-            await ProcessStateModel.deleteMany({process: this.body.elementid});            
+            await ProcessStateModel.deleteMany({process: this.params.id});            
         } catch (error) {
             throw new Error(error);           
         }            
-    }
+    }    
 
     async deleteOne(){
         try {
@@ -54,6 +58,7 @@ class ProcessStates {
         try {
             const State = {
                 process: this.body.elementid,
+                user: this.locals.id,
                 state: this.body.state,
                 anotation: this.body.anotation,
                 date: Intl.DateTimeFormat('pt-BR', { dateStyle: "full", timeStyle: "short" }).format(new Date())
@@ -75,7 +80,7 @@ class ProcessStates {
 
     async findByParam(param){
         try {
-            const states = await ProcessStateModel.find(param).sort({_id: -1}).lean()
+            const states = await ProcessStateModel.find(param).sort({_id: -1}).populate('user').lean()
             return states;                       
         } catch (error) {
             throw new Error(error);            
@@ -88,14 +93,14 @@ class ProcessStates {
             if(this.body.user){
                 newState = {
                     process: this.body.process,
-                    state: 'Em transferência',
+                    state: 'Em Transferência',
                     anotation: `Destinado à/ao ${this.body.username}`,
                     date: Intl.DateTimeFormat('pt-BR', { dateStyle: "full", timeStyle: "short" }).format(new Date())
                 }
             }else{
                 newState = {
                     process: this.body.process,
-                    state: 'Em transferência',
+                    state: 'Em Transferência',
                     anotation: `Destinado à/ao ${this.body.messagesection}`,
                     date: Intl.DateTimeFormat('pt-BR', { dateStyle: "full", timeStyle: "short" }).format(new Date())
                 }

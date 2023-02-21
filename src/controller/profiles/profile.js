@@ -1,7 +1,6 @@
 const express = require('express');
 const isAuth =require('../../../config/isAuth');
-const resolver =  require('../../../config/errorHandler');;
-
+const resolver =  require('../../../config/errorHandler');
 
 const router = express.Router();
 
