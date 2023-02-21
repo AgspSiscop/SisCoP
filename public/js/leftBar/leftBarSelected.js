@@ -9,6 +9,9 @@ if((/\/(mensageiro)\/(caixadeentrada)([0-9]*)?\/?([a-z]*)?/).exec((document.URL)
 if((/\/(mensageiro)\/(enviadas)([0-9]*)?\/?([a-z]*)?/).exec((document.URL).slice(21))){
     setAttributes(document.getElementById('messagesents'), {class: 'leftbar_itens leftbar_itens_selected'});
 }
+if((/\/(mensageiro)\/(arquivadas)([0-9]*)?\/?([a-z]*)?/).exec((document.URL).slice(21))){
+    setAttributes(document.getElementById('messagearchived'), {class: 'leftbar_itens leftbar_itens_selected'});
+}
 if((document.URL).slice(21) == '/novoprocesso/montagemdeprocesso' || (/\/(montagem)\/?([a-z]*)/).exec((document.URL).slice(21))){
     setAttributes(document.getElementById('processmaker'), {class: 'leftbar_itens leftbar_itens_selected'});   
 }else{

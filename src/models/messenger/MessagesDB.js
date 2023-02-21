@@ -32,8 +32,12 @@ const Message =  new Schema({
         required: true            
     },
     visualized: {
-        type: Array        
-    }    
+        type: Boolean        
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    }
 });
 
 const MessageModel = mongoose.model('message', Message);
@@ -63,9 +67,9 @@ class Msg {
     async findReceived(numMessages){
         try {
             const messages = await MessageModel.find({receiver: this.locals.id})
-            .sort({_id: -1}).limit(numMessages).skip((this.params.page * numMessages)).populate('sender').populate('process').lean();
+            .sort({createdAt: -1}).limit(numMessages).skip((this.params.page * numMessages)).populate('sender').populate('process').lean();
 
-            const number = await MessageModel.find({receiver: this.locals.id}).sort({date: -1}).count();
+            const number = await MessageModel.find({receiver: this.locals.id}).sort({createdAt: -1}).count();
 
             return {messages: messages, index: this.params.page, count: number};            
         } catch (error) {
@@ -103,9 +107,9 @@ class Msg {
             search.receiver = this.locals.id;
             search[this.body.type] = new RegExp(`${this.body.search}`, 'i');
             
-            const messages = await MessageModel.find(search).sort({_id: -1}).
+            const messages = await MessageModel.find(search).sort({createdAt: -1}).
             limit(numMessages).skip((this.params.page * numMessages)).populate('sender').populate('process').populate('receiver').lean()
-            const number = await MessageModel.find(search).sort({_id: -1}).count();
+            const number = await MessageModel.find(search).sort({createdAt: -1}).count();
             return {messages: messages, count: number};            
         } catch (error) {
             throw new Error(error.message);           

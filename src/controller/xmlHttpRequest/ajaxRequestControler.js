@@ -9,6 +9,7 @@ const Year =  require('../../models/document_reader/YearDB');
 const Users = require('../../models/profiles/UsersDB');
 const Msg = require('../../models/messenger/MessagesDB');
 const MsgSent = require('../../models/messenger/MessageSentsDB');
+const MsgArchived = require('../../models/messenger/messagesArchivedDB');
 
 const router = express.Router();
 
@@ -67,6 +68,12 @@ router.post('/inbox/search:page', isAuth, resolver( async(req, res) => {
 
 router.post('/sent/search:page', isAuth, resolver( async(req, res) => {    
     const message = new MsgSent(req.body, res.locals, req.params);
+    const messageObj = await message.findByFilter(15);
+    res.send(JSON.stringify({messages: messageObj.messages, count: messageObj.count}));           
+}));
+
+router.post('/archived/search:page', isAuth, resolver( async(req, res) => {    
+    const message = new MsgArchived(req.body, res.locals, req.params);
     const messageObj = await message.findByFilter(15);
     res.send(JSON.stringify({messages: messageObj.messages, count: messageObj.count}));           
 }));

@@ -53,8 +53,14 @@ function generateStates(states){
         const label1 = createElements('label', {}, 'Status:&ensp;');
         const label2 = createElements('label', {}, 'Obs:&ensp;');
         const stateId = createElements('input', {type: 'hidden', name: 'elementid', value: i._id});        
-        const prgh1 = createElements('p', {style: 'font-size: 15px;'}, i.state);
-        const prgh2 = createElements('p', {style: 'font-size: 15px;'}, i.anotation);
+        const prgh1 = createElements('p', {style: 'font-size: 15px;'}, i.state);        
+        const prgh2 = createElements('p', {style: 'font-size: 14px; font-style: italic;'}, 'Sem observações');
+
+        if(i.anotation){
+            setAttributes(prgh2, {style: 'font-size: 15px;'})
+            prgh2.innerHTML = i.anotation            
+        }
+
         const date = createElements('small', {},'');
         if(i.user){
             date.innerHTML = `<b>De:</b> ${i.user.pg} ${i.user.name} - ${i.date}`

@@ -40,6 +40,7 @@ export const createMessageUsersSelect = (optionsArray, selectName, selectID) => 
     const select = document.createElement('select');
     select.name = selectName;
     select.id = selectID;
+    select.appendChild(createElements('option', {value: ''}, ''))
     for(let i = 0; i < optionsArray.length; i++){
         const options = document.createElement('option');
         options.value = optionsArray[i]._id;

@@ -43,7 +43,11 @@ const Process =  new Schema({
     year: {
         type: String,
         required: true
-    }    
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    }  
 });
 
 const ProcessModel = mongoose.model('process', Process);
@@ -226,8 +230,8 @@ class Processes {
                 {
                     $limit: 10
                 }
-              ]).sort({_id: -1});
-              const number = await ProcessModel.find(param).sort({_id: -1}).count();                    
+              ]).sort({createdAt: -1});
+              const number = await ProcessModel.find(param).sort({createdAt: -1}).count();                    
                 return {processes: processes, count: number};  
                          
         } catch (error) {
@@ -246,8 +250,8 @@ class Processes {
                     as: 'status'             
                   },                    
                 }                
-            ]).sort({_id: -1}).limit(10).skip((this.params.page * 10));
-            const number = await ProcessModel.find().sort({_id: -1}).count();
+            ]).sort({createdAt: -1}).limit(10).skip((this.params.page * 10));
+            const number = await ProcessModel.find().sort({createdAt: -1}).count();
             console.log(processes)    
               return {processes: processes, count: number};            
         } catch (error) {

@@ -21,6 +21,10 @@ const ProcessState =  new Schema({
     date: {
         type: String,
         required: true            
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
     }       
 });
 
@@ -71,7 +75,7 @@ class ProcessStates {
 
     async find(){
         try {
-            const states = await ProcessStateModel.find({process: this.body.elementid}).sort({_id: -1}).lean();
+            const states = await ProcessStateModel.find({process: this.body.elementid}).sort({createdAt: -1}).lean();
             return states;            
         } catch (error) {
             throw new Error(error);            
@@ -80,7 +84,7 @@ class ProcessStates {
 
     async findByParam(param){
         try {
-            const states = await ProcessStateModel.find(param).sort({_id: -1}).populate('user').lean()
+            const states = await ProcessStateModel.find(param).sort({createdAt: -1}).populate('user').lean()
             return states;                       
         } catch (error) {
             throw new Error(error);            

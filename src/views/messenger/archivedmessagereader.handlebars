@@ -1,0 +1,31 @@
+<div class="mainwindow">
+    <div class="content_window" id="reader">
+        {{#if message}}        
+        <div class="flexorientation--spaceb">
+            <h2>{{message.title}}</h2>
+            <small>{{message.date}}</small>
+        </div>               
+        <hr>        
+        <input type="hidden" id="messagecontent" value="{{message.content}}">
+            
+        <div id="message" class="reader">
+
+        </div>        
+        <small>Remetente: {{message.sender.pg}} {{message.sender.name}}</small>
+        <div class="flexorientation--spaceb">
+            <div>
+                <form id="processmessage">
+                    <label>Processo:</label>                                       
+                    <input type="hidden" id="process" name="process" value="{{message.process._id}}">
+                    <input type="hidden" id="processname" value="{{message.process_title}}">
+                </form>
+            </div>
+            <form method="POST" action="/mensageiro/arquivadas/{{message._id}}/delete">
+                <button class="redbutton" style="margin-top: 0px; margin-left: 20px;"><img src="/img/trash.png" style="height: 16px;"></button>               
+            </form>
+        </div>
+        {{/if}}             
+    </div>   
+</div>
+<script type="module" src="/js/messenger/processInMessage.js"></script>
+<script src="/js/messenger/messageEncoder.js"></script>

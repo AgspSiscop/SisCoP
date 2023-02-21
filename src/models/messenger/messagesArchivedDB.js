@@ -29,6 +29,13 @@ const MessageArchived =  new Schema({
     date: {
         type: String,
         required: true            
+    },
+    visualized: {
+        type: Boolean        
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
     }      
 });
 
@@ -63,9 +70,9 @@ class Archived {
     async find(numMessages){
         try {
             const messages = await MessageModel.find({receiver: this.locals.id})
-            .sort({_id: -1}).limit(numMessages).skip((this.params.page * numMessages)).populate('sender').populate('process').lean();
+            .sort({createdAt: -1}).limit(numMessages).skip((this.params.page * numMessages)).populate('sender').populate('process').lean();
 
-            const number = await MessageModel.find({receiver: this.locals.id}).sort({date: -1}).count();
+            const number = await MessageModel.find({receiver: this.locals.id}).sort({createdAt: -1}).count();
 
             return {messages: messages, index: this.params.page, count: number};            
         } catch (error) {
@@ -74,8 +81,8 @@ class Archived {
     }    
 
     async findOne(){
-        try {            
-            const message = await  MessageModel.findOne({_id: this.params.id}).populate('process').populate('sender').populate('receiver').lean();                          
+        try {                   
+            const message = await  MessageModel.findOne({_id: this.params.id}).populate('process').populate('sender').populate('receiver').lean();                                      
             if(message.receiver.name == this.locals.name){
                 return {message: message};
             }else{
@@ -100,23 +107,23 @@ class Archived {
             search.receiver = this.locals.id;
             search[this.body.type] = new RegExp(`${this.body.search}`, 'i');
             
-            const messages = await MessageModel.find(search).sort({_id: -1}).
+            const messages = await MessageModel.find(search).sort({createdAt: -1}).
             limit(numMessages).skip((this.params.page * numMessages)).populate('sender').populate('process').lean()
-            const number = await MessageModel.find(search).sort({date: -1}).count();
+            const number = await MessageModel.find(search).sort({createdAt: -1}).count();
             return {messages: messages, count: number};            
         } catch (error) {
             throw new Error(error.message);           
         }
     }
 
-    async findOne(){
+    /*async findOne(){
         try {            
             const message = await MessageModel.findOne({_id: this.body.elementid}).lean();
             return message;         
         } catch (error) {
             throw new Error(error);         
         }
-    }
+    }*/
 
     async findOneByParam(param){
         try {
@@ -126,43 +133,15 @@ class Archived {
         } catch (error) {
             throw new Error(error);
         }        
-    }
+    }    
 
-    async create(){
-        try {            
-            const newMessage = {            
-                    sender: this.locals.user,
-                    receiver: this.body.user,
-                    process: this.body.process,
-                    title: this.body.title,
-                    process_title: this.params.title,            
-                    content: this.body.content[1],
-                    date: Intl.DateTimeFormat('pt-BR', { dateStyle: "full", timeStyle: "short" }).format(new Date())         
-                }            
-    
-        await new MessageModel(newMessage).save();            
-        } catch (error) {
-            throw new Error(error);            
-        }
-    }
-
-    async createAlternative(receiver){
+    async create(newMessage){
         try {
-            const newMessage = {            
-                sender: this.locals.user,
-                receiver: receiver,
-                process: this.body.process,
-                title: this.body.title,
-                process_title: this.params.title,            
-                content: this.body.content[1],
-                date: Intl.DateTimeFormat('pt-BR', { dateStyle: "full", timeStyle: "short" }).format(new Date()),            
-            }
-            await new MessageModel(newMessage).save();
-            
+            await new MessageModel(newMessage).save()
         } catch (error) {
-            throw new Error(error);
+            throw new Error(error);  
         }
-    }
+    }    
 }
 
 module.exports = Archived

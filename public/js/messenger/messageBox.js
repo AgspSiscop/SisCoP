@@ -32,7 +32,7 @@ async function getSearchValues(number){
             method: 'POST',
             url: `/requests/${local}/search${String(number)/*.padStart(3, 0)*/}`,
             params: `type=${typeSearch.value}&search=${search.value}`
-        });
+        });        
         generateElements(messages, number);        
     } catch (error) {
         console.log(error);        
@@ -46,6 +46,9 @@ function getLocal(){
     if(document.URL.split('/')[4] === 'enviadas'){
         return 'sent'
     }
+    if(document.URL.split('/')[4] === 'arquivadas'){
+        return 'archived'
+    }
     
 }
 
@@ -56,8 +59,11 @@ function generateElements(messages, number){
     
     for(let i of messages.messages){        
         const delImg = createElements('img', {src: '/img/trash.png', style: 'height: 16px;'});
-        const delButton = createContainer('button', {class: 'redbutton', style: 'margin-top: 0px; margin-left: 20px;'}, [delImg]);
+        const delButton = createContainer('button', {class: 'redbutton', style: 'margin-top: 0px; margin-left: 0px; margin-right: 40px;'}, [delImg]);
         const delForm = createContainer('form', {method: 'POST', action: `${document.URL}/${i._id}/delete`}, [delButton]);
+        const archImg = createElements('img', {src: '/img/archive.png', style: 'height: 16px;'});
+        const archButton = createContainer('button', {class: 'yellowbutton', style: 'margin-top: 0px; margin-left: 40px; margin-right: 40px;'}, [archImg]);
+        const archForm = createContainer('form', {method: 'POST', action: `caixadeentrada/${i._id}/archive`}, [archButton]);
         const divFather = createContainer('div', {class: 'flexorientation--spaceb list_iten'}, []);
         const a = createContainer('a', {href: `${document.URL}/${i._id}`, class: 'message_style'}, [divFather]);
         
@@ -72,12 +78,21 @@ function generateElements(messages, number){
                     let div = createContainer('div', {class: 'messenger_body'},[createElements('label', {}, j)]);
                     divFather.appendChild(div);
                 }
+                delButton.setAttribute('style', 'margin-top: 0px; margin-left: 30px; margin-right: 60px;')
             }
             if(local === 'inbox'){
                 for(let j of [i.title, i.process_title, `${i.sender.pg} ${i.sender.name}`,i.date]){
-                    let div = createContainer('div', {class: 'messenger_body'},[createElements('label', {}, j)]);
-                    divFather.appendChild(div);
+                    let div = createContainer('div', {class: 'messenger_body'},[createElements('label', {}, j)]);                    
+                    divFather.appendChild(div);                    
+                }                
+                divFather.appendChild(archForm)
+            }
+            if(local === 'archived'){
+                for(let j of [i.title, i.process_title, `${i.sender.pg} ${i.sender.name}`,i.date]){
+                    let div = createContainer('div', {class: 'messenger_body'},[createElements('label', {}, j)]);                    
+                    divFather.appendChild(div);                    
                 }
+                delButton.setAttribute('style', 'margin-top: 0px; margin-left: 30px; margin-right: 60px;')                
             }
         }
     

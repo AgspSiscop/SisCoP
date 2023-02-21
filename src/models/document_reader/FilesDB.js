@@ -21,6 +21,10 @@ const File =  new Schema({
     message: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'message'
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
     }    
 });
 File.index({filename: 1, extension: 1, process: 1, message: 1}, {unique: true});

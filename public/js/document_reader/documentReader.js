@@ -304,7 +304,13 @@ function generateStatesBlocks(process, processStates, states, user){
         const stateId = createElements('input', {type: 'hidden', name: 'elementid', value: i._id});
         const deleteState = createElements('input', {type: 'submit', class: 'delete_status', value: 'Apagar'});
         const prgh1 = createElements('p', {style: 'font-size: 15px;'}, i.state);
-        const prgh2 = createElements('p', {style: 'font-size: 15px;'}, i.anotation);
+        const prgh2 = createElements('p', {style: 'font-size: 14px; font-style: italic;'}, 'Sem observações');
+
+        if(i.anotation){
+            setAttributes(prgh2, {style: 'font-size: 15px;'})
+            prgh2.innerHTML = i.anotation            
+        }
+
         const date = createElements('small', {},'');
         if(i.user){
             date.innerHTML = `<b>De:</b> ${i.user.pg} ${i.user.name} - ${i.date}`

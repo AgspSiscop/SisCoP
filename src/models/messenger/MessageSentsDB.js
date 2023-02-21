@@ -33,7 +33,11 @@ const MessageSent =  new Schema({
     date: {
         type: String,
         required: true            
-    }        
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    }       
 });
 
 const MessageModel = mongoose.model('messagesent', MessageSent);
@@ -64,7 +68,7 @@ class MsgSent {
     async findSent(numMessages){
         try {
             const messages = await MessageModel.find({sender: this.locals.user}).populate('section_receiver').populate('process').populate('receiver')
-            .sort({_id: -1}).limit(numMessages).skip((this.params.page * numMessages)).lean();
+            .sort({createdAt: -1}).limit(numMessages).skip((this.params.page * numMessages)).lean();
     
             const number = await MessageModel.find({sender: this.locals.user}).count();
 
@@ -101,8 +105,8 @@ class MsgSent {
             search1.sender = this.locals.id;
             search1[this.body.type] = new RegExp(`${this.body.search}`, 'i');
     
-            const messages = await MessageModel.find(search1).sort({_id: -1}).limit(numMessages).skip((this.params.page * numMessages)).populate('sender').populate('section_receiver').populate('receiver').populate('process').lean()
-            const number = await MessageModel.find(search1).sort({date: -1}).count()
+            const messages = await MessageModel.find(search1).sort({createdAt: -1}).limit(numMessages).skip((this.params.page * numMessages)).populate('sender').populate('section_receiver').populate('receiver').populate('process').lean()
+            const number = await MessageModel.find(search1).sort({createdAt: -1}).count()
             return {messages: messages, count: number};           
         } catch (error) {
             throw new Error(error.message);            

@@ -560,10 +560,24 @@ select{
     color: rgb(253, 253, 253);    
     margin: 10px;
     width:fit-content;
-    height: fit-content;  
+    height: fit-content;      
 }
 .redbutton:hover{
     background-color: rgb(241, 36, 36);
+    cursor: pointer;    
+}
+.yellowbutton{
+    padding: 5px;
+    background-color: rgb(202, 191, 30);
+    border: 0px;
+    border-radius: 3px;
+    color: rgb(253, 253, 253);    
+    margin: 10px;
+    width:fit-content;
+    height: fit-content;  
+}
+.yellowbutton:hover{
+    background-color: rgb(224, 222, 72);;
     cursor: pointer;    
 }
 .transparentbutton{    
