@@ -1,5 +1,5 @@
-<div class="mainwindow">
-    <div class="content_window" id="reader">
+<div class="mainwindow small_content">
+    <div class="content_window " id="reader">
         {{#if message}}
         <div class="flexorientation--spaceb">
             <h2>{{message.title}}</h2>
@@ -20,7 +20,8 @@
                 <a>{{message.process_title}}</a>
             </div>
             <form method="POST" action="/mensageiro/enviadas/{{message._id}}/delete">
-                <button class="redbutton" style="margin-top: 0px; margin-left: 20px;"><img src="/img/trash.png" style="height: 16px;"></button>               
+                <button class="redbutton" style="margin-top: 0px; margin-left: 20px;"><img src="/img/trash.png" style="height: 16px;"></button>
+                <label>Apagar</label>               
             </form>       
         </div>
         {{/if}}             

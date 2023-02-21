@@ -10,8 +10,9 @@ body{
 }
 
 hr{
-    border: solid 1px rgb(218, 218, 218);    
-    margin:10px auto 20px auto
+    border: solid 1px rgb(218, 218, 218);   
+    margin-top: 10px;
+    margin-bottom: 20px;
 }
 select{
     margin-bottom: 10px;
@@ -98,6 +99,38 @@ select{
 .leftbar_itens p{    
     padding: 25px;
 }
+.leftbar_subitens{
+    font-size: 12px;
+    background-size: 250px, auto;
+    width: 242px;
+    background-color: rgb(233, 236, 232);
+    font-weight: bold;    
+    border-bottom: 1px solid rgb(219, 219, 219);    
+    border-right: solid 8px  rgb(136, 194, 42);
+    
+    
+}
+.leftbar_subitens a{
+    text-decoration: none;
+    color: rgb(105, 105, 105);   
+}
+.leftbar_subitens p{    
+    padding: 15px 25px 15px 25px;
+}
+.leftbar_subitens:hover{    
+    background-image: linear-gradient(to right, rgb(183, 190, 178), rgb(158, 173, 149));
+    border-bottom: 1px solid  rgb(183, 190, 178);
+    cursor: pointer;    
+}
+.leftbar_subitens_selected{
+    background-color: rgb(136, 194, 42);
+    border-bottom: solid 1px  rgb(136, 194, 42);
+    cursor: pointer;    
+}
+.leftbar_subitens_selected a{
+    color: rgb(255, 255, 255);    
+}
+
 #list button{    
     margin-right: -10px;    
     margin-top: 1.5px;
@@ -115,11 +148,13 @@ select{
 }
 .leftbar_itens:hover{
     background-image: linear-gradient(to right, rgb(136, 194, 42), rgb(118, 168, 36));
+    border-bottom: 1px solid  rgb(118, 168, 36);
     cursor: pointer;    
 }
 .leftbar_itens_selected{
     background-image: linear-gradient(to right, rgb(136, 194, 42), rgb(118, 168, 36));
-    cursor: pointer;    
+    cursor: pointer;
+    border-bottom: 1px solid  rgb(118, 168, 36);   
 }
 .list_iten div {
     margin-left: 5px;
@@ -175,7 +210,7 @@ select{
 
 /*****************************************************************************windows-*/
 .graphicwindow{
-    background-color:  rgb(233, 236, 232);;    
+    background-color:  rgb(233, 236, 232);  
     color: rgb(105, 105, 105);
     border-radius: 2px;
     min-height: 300px;
@@ -184,17 +219,29 @@ select{
     margin-bottom: 30px;
 }
 .mainwindow{
-    background-color:  rgb(233, 236, 232);;    
+    background-color:  rgb(233, 236, 232);   
     color: rgb(105, 105, 105);
     border-radius: 3px;
     min-height: 300px;
-    min-width: 1000px;
+    width: 1010px;
     max-width: 1200px;
     box-shadow: 6px 6px 10px 1px rgb(24, 24, 24);
     margin-bottom: 30px;
 }
+.window_texteditor{    
+    width: 1010px;    
+}
+.window_normal{
+    width: 1000px;
+}
+.window_medium{
+    width: 1100px;
+}
+.window_large{    
+    width: 1400px;    
+}
 .statuswindow{
-    background-color:  rgb(233, 236, 232);;    
+    background-color:  rgb(233, 236, 232);    
     color: rgb(105, 105, 105);
     border-radius: 0px 3px 3px 0px;
     /*height:700px;*/ 
@@ -232,6 +279,9 @@ select{
     margin: 20px 0px 40px 0px;
     text-align: center;
     cursor: pointer; 
+}
+.small_content{
+    width: 990px;
 }
 .content_window{
     border-radius: 3px;
@@ -451,6 +501,9 @@ select{
 .flexorientation--end{
     display: flex;
     justify-content:flex-end;
+}
+.margin_medium{
+    margin-left: 15px;
 }
 
 /********************************************************************************Components*/
@@ -736,6 +789,85 @@ select{
 .footer_index{    
     font-weight: bold;
     
+}
+
+@media( max-width: 1366px){
+    .header_color{
+        width: 70vw;
+    }
+    .mainwindow{
+        width: 50vw;
+    }
+    .reader{
+        width: 63vw;
+    }
+    .logwindow{
+        width: 20vw;
+    }
+    .window_normal{
+        width: 70vw;
+    }
+    .window_medium{
+        width: 70vw;
+    }
+    .window_large{
+        width: 70vw;
+    }
+    .window_texteditor{
+        width: 70vw;
+    }
+    .small_content{
+        width: 70vw;
+    }
+    .content_window{
+        width: 68vw;
+    }
+    .bar_color{
+        width: 70vw;
+    }
+    .statusdiv{
+        width: 25vw;
+    }
+    .statuswindow{
+        width: 25vw;
+    }
+   
+    .mainwindow hr{
+        width: 47vw;
+    }
+    .window_large hr{
+        width: 67vw;       
+    }
+    .window_normal hr{
+        width: 67vw;  
+    }
+    .window_medium hr{
+        width: 67vw;         
+    }
+    .window_texteditor hr{
+        width: 67vw;         
+    }
+    .logwindow hr{
+        width: 33vw;
+    }
+    .logwindow .flexorientation--spacea{
+        width: 33vw;
+    }
+    .window_large .margin_medium{
+        margin-left: 5px;
+        width: 68vw;
+    }
+    .manager_header{
+        margin-right: 19vw;
+    }
+    #list .flexorientation--spaceb{
+        margin-left: 5px;
+    }
+    .manager_process_title{
+        width: 17vw;
+
+    }
+      
 }
 
 

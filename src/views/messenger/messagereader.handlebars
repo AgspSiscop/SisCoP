@@ -1,4 +1,4 @@
-<div class="mainwindow">
+<div class="mainwindow small_content">
     <div class="content_window" id="reader">
         {{#if message}}        
         <div class="flexorientation--spaceb">
@@ -20,9 +20,16 @@
                     <input type="hidden" id="processname" value="{{message.process_title}}">
                 </form>
             </div>
-            <form method="POST" action="/mensageiro/caixadeentrada/{{message._id}}/delete">
-                <button class="redbutton" style="margin-top: 0px; margin-left: 20px;"><img src="/img/trash.png" style="height: 16px;"></button>               
-            </form>
+            <div class="flexorientation--start">
+                <form method="POST" action="/mensageiro/caixadeentrada/{{message._id}}/archive">                
+                    <button class="yellowbutton" style="margin-top: 0px; margin-left: 20px;"><img src="/img/archive.png" style="height: 16px;"></button>
+                    <label>Arquivar</label>               
+                </form>
+                <form method="POST" action="/mensageiro/caixadeentrada/{{message._id}}/delete">                
+                    <button class="redbutton" style="margin-top: 0px; margin-left: 20px;"><img src="/img/trash.png" style="height: 16px;"></button> 
+                    <label>Apagar</label>             
+                </form>
+            </div>
         </div>
         {{/if}}             
     </div>   

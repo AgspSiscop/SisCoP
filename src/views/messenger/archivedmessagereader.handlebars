@@ -1,4 +1,4 @@
-<div class="mainwindow">
+<div class="mainwindow small_content">
     <div class="content_window" id="reader">
         {{#if message}}        
         <div class="flexorientation--spaceb">
@@ -21,7 +21,8 @@
                 </form>
             </div>
             <form method="POST" action="/mensageiro/arquivadas/{{message._id}}/delete">
-                <button class="redbutton" style="margin-top: 0px; margin-left: 20px;"><img src="/img/trash.png" style="height: 16px;"></button>               
+                <button class="redbutton" style="margin-top: 0px; margin-left: 20px;"><img src="/img/trash.png" style="height: 16px;"></button>
+                <label>Apagar</label>              
             </form>
         </div>
         {{/if}}             

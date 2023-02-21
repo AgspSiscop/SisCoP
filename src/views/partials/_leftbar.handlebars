@@ -1,31 +1,41 @@
 <div class="leftbar">
-    <div class="lb_scroll">
-        <div class="leftbar_itens" id="newmessage">
-            <a href="/mensageiro/nova"><p>Nova Mensagem</p></a> 
-        </div> 
-        <div class="leftbar_itens" id="messagebox">
-            <a href="/mensageiro/caixadeentrada"><p>Caixa de Menssagens</p></a> 
+    <div class="lb_scroll">        
+         <div class="leftbar_itens">
+            <p id="messages">Mensagens</p>
         </div>
-        <div class="leftbar_itens" id="messagesents">
-            <a href="/mensageiro/enviadas"><p>Mensagens Enviadas</p></a> 
+        <div id="messagesdiv" class="display_none">
+            <div class="leftbar_subitens" id="newmessage">
+                <a href="/mensageiro/nova"><p>Nova Mensagem</p></a> 
+            </div> 
+            <div class="leftbar_subitens" id="messagebox">
+                <a href="/mensageiro/caixadeentrada"><p>Caixa de Menssagens</p></a> 
+            </div>
+            <div class="leftbar_subitens" id="messagesents">
+                <a href="/mensageiro/enviadas"><p>Mensagens Enviadas</p></a> 
+            </div>
+            <div class="leftbar_subitens" id="messagearchived">
+                <a href="/mensageiro/arquivadas"><p>Mensagens Arquivadas</p></a> 
+            </div>
         </div>
-        <div class="leftbar_itens" id="messagearchived">
-            <a href="/mensageiro/arquivadas"><p>Mensagens Arquivadas</p></a> 
+        <div class="leftbar_itens">
+            <p id="processes">Processos</p>         
         </div>
-        <div class="leftbar_itens" id="newprocess">
-            <a href="/novoprocesso"><p>Cadastrar Processo</p></a>          
+        <div id="processesdiv" class="display_none">
+            <div class="leftbar_subitens" id="newprocess">
+                <a href="/novoprocesso"><p>Cadastrar Processo</p></a>          
+            </div>
+            <div class="leftbar_subitens" id="developmentprocess">
+                <a href="/meusprocessos"><p>Processos em Elaboração</p></a> 
+            </div>
+            <div class="leftbar_subitens" id="processreceived">
+                <a href="/processosrecebidos"><p>Processos Recebidos</p></a>
+            </div>
+            {{#if (compareValue section 'Chefe da SALC')}}        
+            <div class="leftbar_subitens" id="processdone">
+                <a href="/concluidos"><p>Processos Concluídos</p></a>
+            </div>
+            {{/if}}       
         </div>
-        <div class="leftbar_itens" id="developmentprocess">
-            <a href="/meusprocessos"><p>Processos em Elaboração</p></a> 
-        </div>
-        <div class="leftbar_itens" id="processreceived">
-            <a href="/processosrecebidos"><p>Processos Recebidos</p></a>
-        </div>
-        {{#if (compareValue section 'Chefe da SALC')}}        
-        <div class="leftbar_itens" id="processreceived">
-            <a href="/concluidos"><p>Processos Concluídos</p></a>
-        </div>
-        {{/if}}       
         <!--<div class="leftbar_itens" id="processmaker">
             <a href="/novoprocesso/montagemdeprocesso"><p>Modelo a partir de Mapa Comparativo</p></a>
         </div>-->

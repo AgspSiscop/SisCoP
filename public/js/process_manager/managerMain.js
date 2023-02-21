@@ -98,7 +98,7 @@ function generateSections(sections){
 }
 
 function createHeaderList(){
-    const headerDiv = createElements('div', {class: 'flexorientation--spaceb', style:'margin-left:15px;' });
+    const headerDiv = createElements('div', {class: 'flexorientation--spaceb margin_medium'});
     const searchP = document.getElementById('searchprocess');    
     const headerArray = ['Processo', 'Forma de Aquisição', 'Status']                    
     searchP.setAttribute('class', '');   
@@ -112,7 +112,7 @@ function createHeaderList(){
 }
 
 function createBodyList(process){    
-    const form = createElements('form', {class: 'list_iten flexorientation--spaceb', id: process._id});
+    const form = createElements('form', {class: 'list_iten flexorientation--spaceb margin_medium', id: process._id});
     const div1 = createElements('div', {class: 'manager_process_title'});
     const div2 = createElements('div', {class: 'manager_process_title'});
     const div3 = createElements('div', {class: 'manager_process_title'});     

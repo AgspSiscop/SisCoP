@@ -114,3 +114,14 @@ li {
 #show-code[data-active="true"] {
 	background: #eee;
 }
+
+@media( max-width: 1366px){
+
+	.toolbar{
+		width: 69.4vw;
+	}
+	.container{
+		width: 69.4vw;
+	}
+
+}
