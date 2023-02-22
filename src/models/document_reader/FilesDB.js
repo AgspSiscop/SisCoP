@@ -64,7 +64,7 @@ class Files {
             return file = await new FileModel(newFile).save();            
         } catch (error) {
             if(error.code == '11000'){
-                throw new Error('Existem arquivos com este nome neste diretório. Por favor, retorne troque o nome.');
+                throw new Error('Existem arquivos com este nome neste diretório. Por favor, retorne e troque o nome.');
             }else{
                 throw new Error(error.code);
             }            

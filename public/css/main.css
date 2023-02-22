@@ -346,10 +346,10 @@ select{
 }
 .status_content{
     width: 300px;    
-    margin-left: 10px;
+    margin-left: 15px;
     border-radius: 3px;    
     padding: 10px;
-    margin-bottom: 20px;
+    margin-top: 20px;
 }
 .status_content div{
     margin-bottom: 30px;
@@ -850,6 +850,9 @@ select{
     .logwindow hr{
         width: 33vw;
     }
+    .logwindow .content_window{
+        width: 33vw;
+    }
     .logwindow .flexorientation--spacea{
         width: 33vw;
     }
@@ -865,7 +868,6 @@ select{
     }
     .manager_process_title{
         width: 17vw;
-
     }
       
 }

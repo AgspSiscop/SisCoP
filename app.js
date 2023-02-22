@@ -11,10 +11,15 @@ require('./config/auth')(passport);
 require('./public/js/registerhelper/registerHelper');
 
 const app = express();
+const PORT = 8904;
+const hostname = '127.0.0.1'
+const dbUser = process.env.DB_USER;
+const dbPwd =  process.env.DB_PASSWORD;
+const secret = process.env.SISCOP_SECRET;
 
 app.use(session({
-    secret: 'LKnlka1spk,ansmn7bç jbsaçm KJ46SDLJBÇ4SMmaKm sabs ekasbdçq82',
-    store:  MongoConnect.create({mongoUrl: 'mongodb://localhost/siscop'}),
+    secret: secret,
+    store:  MongoConnect.create({mongoUrl: `mongodb://${dbUser}:${dbPwd}@127.0.0.1:27017/siscop?authSource=admin&w=1&`}),
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -56,7 +61,7 @@ app.set('views', path.join(__dirname, '/src', 'views'));
 
 mongoose.Promise =  global.Promise;
 mongoose.set('strictQuery', false);
-mongoose.connect('mongodb://localhost/siscop').then(() => {
+mongoose.connect(`mongodb://${dbUser}:${dbPwd}@127.0.0.1:27017/siscop?authSource=admin&w=1&`).then(() => {
     console.log('Conected to the Database');
     app.emit('done')
 }).catch((e) => {
@@ -75,9 +80,7 @@ app.use((error, req, res, next) => {
     }
 });
 
-app.on('done', () => {
-    const PORT = 8904;
-    const hostname = '127.0.0.1'
+app.on('done', () => {    
     app.listen(PORT, hostname, () => {
         console.log(`Server listen to http://${hostname}:${PORT}`)
     });
