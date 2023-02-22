@@ -118,10 +118,26 @@ li {
 @media( max-width: 1366px){
 
 	.toolbar{
-		width: 69.4vw;
+		width: 59.3vw;
 	}
 	.container{
-		width: 69.4vw;
+		width: 59.3vw;
+	}
+	.toolbar .btn-toolbar button{
+		width: 2.2vw;
+		height: 2.2vw;
+		font-size: 0.9vw;
+	}
+	.buttonm{
+		width: 1vw;
+	}
+	.toolbar .head .color span {
+		width: 0.8vw;
+		font-size: 0.7vw !important;
+	}
+	.toolbar .head select {
+		width: 7vw;
+		font-size: 0.7vw !important;
 	}
 
 }

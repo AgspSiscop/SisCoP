@@ -790,6 +790,15 @@ select{
     font-weight: bold;
     
 }
+.deletemsg{     
+    margin-left: 40px; 
+    margin-right: 40px;
+}
+.archivemsg{   
+    margin-left: 30px; 
+    margin-right: 5px;
+
+}
 
 @media( max-width: 1366px){
     .header_color{
@@ -814,7 +823,7 @@ select{
         width: 70vw;
     }
     .window_texteditor{
-        width: 70vw;
+        width: 60vw;
     }
     .small_content{
         width: 70vw;
@@ -843,10 +852,7 @@ select{
     }
     .window_medium hr{
         width: 67vw;         
-    }
-    .window_texteditor hr{
-        width: 67vw;         
-    }
+    }    
     .logwindow hr{
         width: 33vw;
     }
@@ -868,6 +874,104 @@ select{
     }
     .manager_process_title{
         width: 17vw;
+    }
+    .window_texteditor hr{
+        width: 55vw;         
+    }
+    .window_texteditor .content_window{
+        width: 60vw;         
+    }
+    .window_texteditor .header_color{
+        width: 60vw;         
+    }
+    
+    
+    .leftbar a, p{
+        font-size: 0.8vw;
+    }
+    .mainwindow h2{
+        font-size: 1.5vw;
+        max-width: 49vw;
+    }
+    .mainwindow h3{
+        font-size: 1vw;
+    }
+    .statuswindow h2{
+        font-size: 1.5vw;
+        max-width: 49vw;
+    }
+    .mainwindow p, a, label{
+        font-size: 0.9vw;
+    }
+    .mainwindow select{
+        font-size: 0.9vw !important;
+        max-width: 20vw !important;
+    }
+    .mainwindow input[type=text]{
+        font-size: 0.8vw !important;
+        max-width: 12vw !important;
+    }
+    .mainwindow button{
+        font-size: 0.9vw !important;
+        max-width: 40vw !important;
+        min-width: 0.7vw !important;
+        min-height: 0.7vw !important;
+    }
+    
+    .mainwindow .button{
+        font-size: 0.8vw !important;
+        max-width: 40vw !important;
+        min-width: 1vw !important;
+        min-height: 1vw;        
+    }
+    .mainwindow .transparentbutton{
+        font-size: 1vw !important;
+        max-width: 40vw !important;
+        min-width: 1vw !important;
+        min-height: 1vw;        
+    }
+    .mainwindow .redbutton{
+        font-size: 0.8vw !important;
+        max-width: 40vw !important;
+        min-width: 1vw !important;
+        min-height: 1vw;        
+    }
+    .mainwindow .deletemsg{
+        margin-right: 1.5vw;       
+    }
+    .mainwindow .archivemsg{
+        margin-right: 0.3vw;
+    }
+    .button img{
+        min-width: 0.5vw;
+        min-height: 0.5vw;
+    }
+    .redbutton img{
+        width: 1vw;
+        height: 1vw;
+    }
+    .yellowbutton img{
+        width: 1vw;
+        height: 1vw;
+    }
+    .mainwindow .yellowbutton{
+        font-size: 0.8vw !important;
+        max-width: 40vw !important;
+        min-width: 1vw !important;
+        min-height: 1vw;        
+    }
+    .mainwindow textarea{
+        font-size: 0.9vw !important;        
+    }
+    .status_content p, label, small, b{
+        font-size: 0.9vw !important;
+    }
+    .content_window h2{
+        font-size:  1.2vw;
+        max-width: 49vw;
+    }
+    .navbar_profile p{
+        font-size: 0.8vw;
     }
       
 }
