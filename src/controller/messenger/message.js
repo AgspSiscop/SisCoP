@@ -1,5 +1,5 @@
 const express = require('express');
-const isAuth = require('../../../config/isAuth');
+const {isAuth} = require('../../../config/isAuth');
 const resolver =  require('../../../config/errorHandler');
 const Msg = require('../../models/messenger/MessagesDB');
 const MsgSent = require('../../models/messenger/MessageSentsDB');

@@ -1,6 +1,6 @@
 const express =  require('express');
 const {uploadAsync, setHeader} = require('../../models/document_reader/DocumentManipulator');
-const isAuth =require('../../../config/isAuth');
+const {isAuth} =require('../../../config/isAuth');
 const resolver =  require('../../../config/errorHandler');
 const Processes = require('../../models/document_reader/ProcessesDB');
 const ProcessStates = require('../../models/document_reader/ProcessesStatesDB');

@@ -1,5 +1,5 @@
 const express = require('express');
-const isAuth =require('../../../config/isAuth');
+const {isAuth, isAuthLog} =require('../../../config/isAuth');
 const resolver =  require('../../../config/errorHandler');
 const passport =  require('passport');
 const Users = require('../../models/profiles/UsersDB');
@@ -7,7 +7,7 @@ const Sections = require('../../models/profiles/SectionsDB');
 
 const router = express.Router();
 
-router.get('/', resolver((req, res) =>{       
+router.get('/', isAuthLog, resolver((req, res) =>{       
     res.render('profiles/index')
 }));
 
