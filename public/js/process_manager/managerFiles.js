@@ -91,7 +91,7 @@ function generateStates(states){
         }
         else if(i.state == 'Em Análise'){
             block = createContainer('div', {class: 'status_content display-column-spaceb', name: 'statusblock',
-            style:'background-color: rgb(250, 81, 137);color: rgb(70, 70, 70);'}, [div1, div2, div3, stateId]);
+            style:'background-color: rgb(255, 100, 152);color: rgb(70, 70, 70);'}, [div1, div2, div3, stateId]);
         }
         else if(i.state == 'Outro'){
             block = createContainer('div', {class: 'status_content display-column-spaceb', name: 'statusblock',
@@ -99,11 +99,11 @@ function generateStates(states){
         }
         else if(i.state == 'Retificando Processo'){
             block = createContainer('div', {class: 'status_content display-column-spaceb', name: 'statusblock',
-            style: 'background-color: rgb(255, 67, 92);color: rgb(70, 70, 70);'}, [div1, div2, div3, stateId]);
+            style: 'background-color: rgb(240, 80, 101);color: rgb(70, 70, 70);'}, [div1, div2, div3, stateId]);
         }
         else if(i.state == 'Processo Concluído'){
             block = createContainer('div', {class: 'status_content display-column-spaceb', name: 'statusblock',
-            style: 'background-color: rgb(79, 252, 79);color: rgb(80, 80, 80);'}, [div1, div2, div3, stateId]);
+            style: 'background-color: rgb(79, 252, 108);color: rgb(80, 80, 80);'}, [div1, div2, div3, stateId]);
         }else{
             block = createContainer('div', {class: 'status_content display-column-spaceb', name: 'statusblock',
             style: 'background-color: rgb(79, 252, 79);color: rgb(80, 80, 80);'}, [div1, div2, div3, stateId]);        

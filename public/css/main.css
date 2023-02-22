@@ -28,7 +28,7 @@ select{
 }
 .navbar{
     background-color: rgb(64, 69, 73);    
-    border-bottom: 1px solid  rgb(37, 37, 37);  
+    border-bottom: 1px solid  rgb(49, 49, 49);  
     display: flex;
     justify-content: space-between;
 }
@@ -90,7 +90,7 @@ select{
 .leftbar_itens{    
     font-size: 12px;
     font-weight: bold;    
-    border-bottom: 1px solid rgb(37, 37, 37);      
+    border-bottom: 1px solid  rgb(49, 49, 49);    
 }
 .leftbar_itens a{
     text-decoration: none;
@@ -103,16 +103,17 @@ select{
     font-size: 12px;
     background-size: 250px, auto;
     width: 242px;
-    background-color: rgb(233, 236, 232);
-    font-weight: bold;    
-    border-bottom: 1px solid rgb(219, 219, 219);    
+    background-color: rgb(67, 72, 78);
+    font-weight: bold;
+    border-top: 1px solid rgb(67, 72, 78);   
+    border-bottom: 1px solid rgb(60, 64, 66);;    
     border-right: solid 8px  rgb(136, 194, 42);
-    
+    border-radius: 0px 6px 6px 0px;   
     
 }
 .leftbar_subitens a{
     text-decoration: none;
-    color: rgb(105, 105, 105);   
+    color: rgb(255, 255, 255);   
 }
 .leftbar_subitens p{    
     padding: 15px 25px 15px 25px;
@@ -120,6 +121,7 @@ select{
 .leftbar_subitens:hover{    
     background-image: linear-gradient(to right, rgb(183, 190, 178), rgb(158, 173, 149));
     border-bottom: 1px solid  rgb(183, 190, 178);
+    border-right: solid 8px  rgb(172, 211, 111);
     cursor: pointer;    
 }
 .leftbar_subitens_selected{
