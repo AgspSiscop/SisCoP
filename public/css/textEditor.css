@@ -124,8 +124,8 @@ li {
 		width: 59.3vw;
 	}
 	.toolbar .btn-toolbar button{
-		width: 2.2vw;
-		height: 2.2vw;
+		width: 2.5vw;
+		height: 2.5vw;
 		font-size: 0.9vw;
 	}
 	.buttonm{
@@ -133,10 +133,12 @@ li {
 	}
 	.toolbar .head .color span {
 		width: 0.8vw;
+		height: 0.8vw;
 		font-size: 0.7vw !important;
 	}
 	.toolbar .head select {
 		width: 7vw;
+		height: 1.6vw;
 		font-size: 0.7vw !important;
 	}
 

@@ -2,13 +2,16 @@
         <div class="header_color">
         <h2>Nova Mensagem</h2>
         </div>
-    <form class="content_window" id="formm" action="" method="POST" style="margin-right: 5px;">        
+    <form class="content_window" id="formm" action="" method="POST" style="margin-right: 5px;">
+        <div id="headermessagediv">
+
+        </div>       
         <div class="flexorientation--start">
             <div>
                 <label>Titulo:</label>
                 <input type="text" name="title">
             </div>            
-            <div class="flexorientation--start">
+            <div  class="flexorientation--start">
                 <label>Destinatário:</label>               
                 <input type="hidden" value="{{user.section}}" id="sectionvalue">
                 <div id="selectmethod">                    
@@ -16,7 +19,7 @@
                 <div id="selectsection">                                                         
                 </div>                
                 <div id="receiver">
-                </div>
+                </div>                             
             </div>
         </div>
         <hr>

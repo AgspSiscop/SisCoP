@@ -883,12 +883,77 @@ select{
     }
     .window_texteditor .header_color{
         width: 60vw;         
-    }
-    
+    }    
     
     .leftbar a, p{
         font-size: 0.8vw;
     }
+    .statuswindow h2{
+        font-size: 1.5vw;
+        max-width: 49vw;
+    }
+    .logwindow h2{
+        font-size: 1.5vw;
+        max-width: 49vw;
+    }
+    .logwindow h3{
+        font-size: 1vw;
+    }
+    .logwindow p, a, label{
+        font-size: 0.9vw;
+    }
+    .logwindow select{
+        font-size: 0.8vw !important;
+        max-width: 20vw !important;
+    }
+    .logwindow input[type=text]{
+        font-size: 0.8vw !important;
+        max-width: 12vw !important;
+    }
+    .logwindow button{
+        font-size: 0.9vw !important;
+        max-width: 40vw !important;
+        min-width: 0.7vw !important;
+        min-height: 0.7vw !important;
+    }
+    
+    .logwindow .button{
+        font-size: 0.8vw !important;
+        max-width: 40vw !important;
+        min-width: 1vw !important;
+        min-height: 1vw;        
+    }
+    .logwindow.transparentbutton{
+        font-size: 1vw !important;
+        max-width: 40vw !important;
+        min-width: 1vw !important;
+        min-height: 1vw;        
+    }
+    .logwindow .redbutton{
+        font-size: 0.8vw !important;
+        max-width: 40vw !important;
+        min-width: 1vw !important;
+        min-height: 1vw;        
+    }
+    .logwindow .deletemsg{
+        margin-right: 1.5vw;       
+    }
+    .logwindow .archivemsg{
+        margin-right: 0.3vw;
+    }
+    .logwindow .yellowbutton{
+        font-size: 0.8vw !important;
+        max-width: 40vw !important;
+        min-width: 1vw !important;
+        min-height: 1vw;        
+    }
+    .logwindow textarea{
+        font-size: 0.9vw !important;        
+    }
+
+
+
+
     .mainwindow h2{
         font-size: 1.5vw;
         max-width: 49vw;
@@ -896,15 +961,11 @@ select{
     .mainwindow h3{
         font-size: 1vw;
     }
-    .statuswindow h2{
-        font-size: 1.5vw;
-        max-width: 49vw;
-    }
     .mainwindow p, a, label{
         font-size: 0.9vw;
     }
     .mainwindow select{
-        font-size: 0.9vw !important;
+        font-size: 0.8vw !important;
         max-width: 20vw !important;
     }
     .mainwindow input[type=text]{
@@ -942,18 +1003,6 @@ select{
     .mainwindow .archivemsg{
         margin-right: 0.3vw;
     }
-    .button img{
-        min-width: 0.5vw;
-        min-height: 0.5vw;
-    }
-    .redbutton img{
-        width: 1vw;
-        height: 1vw;
-    }
-    .yellowbutton img{
-        width: 1vw;
-        height: 1vw;
-    }
     .mainwindow .yellowbutton{
         font-size: 0.8vw !important;
         max-width: 40vw !important;
@@ -969,6 +1018,22 @@ select{
     .content_window h2{
         font-size:  1.2vw;
         max-width: 49vw;
+    }
+    .header_color h2{
+        font-size:  1.2vw;
+        max-width: 49vw;
+    }    
+    .button img{
+        min-width: 0.5vw;
+        min-height: 0.5vw;
+    }
+    .redbutton img{
+        min-width: 1vw;
+        min-height: 1vw;
+    }
+    .yellowbutton img{
+        min-width: 1vw;
+        min-height: 1vw;
     }
     .navbar_profile p{
         font-size: 0.8vw;
