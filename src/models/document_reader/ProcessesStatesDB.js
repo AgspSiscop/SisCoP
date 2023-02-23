@@ -36,11 +36,7 @@ class ProcessStates {
         this.locals = locals;
         this.params = params;
         this.erros = [];       
-    }
-
-    checkUp(){
-
-    }
+    }    
 
     async delete() {
         try {
@@ -86,6 +82,22 @@ class ProcessStates {
         try {
             const states = await ProcessStateModel.find(param).sort({createdAt: -1}).populate('user').lean()
             return states;                       
+        } catch (error) {
+            throw new Error(error);            
+        }
+    }
+
+    async registerState(processID){
+        try {
+            const newState = {
+                process: processID,
+                state: 'Processo Cadastrado',
+                anotation: `Processo Cadastrado Por ${this.locals.pg} ${this.locals.name}`,
+                date: Intl.DateTimeFormat('pt-BR', { dateStyle: "full", timeStyle: "short" }).format(new Date())
+            }
+
+            await ProcessStateModel(newState).save();
+            
         } catch (error) {
             throw new Error(error);            
         }

@@ -225,12 +225,15 @@ class Processes {
                   },                    
                 },
                 {
+                    $sort: { createdAt: -1}
+                },
+                {
                     $skip: this.params.page * 10
                 },
                 {
                     $limit: 10
                 }
-              ]).sort({createdAt: -1});
+              ])
               const number = await ProcessModel.find(param).sort({createdAt: -1}).count();                    
                 return {processes: processes, count: number};  
                          
@@ -250,7 +253,7 @@ class Processes {
                     as: 'status'             
                   },                    
                 }                
-            ]).sort({createdAt: -1}).limit(10).skip((this.params.page * 10));
+            ]).sort({createdAt: 1}).limit(10).skip((this.params.page * 10));
             const number = await ProcessModel.find().sort({createdAt: -1}).count();
             console.log(processes)    
               return {processes: processes, count: number};            

@@ -10,7 +10,6 @@ const Users = require('../../models/profiles/UsersDB');
 const Msg = require('../../models/messenger/MessagesDB');
 const MsgSent = require('../../models/messenger/MessageSentsDB');
 const MsgArchived = require('../../models/messenger/messagesArchivedDB');
-const e = require('express');
 
 const router = express.Router();
 
@@ -25,6 +24,12 @@ router.post('/users', isAuth, resolver( async(req, res) => {
     const usersObj = await users.findByParam({_id: {$not: {$in: res.locals.id}}});
     res.send(JSON.stringify(usersObj));      
 }));
+
+router.post('/usersection', isAuth, resolver( async(req, res) => {       
+    const users =  new Users(req.body, res.locals, req.params);
+    const usersObj = await users.findByParam({section: req.body.section});
+    res.send(JSON.stringify(usersObj));      
+}))
 
 router.post('/states', isAuth, resolver( async(req, res) => {
     const states = new ProcessStates(req.body, res.local, req.params);
@@ -51,7 +56,8 @@ router.post('/processinmanager:page', resolver( async(req,res) => {
     const process = new Processes(req.body, res.locals, req.params);  
     const sections = new Sections(req.body, res.locals, req.params);
     if(req.body.origin){
-        const sectionObjId = await sections.findOneByParam({_id: req.body.origin}); 
+        const sectionObjId = await sections.findOneByParam({_id: req.body.origin});
+        console.log(req.body.origin)
         const processObj = await process.aggregateStates({origin: sectionObjId._id});
           
         res.send(JSON.stringify(processObj));
@@ -83,14 +89,14 @@ router.post('/manager/search:page', isAuth, resolver( async(req, res) =>{
     const process = new Processes(req.body, res.locals, req.params);
     const sections = new Sections(req.body, res.locals, req.params);
     
-    if(req.body.origin !== 'Busca Geral'){
+    if(req.body.origin !== 'Busca Geral'){        
         const sectionObjId = await sections.findOneByParam({name: req.body.origin}); 
         const search = new Object();  
         search.origin = sectionObjId._id;
         search[req.body.type] = new RegExp(`${req.body.search}`, 'i');
         const processObj = await process.aggregateStates(search);
         res.send(JSON.stringify(processObj));
-    }else{         
+    }else{              
         const search = new Object();        
         search[req.body.type] = new RegExp(`${req.body.search}`, 'i');
         const processObj = await process.aggregateStates(search);

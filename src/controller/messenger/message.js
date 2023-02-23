@@ -71,7 +71,7 @@ router.post('/nova/section/:title', isAuth, resolver( async(req, res) => {
     res.redirect('/mensageiro/enviadas');    
 }));
 
-router.post('/novasemprocesso/user/:title', isAuth, resolver( async(req, res) => {  
+router.post('/novasemprocesso/user/:title', isAuth, resolver( async(req, res) => {    
     const message = new Msg(req.body, res.locals, req.params);
     const messageSent = new MsgSent(req.body, res.locals, req.params);
     await message.create();
@@ -79,7 +79,7 @@ router.post('/novasemprocesso/user/:title', isAuth, resolver( async(req, res) =>
     res.redirect('/mensageiro/enviadas');
 }));
 
-router.post('/novasemprocesso/section/:title', isAuth, resolver( async(req, res) => {
+router.post('/novasemprocesso/section/:title', isAuth, resolver( async(req, res) => {    
     const users = new Users(req.body, res.locals, req.params);
     const message = new Msg(req.body, res.locals, req.params);
     const messageSent = new MsgSent(req.body, res.locals, req.params);

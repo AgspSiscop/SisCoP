@@ -233,6 +233,9 @@ select{
 .window_texteditor{    
     width: 1010px;    
 }
+.window_small{
+    width: 800px;    
+}
 .window_normal{
     width: 1000px;
 }
@@ -351,7 +354,8 @@ select{
     margin-left: 15px;
     border-radius: 3px;    
     padding: 10px;
-    margin-top: 20px;
+    margin-top: 15px;
+    margin-bottom: 10px;
 }
 .status_content div{
     margin-bottom: 30px;
@@ -729,7 +733,7 @@ select{
     margin-right: -5px;
 }
 .param_text{
-    width: 965px;
+    width: 500px;
     height: 150px;
     background-color: rgb(224, 230, 228);
     color: rgb(70, 70, 70);
@@ -983,6 +987,16 @@ select{
         max-width: 40vw !important;
         min-width: 0.7vw !important;
         min-height: 0.7vw !important;
+    }
+    .window_small{
+        width: 60vw;
+    }
+    .window_small .content_window{
+        width: 57vw;
+    }
+    .window_small .content_window h2{
+        font-size: 1vw;
+        max-width: 49vw;
     }
     
     .mainwindow .button{

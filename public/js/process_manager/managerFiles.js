@@ -73,7 +73,11 @@ function generateStates(states){
         const div3 = createContainer('div', {}, [date]);
         let block;
         
-        if(i.state == 'Coleta de Orçamentos'){
+        if(i.state == 'Processo Cadastrado'){
+            block = createContainer('form', {class: 'status_content display-column-spaceb', name: 'statusblock', 
+            style: 'background-color: rgb(94, 151, 255);color: rgb(80, 80, 80);'}, [div1, div2, div3, stateId]);
+        }
+        else if(i.state == 'Coleta de Orçamentos'){
             block = createContainer('div', {class: 'status_content display-column-spaceb', name: 'statusblock', 
             style: 'background-color: rgb(236, 255, 61);color: rgb(80, 80, 80);'}, [div1, div2, div3, stateId]);
         }

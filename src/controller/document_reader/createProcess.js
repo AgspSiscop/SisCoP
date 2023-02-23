@@ -4,6 +4,7 @@ const resolver =  require('../../../config/errorHandler');
 const Processes =  require('../../models/document_reader/ProcessesDB');
 const Sections = require('../../models/profiles/SectionsDB');
 const Year =  require('../../models/document_reader/YearDB');
+const ProcessStates =  require('../../models/document_reader/ProcessesStatesDB');
 const router = express.Router();
 
 router.get('/', isAuth, resolver((req,res) =>{
@@ -17,7 +18,9 @@ router.post('/cadastro', isAuth, resolver( async(req, res) =>{
         await year.create();
     }
     const process = new Processes(req.body, res.locals);
-    const processObj = await process.create();    
+    const state = new ProcessStates(req.body, res.locals, req.params);
+    const processObj = await process.create();
+    await state.registerState(processObj.process._id);
     if(processObj.errors.length > 0){
         res.render('document_reader/create', {errors: processObj.errors});
     }else{       
