@@ -108,7 +108,7 @@ document.addEventListener('click', async (e) => {
                     await sectionNoProcessSend();
                 }else{
                     if(selectProcess.children.length > 0){
-                        await sectionProcessSend()
+                        await sectionProcessSend();
                     }else{
                        await sectionNoProcessSend();
                     }
