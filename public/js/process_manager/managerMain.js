@@ -13,6 +13,12 @@ document.addEventListener('click', (e) => {
     const searchBack = document.getElementById('searchback');
 
     if(e.target.tagName.toLowerCase() === 'label'){
+        const secDiv = document.getElementById('sectionslist');
+        for(let i = 0; i < secDiv.children.length -1; i++){
+            secDiv.children[i].setAttribute('class', 'manager_body');
+        }
+        secDiv.children[secDiv.children.length -1].lastChild.setAttribute('class', 'manager_body');
+        e.target.parentElement.className = 'manager_body_selected'
         if(e.target.attributes.name.nodeValue === 'sectionslabel'){
             document.getElementById('sectiontitle').innerHTML = e.target.innerHTML;        
             getSearchValues(0);        
@@ -44,19 +50,6 @@ async function getSections(){
         console.log(error);        
     }
 }
-
-/*async function getValues(param, number){
-    try {        
-        const processes = await request({
-            method: 'POST',
-            url:`/requests/processinmanager${String(number)}`,
-            params: `origin=${param}`
-        });
-        elementGenerator(processes, number)      
-    } catch (error) {
-        console.log(error)      
-    }
-}*/
 
 async function getSearchValues(number){
     try{
@@ -112,7 +105,7 @@ function createHeaderList(){
 }
 
 function createBodyList(process){    
-    const form = createElements('form', {class: 'list_iten flexorientation--spaceb margin_medium', id: process._id});
+    const form = createElements('form', {class: 'list_manager flexorientation--spaceb margin_medium', id: process._id});
     const div1 = createElements('div', {class: 'manager_process_title'});
     const div2 = createElements('div', {class: 'manager_process_title'});
     const div3 = createElements('div', {class: 'manager_process_title'});     
@@ -137,6 +130,8 @@ function createBodyList(process){
             const notes = createElements('img', {src: '/img/note.png', style: 'width:20px;'});
             div3.appendChild(notes);
         }
+        colorStates(process.status.at(-1).state, div3);
+        
         div3.appendChild(processStatusDate);        
     }
 
@@ -158,4 +153,36 @@ function generateArrows(processes, elementsInPage, number){
         searchBack.setAttribute('class', 'arrow');
     }
     processList.appendChild(searchArrows) 
+}
+
+function colorStates(state, block){
+    if(state == 'Processo Cadastrado'){
+        setAttributes(block, {style: 'background-color: rgb(94, 151, 255);color: rgb(80, 80, 80);', class: 'manager_main_state'});        
+    }
+    else if(state == 'Coleta de Orçamentos'){
+        setAttributes(block, {style: 'background-color: rgb(236, 255, 61);color: rgb(80, 80, 80);', class: 'manager_main_state'});
+    }
+    else if(state == 'Em Montagem'){
+        setAttributes(block, {style: 'background-color: rgb(159, 85, 255);color: rgb(70, 70, 70);', class: 'manager_main_state'});
+    }
+    else if(state == 'Montagem Finalizada'){
+        setAttributes(block, {style: 'background-color: rgb(170, 255, 85);color: rgb(80, 80, 80);', class: 'manager_main_state'});
+    }
+    else if(state == 'Em Transferência'){;
+        setAttributes(block, {style: 'background-color: rgb(50, 214, 255);color: rgb(80, 80, 80);', class: 'manager_main_state'});
+    }
+    else if(state == 'Em Análise'){
+        setAttributes(block, {style:'background-color: rgb(250, 81, 137);color: rgb(70, 70, 70);', class: 'manager_main_state'});
+    }
+    else if(state == 'Outro'){
+        setAttributes(block, {style: 'background-color: rgb(255, 190, 71);color: rgb(80, 80, 80);', class: 'manager_main_state'});
+    }
+    else if(state == 'Retificando Processo'){
+        setAttributes(block, {style: 'background-color: rgb(255, 67, 92);color: rgb(70, 70, 70);', class: 'manager_main_state'});
+    }
+    else if(state == 'Processo Concluído'){
+        setAttributes(block, {style: 'background-color: rgb(79, 252, 79);color: rgb(80, 80, 80);', class: 'manager_main_state'});
+    }else{        
+        setAttributes(block, {style: 'background-color: rgb(79, 252, 79);color: rgb(80, 80, 80);', class: 'manager_main_state'});        
+    }
 }
