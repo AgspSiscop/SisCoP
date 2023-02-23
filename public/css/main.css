@@ -875,6 +875,9 @@ select{
     .statuswindow{
         width: 25vw;
     }
+    .manager_main_state{
+        width: 17vw;        
+    }
    
     .mainwindow hr{
         width: 47vw;
