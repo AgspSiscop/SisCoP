@@ -328,15 +328,15 @@ function generateStatesBlocks(process, processStates, states, user){
         }
         else if(i.state == 'Coleta de Orçamentos'){
             block = createContainer('form', {class: 'status_content display-column-spaceb', name: 'statusblock', 
-            style: 'background-color: rgb(236, 255, 61);color: rgb(80, 80, 80);'}, [div1, div2, div3, stateId]);
+            style: 'background-color: rgb(238, 255, 89);color: rgb(80, 80, 80);'}, [div1, div2, div3, stateId]);
         }
         else if(i.state == 'Em Montagem'){
             block = createContainer('form', {class: 'status_content display-column-spaceb', name: 'statusblock',
-            style: 'background-color: rgb(159, 85, 255);color: rgb(70, 70, 70);'}, [div1, div2, div3, stateId]);
+            style: 'background-color: rgb(187, 135, 255);color: rgb(70, 70, 70);'}, [div1, div2, div3, stateId]);
         }
         else if(i.state == 'Montagem Finalizada'){
             block = createContainer('form', {class: 'status_content display-column-spaceb', name: 'statusblock',
-            style: 'background-color: rgb(170, 255, 85);color: rgb(80, 80, 80);'}, [div1, div2, div3, stateId]);
+            style: 'background-color: rgb(181, 252, 110);color: rgb(80, 80, 80);'}, [div1, div2, div3, stateId]);
         }
         else if(i.state == 'Em Transferência'){
             block = createContainer('form', {class: 'status_content display-column-spaceb', name: 'statusblock',
@@ -344,7 +344,7 @@ function generateStatesBlocks(process, processStates, states, user){
         }
         else if(i.state == 'Em Análise'){
             block = createContainer('form', {class: 'status_content display-column-spaceb', name: 'statusblock',
-            style:'background-color: rgb(250, 81, 137);color: rgb(70, 70, 70);'}, [div1, div2, div3, stateId]);
+            style:'background-color: rgb(255, 100, 152);color: rgb(70, 70, 70);'}, [div1, div2, div3, stateId]);
         }
         else if(i.state == 'Outro'){
             block = createContainer('form', {class: 'status_content display-column-spaceb', name: 'statusblock',

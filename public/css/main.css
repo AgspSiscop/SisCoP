@@ -835,7 +835,7 @@ select{
     width: 310px;
 }
 
-@media( max-width: 1366px){
+@media( max-width: 1600px){
     .header_color{
         width: 70vw;
     }
@@ -846,7 +846,7 @@ select{
         width: 63vw;
     }
     .logwindow{
-        width: 20vw;
+        width: 33vw;
     }
     .window_normal{
         width: 70vw;
@@ -892,7 +892,7 @@ select{
         width: 67vw;         
     }    
     .logwindow hr{
-        width: 33vw;
+        width: 29vw;
     }
     .logwindow .content_window{
         width: 33vw;

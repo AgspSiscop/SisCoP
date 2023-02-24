@@ -79,15 +79,15 @@ function generateStates(states){
         }
         else if(i.state == 'Coleta de Orçamentos'){
             block = createContainer('div', {class: 'status_content display-column-spaceb', name: 'statusblock', 
-            style: 'background-color: rgb(236, 255, 61);color: rgb(80, 80, 80);'}, [div1, div2, div3, stateId]);
+            style: 'background-color: rgb(238, 255, 89);color: rgb(80, 80, 80);'}, [div1, div2, div3, stateId]);
         }
         else if(i.state == 'Em Montagem'){
             block = createContainer('div', {class: 'status_content display-column-spaceb', name: 'statusblock',
-            style: 'background-color: rgb(159, 85, 255);color: rgb(70, 70, 70);'}, [div1, div2, div3, stateId]);
+            style: 'background-color: rgb(187, 135, 255);color: rgb(70, 70, 70);'}, [div1, div2, div3, stateId]);
         }
         else if(i.state == 'Montagem Finalizada'){
             block = createContainer('div', {class: 'status_content display-column-spaceb', name: 'statusblock',
-            style: 'background-color: rgb(170, 255, 85);color: rgb(80, 80, 80);'}, [div1, div2, div3, stateId]);
+            style: 'background-color: rgb(181, 252, 110);color: rgb(80, 80, 80);'}, [div1, div2, div3, stateId]);
         }
         else if(i.state == 'Em Transferência'){
             block = createContainer('div', {class: 'status_content display-column-spaceb', name: 'statusblock',

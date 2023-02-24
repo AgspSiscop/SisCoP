@@ -48,6 +48,10 @@ router.post('/:year/:id', isAuth, resolver( async(req, res) => {
     res.render('document_reader/files', {error: message});
 }));
 
+router.get('/:year/:id', isAuth, resolver( async(req, res) => {    
+    res.redirect('/meusprocessos');
+}));
+
 router.post('/:year/:id/edit/:fileid', isAuth, resolver( async(req, res) => { 
     const file = new Files(req.body, res.locals, req.params);
     await file.updateOne();    
@@ -73,7 +77,7 @@ router.post('/:year/:id/upload/:local/', isAuth, resolver( async(req,res, next) 
     const uploads = await uploadAsync(req, res);
     const files = new Files(req.body, res.locals, req.params);
 
-    for(let file of Object.values(uploads)[0]){   /////alterar colocar dentro da classe            
+    for(let file of Object.values(uploads)[0]){              
         await files.createFileProcess(file.buffer, file.originalname, req.params.id);        
     }
     res.redirect(307, `/meusprocessos/${req.params.year}/${req.params.id}`);                                           

@@ -47,6 +47,10 @@ router.post('/:year/:id', isAuth, resolver( async(req, res) => {
     res.render('document_reader/filesInTransfer', {error: message});
 }));
 
+router.get('/:year/:id', isAuth, resolver( async(req, res) => {    
+    res.redirect('/processosrecebidos');
+}));
+
 router.post('/:year/:id/edit/:fileid', isAuth, resolver( async(req, res) => { 
     const file = new Files(req.body, res.locals, req.params);
     await file.updateOne();    
