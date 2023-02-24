@@ -5,6 +5,7 @@ const ProcessState =  new Schema({
     process: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'process',
+        index: true,
         required: true
     },
     user: {

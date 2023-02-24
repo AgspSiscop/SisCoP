@@ -42,6 +42,7 @@ const Process =  new Schema({
     },
     year: {
         type: String,
+        index: true,
         required: true
     },
     createdAt: {

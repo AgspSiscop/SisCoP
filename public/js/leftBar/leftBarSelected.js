@@ -4,8 +4,8 @@ import {setAttributes, clearContainer, appendElements, createElements} from '/js
 document.addEventListener('click', (e) =>{   
     const element = e.target;
     const arrowMsg = document.getElementById('arrowmsg');
-    const arrowProcess = document.getElementById('arrowprocess');
-    if(element.id === 'messages'){        
+    const arrowProcess = document.getElementById('arrowprocess');    
+    if(element.id === 'messages' || element === arrowMsg){        
         const messagesDiv = document.getElementById('messagesdiv');        
         if(messagesDiv.className === ''){
             messagesDiv.setAttribute('class', 'display_none')
@@ -20,7 +20,7 @@ document.addEventListener('click', (e) =>{
         }
 
     }
-    if(element.id === 'processes'){
+    if(element.id === 'processes' || element === arrowProcess){
         const processesDiv = document.getElementById('processesdiv');        
         if(processesDiv.className === ''){
             processesDiv.setAttribute('class', 'display_none')
@@ -37,7 +37,7 @@ document.addEventListener('click', (e) =>{
     }
 })
 
-if((document.URL).slice(21) == '/mensageiro/nova'){    
+if((/\/(mensageiro)\/(nova)([0-9]*)?\/?([a-z]*)?/).exec((document.URL).slice(21))){    
     setAttributes(document.getElementById('newmessage'), {class: 'leftbar_subitens leftbar_subitens_selected'});
     setAttributes(document.getElementById('messagesdiv'), {class: ''});
     setAttributes(document.getElementById('arrowmsg'), {class: 'leftbar_arrow_up'});

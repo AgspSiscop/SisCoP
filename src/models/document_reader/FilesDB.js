@@ -16,7 +16,8 @@ const File =  new Schema({
     },
     process: {
         type: mongoose.SchemaTypes.ObjectId,
-        ref: 'process'
+        ref: 'process',
+        index: true
     },
     message: {
         type: mongoose.SchemaTypes.ObjectId,
