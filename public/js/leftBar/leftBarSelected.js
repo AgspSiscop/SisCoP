@@ -3,6 +3,8 @@ import {setAttributes, clearContainer, appendElements, createElements} from '/js
 
 document.addEventListener('click', (e) =>{   
     const element = e.target;
+    const arrowMsg = document.getElementById('arrowmsg');
+    const arrowProcess = document.getElementById('arrowprocess');
     if(element.id === 'messages'){        
         const messagesDiv = document.getElementById('messagesdiv');        
         if(messagesDiv.className === ''){
@@ -10,6 +12,13 @@ document.addEventListener('click', (e) =>{
         }else{
             messagesDiv.setAttribute('class', '')
         }
+
+        if(arrowMsg.className === 'leftbar_arrow_up' || arrowMsg.className === 'leftbar_arrow_rotate_up'){
+            arrowMsg.className = 'leftbar_arrow_rotate_down'
+        }else if(arrowMsg.className === 'leftbar_arrow_down' || arrowMsg.className === 'leftbar_arrow_rotate_down'){
+            arrowMsg.className = 'leftbar_arrow_rotate_up'
+        }
+
     }
     if(element.id === 'processes'){
         const processesDiv = document.getElementById('processesdiv');        
@@ -19,45 +28,69 @@ document.addEventListener('click', (e) =>{
             processesDiv.setAttribute('class', '')
         }
 
+        if(arrowProcess.className === 'leftbar_arrow_up' || arrowProcess.className === 'leftbar_arrow_rotate_up'){
+            arrowProcess.className = 'leftbar_arrow_rotate_down'
+        }else if(arrowProcess.className === 'leftbar_arrow_down' || arrowProcess.className === 'leftbar_arrow_rotate_down'){
+            arrowProcess.className = 'leftbar_arrow_rotate_up'
+        }
+
     }
 })
 
 if((document.URL).slice(21) == '/mensageiro/nova'){    
     setAttributes(document.getElementById('newmessage'), {class: 'leftbar_subitens leftbar_subitens_selected'});
     setAttributes(document.getElementById('messagesdiv'), {class: ''});
+    setAttributes(document.getElementById('arrowmsg'), {class: 'leftbar_arrow_up'});
+    setAttributes(document.getElementById('arrowprocess'), {class: 'leftbar_arrow_down'});
 }
 if((/\/(mensageiro)\/(caixadeentrada)([0-9]*)?\/?([a-z]*)?/).exec((document.URL).slice(21))){   
     setAttributes(document.getElementById('messagebox'), {class: 'leftbar_subitens leftbar_subitens_selected'});
     setAttributes(document.getElementById('messagesdiv'), {class: ''});
+    setAttributes(document.getElementById('arrowmsg'), {class: 'leftbar_arrow_up'});
+    setAttributes(document.getElementById('arrowprocess'), {class: 'leftbar_arrow_down'});
 }
 if((/\/(mensageiro)\/(enviadas)([0-9]*)?\/?([a-z]*)?/).exec((document.URL).slice(21))){
     setAttributes(document.getElementById('messagesents'), {class: 'leftbar_subitens leftbar_subitens_selected'});
     setAttributes(document.getElementById('messagesdiv'), {class: ''});
+    setAttributes(document.getElementById('arrowmsg'), {class: 'leftbar_arrow_up'});
+    setAttributes(document.getElementById('arrowprocess'), {class: 'leftbar_arrow_down'});
 }
 if((/\/(mensageiro)\/(arquivadas)([0-9]*)?\/?([a-z]*)?/).exec((document.URL).slice(21))){
     setAttributes(document.getElementById('messagearchived'), {class: 'leftbar_subitens leftbar_subitens_selected'});
     setAttributes(document.getElementById('messagesdiv'), {class: ''});
+    setAttributes(document.getElementById('arrowmsg'), {class: 'leftbar_arrow_up'});
+    setAttributes(document.getElementById('arrowprocess'), {class: 'leftbar_arrow_down'});
 }
 if((document.URL).slice(21) == '/novoprocesso/montagemdeprocesso' || (/\/(montagem)\/?([a-z]*)/).exec((document.URL).slice(21))){
     setAttributes(document.getElementById('processmaker'), {class: 'leftbar_subitens leftbar_subitens_selected'});
-    setAttributes(document.getElementById('processesdiv'), {class: ''});    
+    setAttributes(document.getElementById('processesdiv'), {class: ''}); 
+    setAttributes(document.getElementById('arrowmsg'), {class: 'leftbar_arrow_down'});
+    setAttributes(document.getElementById('arrowprocess'), {class: 'leftbar_arrow_up'});   
 }else{
     if((/\/(novoprocesso)\/?([a-z]*)/).exec((document.URL).slice(21))){
         setAttributes(document.getElementById('newprocess'), {class: 'leftbar_subitens leftbar_subitens_selected'});
-        setAttributes(document.getElementById('processesdiv'), {class: ''}); 
+        setAttributes(document.getElementById('processesdiv'), {class: ''});
+        setAttributes(document.getElementById('arrowmsg'), {class: 'leftbar_arrow_down'});
+        setAttributes(document.getElementById('arrowprocess'), {class: 'leftbar_arrow_up'});  
     }
 }
 if((/\/(meusprocessos)\/?([a-z]*)/).exec((document.URL).slice(21))){
     setAttributes(document.getElementById('developmentprocess'), {class: 'leftbar_subitens leftbar_subitens_selected'});
-    setAttributes(document.getElementById('processesdiv'), {class: ''}); 
+    setAttributes(document.getElementById('processesdiv'), {class: ''});
+    setAttributes(document.getElementById('arrowmsg'), {class: 'leftbar_arrow_down'});
+    setAttributes(document.getElementById('arrowprocess'), {class: 'leftbar_arrow_up'}); 
 }
 if((/\/(processosrecebidos)\/?([a-z]*)/).exec((document.URL).slice(21))){
     setAttributes(document.getElementById('processreceived'), {class: 'leftbar_subitens leftbar_subitens_selected'});
-    setAttributes(document.getElementById('processesdiv'), {class: ''}); 
+    setAttributes(document.getElementById('processesdiv'), {class: ''});
+    setAttributes(document.getElementById('arrowmsg'), {class: 'leftbar_arrow_down'});
+    setAttributes(document.getElementById('arrowprocess'), {class: 'leftbar_arrow_up'}); 
 }
 if((/\/(concluidos)\/?([a-z]*)/).exec((document.URL).slice(21))){
     setAttributes(document.getElementById('processdone'), {class: 'leftbar_subitens leftbar_subitens_selected'});
-    setAttributes(document.getElementById('processesdiv'), {class: ''}); 
+    setAttributes(document.getElementById('processesdiv'), {class: ''});
+    setAttributes(document.getElementById('arrowmsg'), {class: 'leftbar_arrow_down'});
+    setAttributes(document.getElementById('arrowprocess'), {class: 'leftbar_arrow_up'}); 
 }
 if((/\/(acompanharprocessos)\/?([a-z]*)/).exec((document.URL).slice(21))){
     setAttributes(document.getElementById('processmanager'), {class: 'leftbar_itens leftbar_itens_selected'});

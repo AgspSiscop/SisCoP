@@ -115,7 +115,7 @@ li {
 	background: #eee;
 }
 
-@media( max-width: 1366px){
+@media( max-width: 1600px){
 
 	.toolbar{
 		width: 59.3vw;
