@@ -103,10 +103,10 @@ select{
     font-size: 12px;
     background-size: 250px, auto;
     width: 242px;
-    background-color: rgb(67, 72, 78);
+    background-color: rgb(70, 74, 78);
     font-weight: bold;
-    border-top: 1px solid rgb(67, 72, 78);   
-    border-bottom: 1px solid rgb(60, 64, 66);;    
+    border-top: 1px solid rgb(70, 74, 78);   
+    border-bottom: 1px solid rgb(58, 61, 61);    
     border-right: solid 8px  rgb(133, 180, 57);
     border-radius: 0px 6px 6px 0px;   
     
