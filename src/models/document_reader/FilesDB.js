@@ -80,6 +80,15 @@ class Files {
         }
     }
 
+    async findByParamLight(param){
+        try {
+            const files = await FileModel.find(param, {filename: 1, extension: 1});            
+            return files;            
+        } catch (error) {
+            throw new Error(error);            
+        }
+    }
+
     async ordenedFindByParam(param){
         try {
             const values = [];

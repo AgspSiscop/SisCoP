@@ -135,7 +135,7 @@ router.post('/myprocess', isAuth, resolver( async(req, res) => {
 
 router.post('/documents', isAuth, resolver( async(req, res) => {
     const files = new Files(req.body, res.locals, req.params);
-    const filesValues = await files.findByParam({process: req.body.id});    
+    const filesValues = await files.findByParamLight({process: req.body.id});    
     res.send(JSON.stringify(filesValues));    
 }));
 
