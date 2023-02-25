@@ -25,7 +25,7 @@ mongoose.connect('mongodb://localhost/siscop').then(() => {
 const leve1 = ['Transporte','Armamento Pesado','Armamento Leve', 'Correaria', 'STS', 'Serralheria','Linha de Blindados', 
 'Comunicações', 'Óptica', 'Pelotão de Obras', 'Almoxarifado', 'Suprimento', 'Informática', 'Posto Médico',
 'Divisão de Técnica', 'Divisão Industrial', 'Compania de Comando e Serviço', 'Divisão de Manutenção'];
-const level2 = ['SALC','Fiscal ADM', 'Ordenador de Despesas', 'Orçamentação']
+const level2 = ['SALC','Fiscal ADM', 'Ordenador de Despesas', 'Orçamentação', 'Chefe da SALC']
 const level10 = ['ADM']
 
 for(let section of leve1){
