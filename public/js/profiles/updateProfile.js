@@ -1,4 +1,4 @@
-import {pg as pgOptions, sectionsName as sectionsOptions} from '/js/builders/selectDatas.js';
+import {pg as pgOptions} from '/js/builders/selectDatas.js';
 import {createElements, createSelect, clearContainer, appendElements, createSectionsSelect} from '/js/builders/elementsFunctions.js';
 import {request} from '/js/builders/ajax.js';
 

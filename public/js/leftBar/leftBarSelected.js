@@ -1,4 +1,4 @@
-import {setAttributes, clearContainer, appendElements, createElements} from '/js/builders/elementsFunctions.js';
+import {setAttributes} from '/js/builders/elementsFunctions.js';
 
 
 document.addEventListener('click', (e) =>{   

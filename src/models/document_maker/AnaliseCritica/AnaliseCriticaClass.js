@@ -257,7 +257,7 @@ class AC {
     static #numberOfItens(arrayNumbers){ //*** */ função que retorna os numeros de um array tratados com ", 'e'" 
         const finalArray = []    
         if(this.columnsInternet.length == arrayNumbers.length){
-            return `de ${arrayNumbers[0].toString().padStart(2, '0')} à ${arrayNumbers[arrayNumbers.length -1]}`
+            return `de ${arrayNumbers[0].toString().padStart(2, '0')} à ${arrayNumbers[arrayNumbers.length -1].toString().padStart(2, '0')}`
         }
         
         let n = '';   

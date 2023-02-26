@@ -55,10 +55,7 @@ class MsgSent {
             if(typeof(this.body[key]) !== 'string'){
                 this.erros.push('Valor inválido!');
             }
-        }
-        /*if(!sectionsName.some(this.body.section)){
-            this.erros.push('Valor inválido!')
-        }*/
+        }        
 
         if(this.erros.length > 0){
             throw new Error('Valor inválido!');
@@ -142,7 +139,7 @@ class MsgSent {
                     process: this.body.process,
                     title: this.body.title,
                     process_title: this.params.title,            
-                    content: this.body.content[1],
+                    content: this.body.content[this.body.content.length -1],
                     date: Intl.DateTimeFormat('pt-BR', { dateStyle: "full", timeStyle: "short" }).format(new Date()),            
                 }
             }else{
@@ -152,7 +149,7 @@ class MsgSent {
                     process: this.body.process,
                     title: this.body.title,
                     process_title: this.params.title,            
-                    content: this.body.content[1],
+                    content: this.body.content[this.body.content.length -1],
                     date: Intl.DateTimeFormat('pt-BR', { dateStyle: "full", timeStyle: "short" }).format(new Date()),            
                 }
             }
@@ -171,7 +168,7 @@ class MsgSent {
                 process: this.body.process,
                 title: this.body.title,
                 process_title: this.params.title,            
-                content: this.body.content[1],
+                content: this.body.content[this.body.content.length -1],
                 date: Intl.DateTimeFormat('pt-BR', { dateStyle: "full", timeStyle: "short" }).format(new Date()),            
             }
             await new MessageModel(newMessage).save();

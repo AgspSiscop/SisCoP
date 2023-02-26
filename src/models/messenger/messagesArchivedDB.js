@@ -56,11 +56,7 @@ class Archived {
             if(typeof(this.body[key]) !== 'string'){
                 this.erros.push('Valor inválido!');
             }
-        }       
-
-        /*if(!sectionsName.some(this.body.section)){
-            this.erros.push('Valor inválido!')
-        }*/
+        }        
 
         if(this.erros.length > 0){
             throw new Error('Valor inválido!');
@@ -115,15 +111,6 @@ class Archived {
             throw new Error(error.message);           
         }
     }
-
-    /*async findOne(){
-        try {            
-            const message = await MessageModel.findOne({_id: this.body.elementid}).lean();
-            return message;         
-        } catch (error) {
-            throw new Error(error);         
-        }
-    }*/
 
     async findOneByParam(param){
         try {

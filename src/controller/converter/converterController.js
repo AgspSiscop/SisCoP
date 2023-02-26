@@ -12,7 +12,7 @@ router.post('/arquivos/:year/:id/:name/:local', isAuth, resolver( async(req, res
 }));
 
 router.post('/conversion/:year/:id/:local', isAuth, resolver( async(req, res) => {
-    const files = new Files(req.user, res.locals, req.params);    
+    const files = new Files(req.user, res.locals, req.params);       
     const fileValues = await files.ordenedFindByParam({_id: req.body.file});    
     const docs = new DocumentManipulator(fileValues);
     const dirName = `./conversor/${fileValues[0].process}`

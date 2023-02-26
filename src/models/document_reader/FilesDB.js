@@ -93,10 +93,16 @@ class Files {
     async ordenedFindByParam(param){
         try {
             const values = [];
-            const find = new Object();                                   
-            for(let i of Object.values(param)[0]){
-                find[Object.keys(param)] = i;                
-                values.push(await FileModel.findOne(find))
+            const find = new Object();
+            
+            if(typeof(Object.values(param)[0]) == 'object'){
+                for(let i of Object.values(param)[0]){
+                    find[Object.keys(param)] = i;                
+                    values.push(await FileModel.findOne(find));
+                }                
+            }else{                
+                find[Object.keys(param)] = Object.values(param)[0];
+                values.push(await FileModel.findOne(find));
             }
             return values          
         } catch (error) {

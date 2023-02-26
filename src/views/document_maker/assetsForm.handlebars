@@ -13,19 +13,17 @@
             </div>
             <div>
                 <label>Nº do Diex Req.:</label>                
-                <input type="text" name="diexreq" id="diexreq" class="smalltext">
-                <small>Número informado pela seção DPGOT</small>
+                <input type="text" name="diexreq" id="diexreq" class="smalltext">                
             </div>        
             <hr>
             <div>
-                <label>Origem do Processo:</label>
+                <label>Setor Demandante:</label>
                 <select name="dvname">
-                    <option value="Divisão Industrial">Divisão Industrial</option>
-                    <option value="Divisão de Inovação e Tecnologia">Divisão de Inovação e Tecnologia</option>
+                    <option value="Divisão Industrial">Divisão Técnica</option>                    
                 </select>
             </div>
             <div>
-                <label>Seção de Destino da Aquisição:</label>
+                <label>Origem do Processo:</label>
                 <select name="sector">
                     <option value="Seção Linha de Blindados">Linha de Blindados</option>
                     <option value="Seção de Armamento Pesado">Armamento Pesado</option>
@@ -60,35 +58,21 @@
             </div>
             <hr>
             <div>
-                <div class="display-flex-start">
-                    <div>
-                        <label>Responsável pela Confecção: </label>
-                        <input type="text" name="resp" id="resp" class="mediumtext">
+                <br>                
+                <h4>Equipe de Planejamento da Contratação</h4>
+                <br>
+                <div class="flexorientation--start">
+                    <div id="membersdiv">
                     </div>
-                    <div>
-                        <label>Post/Grad: </label>
-                        <select name="resppg">
-                            <option value="0"></option>
-                            <option value="Cel">Cel</option>
-                            <option value="Tc">Tc</option>
-                            <option value="Maj">Maj</option>
-                            <option value="Cap">Cap</option>
-                            <option value="1º Ten">1º Ten</option>
-                            <option value="2º Ten">2º Ten</option>
-                            <option value="Asp">Asp</option>
-                            <option value="S Ten">S Ten</option>
-                            <option value="1º Sgt">1º Sgt</option>
-                            <option value="2º Sgt">2º Sgt</option>
-                            <option value="3º Sgt">3º Sgt</option>
-                            <option value="Cb">Cb</option>
-                        </select>
+                    <div id="buttonsml" style="margin-left: 80px; align-self: flex-end">
                     </div>
                 </div>
-                <label>Cargo/Função: </label>
-                <input type="text" name="role" id="role" class="mediumtext">
             </div>       
             <hr>
             <div>
+                <br>                
+                <h4>Responsáveis pelo Processo</h4>
+                <br>
                 <div class="display-flex-start">
                     <div>
                         <label>Chefe da Divisão: </label>
@@ -179,22 +163,19 @@
             <hr>
             <div>
                 <label for="file" class="button_file">Anexar Mapa</label>
-                <input type="file" id="file" name="file" value="" required>
-                <span id="filename"></span required>
+                <input type="file" id="file" name="file" value="" class="file" required>
+                <span id="filename" class="filename"></span required>
                 
             </div>
             <div class="area_send">
-                <input type="submit" value="Termo de Referência" id="TR" class="button_disable">
-                <input type="submit" value="Certificado de Adoção" id="CA" class="button_disable">
+                <input type="submit" value="Termo de Referência" disabled id="TR" class="button_disable">
+                <input type="submit" value="Certificado de Adoção"  disabled id="CA" class="button_disable">
                 <input type="submit" value="Analise Crítica" id="AC" class="button_disable">
                 <input type="submit" value="Formalização da Demanda" id="DFD" class="button_disable">
                 <input type="submit" value="Gerenciamento de Risco" disabled id="GR" class="button_disable">              
-                <input type="submit" value="Diex Req" id="DR" class="button_disable">
-                <!--<button class="button" id="acpp">Análise Crítica da Pesquisa de Preços</button>                
-                <button class="button" id="dxreq">Diex Requisitório</button>                       
-                <button class="button" id="tr">Termo de Referência</button>-->                                    
+                <input type="submit" value="Diex Req" id="DR" class="button_disable">                                                   
             </div>
         </form>        
     </div>
-    <script async src="/js/document_maker/assetsForm.js"></script>
+    <script type="module" src="/js/document_maker/assetsForm.js"></script>
 </div>

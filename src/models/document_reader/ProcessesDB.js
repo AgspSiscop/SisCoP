@@ -137,16 +137,7 @@ class Processes {
         } catch (error) {
             throw new Error(error);         
         }
-    }
-
-    /*async findOne(){
-        try {            
-            const process = await ProcessModel.findOne({_id: this.body.elementid}).populate('origin').lean();
-            return process;         
-        } catch (error) {
-            throw new Error(error);         
-        }
-    }*/
+    }    
 
     async findOneByParam(param){
         try {
@@ -185,15 +176,7 @@ class Processes {
         } catch (error) {
             throw new Error(error);            
         }
-    }
-
-    /*async deleteOne(){
-        try {
-            await ProcessModel.deleteOne({_id: this.body.elementid});            
-        } catch (error) {
-            throw new Error(error);            
-        }
-    }*/
+    }    
 
     async deleteUser(){
         try {
@@ -234,7 +217,7 @@ class Processes {
                 {
                     $limit: 10
                 }
-              ])
+              ]);
               const number = await ProcessModel.find(param).sort({createdAt: -1}).count();                    
                 return {processes: processes, count: number};  
                          
@@ -252,9 +235,18 @@ class Processes {
                     localField: '_id',
                     foreignField: 'process',            
                     as: 'status'             
-                  },                    
-                }                
-            ]).sort({createdAt: 1}).limit(10).skip((this.params.page * 10));
+                  }                    
+                },
+                {
+                    $sort: { createdAt: -1}
+                },
+                {
+                    $skip: this.params.page * 10
+                },
+                {
+                    $limit: 10
+                }               
+            ]);
             const number = await ProcessModel.find().sort({createdAt: -1}).count();
             console.log(processes)    
               return {processes: processes, count: number};            

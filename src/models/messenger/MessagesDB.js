@@ -143,7 +143,7 @@ class Msg {
                 process: this.body.process,
                 title: this.body.title,
                 process_title: this.params.title,            
-                content: this.body.content[1],
+                content: this.body.content[this.body.content.length -1],
                 date: Intl.DateTimeFormat('pt-BR', { dateStyle: "full", timeStyle: "short" }).format(new Date()),            
             }            
     
@@ -162,7 +162,7 @@ class Msg {
                     process: this.body.process,
                     title: this.body.title,
                     process_title: this.params.title,            
-                    content: this.body.content[1],
+                    content: this.body.content[this.body.content.length -1],
                     date: Intl.DateTimeFormat('pt-BR', { dateStyle: "full", timeStyle: "short" }).format(new Date()),            
                 }
                 await new MessageModel(newMessage).save();

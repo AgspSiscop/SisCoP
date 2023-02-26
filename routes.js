@@ -6,7 +6,7 @@ const router = express.Router();
 const log = require('./src/controller/profiles/log');
 const profile =  require('./src/controller/profiles/profile');
 
-//const documentMaker = require('./src/controller/document_maker/assetsFormCtrl');
+const documentMaker = require('./src/controller/document_maker/assetsFormCtrl');
 const createProcess = require('./src/controller/document_reader//createProcess');
 
 const documentReader = require('./src/controller/document_reader/documentList');
@@ -24,7 +24,7 @@ const ajaxController =  require('./src/controller/xmlHttpRequest/ajaxRequestCont
 
 router.use(log);
 router.use(profile);
-//router.use('/montagem', documentMaker);
+router.use('/montagem', documentMaker);
 router.use('/meusprocessos', documentReader);
 router.use('/processosrecebidos', documentReaderT);
 router.use('/concluidos', documentReaderD);

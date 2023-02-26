@@ -135,7 +135,7 @@ async function sectionNoProcessSend(){
     const content = document.getElementById('content');
     const messageSection = document.getElementById('messagesection');    
     const submit = {title: title.value, content: ['', content.innerHTML], messagesection: messageSection.value, process: undefined};
-
+    
     const response = await fetch(`/mensageiro/novasemprocesso/section/Mensagem sem Processo`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -156,7 +156,7 @@ async function sectionProcessSend(){
     const process = document.getElementById('process');
     const processSelected = process.children[process.selectedIndex].innerHTML;
     const submit = {title: title.value, content: ['', content.innerHTML], messagesection: messageSection.value, process: process.value};
-
+    
     const response = await fetch(`/mensageiro/nova/section/${processSelected}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

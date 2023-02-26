@@ -119,7 +119,7 @@ select{
     padding: 15px 25px 15px 25px;
 }
 .leftbar_subitens:hover{    
-    background-image: linear-gradient(to right, rgb(183, 190, 178), rgb(158, 173, 149));
+    background-image: linear-gradient(to right, rgb(183, 190, 178), rgb(170, 173, 168));
     border-bottom: 1px solid  rgb(183, 190, 178);
     border-right: solid 8px  rgb(172, 211, 111);
     cursor: pointer;    
@@ -546,6 +546,8 @@ select{
 .imageselector{
     padding: 80px;
     margin-bottom: -44px;
+    width: 300px;
+    height: 300px;
 }
 .imageselector:hover{
     filter: brightness(1.46);
@@ -1030,9 +1032,12 @@ select{
     .logwindow textarea{
         font-size: 0.9vw !important;        
     }
-
-
-
+    .graphicwindow .content_window{
+        width: 68vw;
+    }
+    .graphicwindow hr{
+        width: 55vw;
+    }
 
     .mainwindow h2{
         font-size: 1.5vw;
@@ -1127,6 +1132,13 @@ select{
     }
     .navbar_profile p{
         font-size: 0.8vw;
+    }
+    .imageselector{
+        width: 12vw;
+        height: 12vw;
+    }
+    .area_send{
+        width: 45vw;
     }
       
 }

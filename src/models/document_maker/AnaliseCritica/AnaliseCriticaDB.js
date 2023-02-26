@@ -15,10 +15,30 @@ const AnaliseCritica =  new Schema({
     }
 });
 
-mongoose.model('analisecritica', AnaliseCritica);
+//mongoose.model('analisecritica', AnaliseCritica);
 
+const AnaliseCriticaModel = mongoose.model('analisecritica', AnaliseCritica);
 
+class ACDB {
+    
+    static async findMany(idValues){
+        try {
+            const elements = []
+            for(let value of idValues){                
+                const dbElement = await AnaliseCriticaModel.findOne({_id: value});
+                if(dbElement){                    
+                    elements.push(dbElement);
+                }
+                
+            }
+            return elements;
+        } catch (error) {
+            throw new Error(error)            
+        }
+    }
+}
 
+module.exports = ACDB
 /*
 mongoose.Promise =  global.Promise;
 mongoose.connect('mongodb://localhost/licitacao').then(() => {

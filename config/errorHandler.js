@@ -3,11 +3,3 @@ module.exports = (handlerFn) => {
         return Promise.resolve(handlerFn(req, res, next)).catch(error => next(error));
     }
 }
-
-class InternalServerError extends Error {
-    constructor(msg){
-        super(msg);
-        this.name = 'InternalServerError';
-        this.statusCode = 500;
-    }
-  }

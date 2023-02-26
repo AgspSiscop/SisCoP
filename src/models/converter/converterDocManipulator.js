@@ -24,10 +24,12 @@ class DocumentManipulator  {
     }
     
     #getFilenames(){
-        const arrayNames = [];
-        for(let file of this.files){
-            arrayNames.push(`${file.filename}${file.extension}`);
+        const arrayNames = [];        
+        for(let file of this.files){            
+            const filename  = file.filename.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9/ ]/g, "");
+            arrayNames.push(`${filename}${file.extension}`);
         }
+        
         return arrayNames;
     }
 
