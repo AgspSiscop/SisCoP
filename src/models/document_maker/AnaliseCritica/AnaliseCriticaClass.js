@@ -4,15 +4,17 @@ const generatorACP = require('./AnaliseCriticaPLayout');
 const generatorACParam = require('./AnaliseCriticaParamLayout')
 
 
-class AC {
-    
+class AC { 
     
     static getValues(body){
         if(body.nup != undefined){
             this.nup = body.nup;
             this.object = body.object;
             this.resp = this.#getResp(body);
-            this.PResp  = this.#getPResp(body);                  
+            this.PResp  = this.#getPResp(body);
+            this.day = body.dayp;
+            this.month = body.monthp;
+            this.year = body.yearp;                  
         }
         if(body.graphic != undefined){
             this.graphic = body.graphic
@@ -610,18 +612,18 @@ class AC {
     let table = this.#generateTable()
     
     if(thirth == null && fourth == null){
-        return generatorACPP(this.nup,this.resp, this.PResp, this.#percentage(),'','','', this.object.toUpperCase() ,item[0].text,item[1].text
+        return generatorACPP(this.nup,this.resp, this.PResp, this.#percentage(),this.day,this.month,this.year, this.object.toUpperCase() ,item[0].text,item[1].text
         ,item[2].text,item[3].text)
     }else if(fourth == null){
-        return generatorACI(this.nup, this.#numberOfItens(this.#publicQnt()), this.resp, this.PResp,this.#percentage(),'','','',this.object.toUpperCase() ,item[0].text,item[1].text,item[2].text
+        return generatorACI(this.nup, this.#numberOfItens(this.#publicQnt()), this.resp, this.PResp,this.#percentage(),this.day,this.month,this.year,this.object.toUpperCase() ,item[0].text,item[1].text,item[2].text
         ,item[3].text,item[4].text)
     }else if(table != null){
         return generatorACParam(this.nup, this.#numberOfItens(this.#publicQnt()),this.#numberOfItens(this.#internetQnt()),
-        this.providersArray,this.resp, this.PResp,table,this.graphic, this.review,this.#percentage(),'','','',this.object.toUpperCase() ,item[0].text,item[1].text,item[2].text,item[3].text,item[4].text
+        this.providersArray,this.resp, this.PResp,table,this.graphic, this.review,this.#percentage(),this.day,this.month,this.year,this.object.toUpperCase() ,item[0].text,item[1].text,item[2].text,item[3].text,item[4].text
         ,item[5].text,item[6].text)
     }else{        
         return generatorACP(this.nup, this.#numberOfItens(this.#publicQnt()),this.#numberOfItens(this.#internetQnt()),
-        this.providersArray,this.resp, this.PResp, this.#percentage(),'','','', this.object.toUpperCase() ,item[0].text,item[1].text,item[2].text,item[3].text,item[4].text
+        this.providersArray,this.resp, this.PResp, this.#percentage(),this.day,this.month,this.year, this.object.toUpperCase() ,item[0].text,item[1].text,item[2].text,item[3].text,item[4].text
         ,item[5].text,item[6].text)
     }  
    }

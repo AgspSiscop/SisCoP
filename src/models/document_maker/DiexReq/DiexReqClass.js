@@ -17,7 +17,10 @@ class DR {
         this.fiscalpg = body.fiscalpg
         this.cmdname = body.cmdname
         this.cmdpg = body.cmdpg
-        this.process = body.process       
+        this.process = body.process
+        this.day = body.dayp;
+        this.month = body.monthp
+        this.year = body.yearp     
     }
 
     static resetValues(){
@@ -54,7 +57,7 @@ class DR {
     }
 
     static analysis(){
-        return generatorDiexR(this.nup, this.processCategory() ,this.diexreq, '', '', '', this.chdvname, this.chdvpg, this.dvname, this.object, this.chsupname, this.chsuppg, this.fiscalname, this.fiscalpg, this.cmdname, this.cmdpg, '')
+        return generatorDiexR(this.nup, this.processCategory() ,this.diexreq, this.day, this.month, this.year, this.chdvname, this.chdvpg, this.dvname, this.object, this.chsupname, this.chsuppg, this.fiscalname, this.fiscalpg, this.cmdname, this.cmdpg, '')
     }
     
 

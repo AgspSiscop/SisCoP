@@ -1,12 +1,6 @@
 const generatorDFD = require('./DFDLayout')
 
-class DFD{
-    static nup;
-    static dvname;
-    static chdvname;
-    static sector;
-    static object;
-    static map;
+class DFD{  
 
     static getValues(body){
         this.nup = body.nup
@@ -16,6 +10,9 @@ class DFD{
         this.object = body.object
         this.biNr = body.binr
         this.biDate = body.bidate
+        this.day =  body.dayp;
+        this.month = body.monthp;
+        this.year = body.yearp;
     }
     static resetValues(){
         this.nup = undefined
@@ -46,7 +43,7 @@ class DFD{
     }
 
     static analysis(){
-        return generatorDFD(this.nup,this.dvname,this.chdvname,'','','',this.sector,this.object.toLowerCase(),this.table(), this.biNr, this.biDate)
+        return generatorDFD(this.nup,this.dvname,this.chdvname,this.day,this.month,this.year,this.sector,this.object.toLowerCase(),this.table(), this.biNr, this.biDate)
     }
 }
 

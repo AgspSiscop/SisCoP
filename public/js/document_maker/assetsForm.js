@@ -31,6 +31,10 @@ function createMembers(number){
     const flexDiv = createContainer('div', { class: 'display-flex-start'}, [div1, div2]);
     const div3 = createContainer('div', {}, [functionLabel, functionInput]);
     const mainDiv = createContainer('div', {}, [document.createElement('hr'), flexDiv, div3]);
+    const president = createElements('label', {style: 'text-align: center'}, 'Este deve ser o integrande mais antigo');
+    if(number === 1){
+        name.placeholder = 'Este Deve Ser O Integrante Mais Antigo'
+    }
     membersDiv.appendChild(mainDiv);
     createMoreM()
 
