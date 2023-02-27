@@ -10,10 +10,9 @@ class AC {
     static getValues(body){
         if(body.nup != undefined){
             this.nup = body.nup;
-            this.resp = body.resp;
-            this.role = body.role;
-            this.resppg = body.resppg;
             this.object = body.object;
+            this.resp = this.#getResp(body);
+            this.PResp  = this.#getPResp(body);                  
         }
         if(body.graphic != undefined){
             this.graphic = body.graphic
@@ -54,7 +53,40 @@ class AC {
         this.columnsInternet =  undefined;
         this.columnsProvider = undefined;*/   
         this.providersArray = []
-    }    
+    }
+    
+    static #getResp(body){        
+        if(typeof(body.resp) === 'string'){
+            return {text: [{text: `${body.resp} - ${body.resppg || null}\n`, bold: true},
+            `${body.role || null}`
+            ],
+            style: 'defaultStyle',
+            alignment: 'center'};
+            
+        }else{
+            const respArray = [];
+            if(body.resp.length == body.role.length && body.resp.length == body.resppg.length){                
+                for(let i = 0; i < body.resp.length; i++){
+                    respArray.push({text: `${body.resp[i]} - ${body.resppg[i] || null}\n`, bold: true})
+                    respArray.push(`${body.role[i] || null}\n\n\n\n\n\n\n\n\n`)
+                }
+                return {text: respArray, style: 'defaultStyle', alignment: 'center'};
+            }                 
+        }
+    }
+
+    static #getPResp(body){
+        if(typeof(body.resp) === 'string'){
+            return {text: `${body.resp}, ${body.role || null}, `, bold: true}
+            
+        }else{
+            const respArray = [];
+            if(body.resp.length == body.role.length && body.resp.length == body.resppg.length){                
+                return {text: `${body.resp[0]}, ${body.role[0] || null}, `, bold: true}
+            }                 
+        }
+
+    }
 
     static #columnsPublic(){ //função que retorna o array com todos os orçamentos de internet parametro *worksheets   
        const allRows = []      
@@ -439,7 +471,7 @@ class AC {
         array.push(`${  (1 + value).toString().replace('.', ',')} e por ${(1 - value).toString().replace('.', ',')}`)
         array.push(`${(100 * (1 +value)).toFixed(0)}% e ${(100 * (1 - value)).toFixed(0)}%`)
         return array
-       }
+    }   
    
     static item112(){ //item AC 1.1.2 ***
        let itens = this.columnsPublic;
@@ -578,18 +610,18 @@ class AC {
     let table = this.#generateTable()
     
     if(thirth == null && fourth == null){
-        return generatorACPP(this.nup,this.resp.toUpperCase(),this.#percentage(),'','','',this.role ,this.resppg ,this.object.toUpperCase() ,item[0].text,item[1].text
+        return generatorACPP(this.nup,this.resp, this.PResp, this.#percentage(),'','','', this.object.toUpperCase() ,item[0].text,item[1].text
         ,item[2].text,item[3].text)
     }else if(fourth == null){
-        return generatorACI(this.nup, this.#numberOfItens(this.#publicQnt()),this.resp.toUpperCase(),this.#percentage(),'','','',this.role ,this.resppg ,this.object.toUpperCase() ,item[0].text,item[1].text,item[2].text
+        return generatorACI(this.nup, this.#numberOfItens(this.#publicQnt()), this.resp, this.PResp,this.#percentage(),'','','',this.object.toUpperCase() ,item[0].text,item[1].text,item[2].text
         ,item[3].text,item[4].text)
     }else if(table != null){
         return generatorACParam(this.nup, this.#numberOfItens(this.#publicQnt()),this.#numberOfItens(this.#internetQnt()),
-        this.providersArray,this.resp.toUpperCase(),table,this.graphic, this.review,this.#percentage(),'','','',this.role ,this.resppg ,this.object.toUpperCase() ,item[0].text,item[1].text,item[2].text,item[3].text,item[4].text
+        this.providersArray,this.resp, this.PResp,table,this.graphic, this.review,this.#percentage(),'','','',this.object.toUpperCase() ,item[0].text,item[1].text,item[2].text,item[3].text,item[4].text
         ,item[5].text,item[6].text)
     }else{        
         return generatorACP(this.nup, this.#numberOfItens(this.#publicQnt()),this.#numberOfItens(this.#internetQnt()),
-        this.providersArray,this.resp.toUpperCase(),this.#percentage(),'','','',this.role ,this.resppg ,this.object.toUpperCase() ,item[0].text,item[1].text,item[2].text,item[3].text,item[4].text
+        this.providersArray,this.resp, this.PResp, this.#percentage(),'','','', this.object.toUpperCase() ,item[0].text,item[1].text,item[2].text,item[3].text,item[4].text
         ,item[5].text,item[6].text)
     }  
    }

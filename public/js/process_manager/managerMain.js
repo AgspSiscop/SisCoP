@@ -157,32 +157,32 @@ function generateArrows(processes, elementsInPage, number){
 
 function colorStates(state, block){
     if(state == 'Processo Cadastrado'){
-        setAttributes(block, {style: 'background-color: rgb(94, 151, 255);color: rgb(80, 80, 80);', class: 'manager_main_state'});        
+        setAttributes(block, {class: 'manager_main_state create_state'});        
     }
     else if(state == 'Coleta de Orçamentos'){
-        setAttributes(block, {style: 'background-color: rgb(238, 255, 89);color: rgb(80, 80, 80);', class: 'manager_main_state'});
+        setAttributes(block, {class: 'manager_main_state getbudgets_state'});
     }
     else if(state == 'Em Montagem'){
-        setAttributes(block, {style: 'background-color: rgb(187, 135, 255);color: rgb(70, 70, 70);', class: 'manager_main_state'});
+        setAttributes(block, {class: 'manager_main_state inprocess_state'});
     }
     else if(state == 'Montagem Finalizada'){
-        setAttributes(block, {style: 'background-color: rgb(181, 252, 110);color: rgb(80, 80, 80);', class: 'manager_main_state'});
+        setAttributes(block, {class: 'manager_main_state makedone_state'});
     }
     else if(state == 'Em Transferência'){;
-        setAttributes(block, {style: 'background-color: rgb(50, 214, 255);color: rgb(80, 80, 80);', class: 'manager_main_state'});
+        setAttributes(block, {class: 'manager_main_state intransfer_state'});
     }
     else if(state == 'Em Análise'){
-        setAttributes(block, {style:'background-color: rgb(255, 100, 152);color: rgb(70, 70, 70);', class: 'manager_main_state'});
+        setAttributes(block, {class: 'manager_main_state analysis_state'});
     }
     else if(state == 'Outro'){
-        setAttributes(block, {style: 'background-color: rgb(255, 190, 71);color: rgb(80, 80, 80);', class: 'manager_main_state'});
+        setAttributes(block, {class: 'manager_main_state other_state'});
     }
     else if(state == 'Retificando Processo'){
-        setAttributes(block, {style: 'background-color: rgb(255, 190, 71);color: rgb(70, 70, 70);', class: 'manager_main_state'});
+        setAttributes(block, {class: 'manager_main_state rectifying_state'});
     }
     else if(state == 'Processo Concluído'){
-        setAttributes(block, {style: 'background-color: rgb(79, 252, 79);color: rgb(80, 80, 80);', class: 'manager_main_state'});
+        setAttributes(block, {class: 'manager_main_state processdone_state'});
     }else{        
-        setAttributes(block, {style: 'background-color: rgb(79, 252, 79);color: rgb(80, 80, 80);', class: 'manager_main_state'});        
+        setAttributes(block, {class: 'manager_main_state processdone_state'});        
     }
 }

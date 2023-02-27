@@ -74,43 +74,43 @@ function generateStates(states){
         let block;
         
         if(i.state == 'Processo Cadastrado'){
-            block = createContainer('form', {class: 'status_content display-column-spaceb', name: 'statusblock', 
-            style: 'background-color: rgb(94, 151, 255);color: rgb(80, 80, 80);'}, [div1, div2, div3, stateId]);
+            block = createContainer('form', {class: 'status_content display-column-spaceb create_state', name: 'statusblock', 
+            }, [div1, div2, div3, stateId]);
         }
         else if(i.state == 'Coleta de Orçamentos'){
-            block = createContainer('div', {class: 'status_content display-column-spaceb', name: 'statusblock', 
-            style: 'background-color: rgb(238, 255, 89);color: rgb(80, 80, 80);'}, [div1, div2, div3, stateId]);
+            block = createContainer('div', {class: 'status_content display-column-spaceb getbudgets_state', name: 'statusblock', 
+            }, [div1, div2, div3, stateId]);
         }
         else if(i.state == 'Em Montagem'){
-            block = createContainer('div', {class: 'status_content display-column-spaceb', name: 'statusblock',
-            style: 'background-color: rgb(187, 135, 255);color: rgb(70, 70, 70);'}, [div1, div2, div3, stateId]);
+            block = createContainer('div', {class: 'status_content display-column-spaceb inprocess_state', name: 'statusblock',
+            }, [div1, div2, div3, stateId]);
         }
         else if(i.state == 'Montagem Finalizada'){
-            block = createContainer('div', {class: 'status_content display-column-spaceb', name: 'statusblock',
-            style: 'background-color: rgb(181, 252, 110);color: rgb(80, 80, 80);'}, [div1, div2, div3, stateId]);
+            block = createContainer('div', {class: 'status_content display-column-spaceb makedone_state', name: 'statusblock',
+            }, [div1, div2, div3, stateId]);
         }
         else if(i.state == 'Em Transferência'){
-            block = createContainer('div', {class: 'status_content display-column-spaceb', name: 'statusblock',
-        style: 'background-color: rgb(50, 214, 255);color: rgb(80, 80, 80);'}, [div1, div2, div3, stateId]);
+            block = createContainer('div', {class: 'status_content display-column-spaceb intransfer_state', name: 'statusblock',
+            }, [div1, div2, div3, stateId]);
         }
         else if(i.state == 'Em Análise'){
-            block = createContainer('div', {class: 'status_content display-column-spaceb', name: 'statusblock',
-            style:'background-color: rgb(255, 100, 152);color: rgb(70, 70, 70);'}, [div1, div2, div3, stateId]);
+            block = createContainer('div', {class: 'status_content display-column-spaceb analysis_state', name: 'statusblock',
+            }, [div1, div2, div3, stateId]);
         }
         else if(i.state == 'Outro'){
-            block = createContainer('div', {class: 'status_content display-column-spaceb', name: 'statusblock',
-            style: 'background-color: rgb(255, 190, 71);color: rgb(80, 80, 80);'}, [div1, div2, div3, stateId]);
+            block = createContainer('div', {class: 'status_content display-column-spaceb other_state', name: 'statusblock',
+            }, [div1, div2, div3, stateId]);
         }
         else if(i.state == 'Retificando Processo'){
-            block = createContainer('div', {class: 'status_content display-column-spaceb', name: 'statusblock',
-            style: 'background-color: rgb(240, 80, 101);color: rgb(70, 70, 70);'}, [div1, div2, div3, stateId]);
+            block = createContainer('div', {class: 'status_content display-column-spaceb rectifying_state', name: 'statusblock',
+            }, [div1, div2, div3, stateId]);
         }
         else if(i.state == 'Processo Concluído'){
-            block = createContainer('div', {class: 'status_content display-column-spaceb', name: 'statusblock',
-            style: 'background-color: rgb(79, 252, 108);color: rgb(80, 80, 80);'}, [div1, div2, div3, stateId]);
+            block = createContainer('div', {class: 'status_content display-column-spaceb processdone_state', name: 'statusblock',
+            }, [div1, div2, div3, stateId]);
         }else{
-            block = createContainer('div', {class: 'status_content display-column-spaceb', name: 'statusblock',
-            style: 'background-color: rgb(79, 252, 79);color: rgb(80, 80, 80);'}, [div1, div2, div3, stateId]);        
+            block = createContainer('div', {class: 'status_content display-column-spaceb processdone_state', name: 'statusblock',
+            }, [div1, div2, div3, stateId]);        
         }
         
 

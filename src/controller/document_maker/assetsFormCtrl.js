@@ -96,9 +96,7 @@ router.post('/DFD', isAuth, resolver( async(req,res) => {
 
 }))
 
-router.post('/DiexReq', isAuth, resolver((req, res) => {
-    console.log(req.body);
-    res.send('ok')    
+router.post('/DiexReq', isAuth, resolver((req, res) => {        
     DR.getValues(req.body);
     const chunks = [];
         const pdfDoc = printer.createPdfKitDocument(DR.analysis())

@@ -1,4 +1,4 @@
-function generatorDFD(nup, divsionName, chDivisionName, dayDFD, monthDFD, yearDFD, sector, object, table){
+function generatorDFD(nup, divsionName, chDivisionName, dayDFD, monthDFD, yearDFD, sector, object, table, biNr, biDate){
     const docDefinitions = {
         content: [
             {image: './public/img/blazon.png',width:66, heigh: 99, alignment: 'center', margin: [1,1,1,4]},
@@ -124,6 +124,12 @@ function generatorDFD(nup, divsionName, chDivisionName, dayDFD, monthDFD, yearDF
                                     {
                                         table: {
                                             widths: [50, 300, 50],
+                                            body: [['Nr', 'Descrição', 'Qtd']]
+                                        }
+                                    },                                    
+                                    {
+                                        table: {
+                                            widths: [50, 300, 50],
                                             body: table
                                         },alignment: 'center'
                                     },
@@ -169,7 +175,7 @@ function generatorDFD(nup, divsionName, chDivisionName, dayDFD, monthDFD, yearDF
                             [
                                 {
                                     text: [
-                                     {text: 'Conforme BI Nr 026, de 08/02/2021, do AGSP, anexo ao presente documento.', fontSize: 11}
+                                     {text: `Conforme BI Nr ${biNr}, de ${biDate}, do AGSP, anexo ao presente documento.`, fontSize: 11}
                                     ],
                                     margin: [1,15,1,15]
                                 },

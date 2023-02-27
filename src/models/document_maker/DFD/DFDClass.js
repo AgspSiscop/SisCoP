@@ -14,6 +14,8 @@ class DFD{
         this.chdvname = body.chdvname
         this.sector = body.sector
         this.object = body.object
+        this.biNr = body.binr
+        this.biDate = body.bidate
     }
     static resetValues(){
         this.nup = undefined
@@ -44,7 +46,7 @@ class DFD{
     }
 
     static analysis(){
-        return generatorDFD(this.nup,this.dvname,this.chdvname,'','','',this.sector,this.object.toLowerCase(),this.table())
+        return generatorDFD(this.nup,this.dvname,this.chdvname,'','','',this.sector,this.object.toLowerCase(),this.table(), this.biNr, this.biDate)
     }
 }
 

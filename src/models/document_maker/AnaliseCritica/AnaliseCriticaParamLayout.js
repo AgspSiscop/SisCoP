@@ -1,5 +1,5 @@
-function generatorACParam(nup, itens1, itens2, providers, nameAnaliseCritica,table, graphic, review,percentage, dayAnaliseCritica, monthAnaliseCritica, 
-    yearAnaliseCritica, role, postGrad, objectName, var111, var112, var113, var114, var115, var311, var312){
+function generatorACParam(nup, itens1, itens2, providers, namesAnaliseCritica, nameAnaliseCritica, table, graphic, review,percentage, dayAnaliseCritica, monthAnaliseCritica, 
+    yearAnaliseCritica, objectName, var111, var112, var113, var114, var115, var311, var312){
     const docDefinitions = {
                 content: [
                     {image: './public/img/blazon.png',width:66, heigh: 99, alignment: 'center', margin: [1,1,1,4]},
@@ -108,7 +108,7 @@ function generatorACParam(nup, itens1, itens2, providers, nameAnaliseCritica,tab
     verificar a razoabilidade do valor a ser investido, afastando a prática de atos possivelmente antieconômicos.\n\n\n',
                         {text: 'DECLARAÇÃO DE LEGALIDADE DAS PESQUISAS\n\n', bold: true},
                         'Eu, ',
-                        {text: `${nameAnaliseCritica}, ${role}, `, bold: true},
+                        nameAnaliseCritica,
                         {text: 'declaro que\n'},
                         {text: 'a.  as pesquisas apresentadas para compor o presente processo de contratação foram providenciadas exclusivamente\
 por mim ou por militares sob minha supervisão;\n'},
@@ -125,13 +125,12 @@ utilizados ou nas propostas firmadas pelas empresas consultadas;\n'},
                 },
                 {
                     text:[
-                        `Barueri - SP, ${dayAnaliseCritica} de ${monthAnaliseCritica} de ${yearAnaliseCritica}.\n\n\n\n\n\n\n\n\n`,
-                        {text: `${nameAnaliseCritica} - ${postGrad}\n`, bold: true},
-                        `${role}`
+                        `Barueri - SP, ${dayAnaliseCritica} de ${monthAnaliseCritica} de ${yearAnaliseCritica}.\n\n\n\n\n\n\n\n\n`                        
                         ],
                         style: 'defaultStyle',
                         alignment: 'center'
-                }
+                },
+                namesAnaliseCritica
                 
             ],
             styles: {
