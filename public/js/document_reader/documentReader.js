@@ -303,8 +303,8 @@ function generateStatesBlocks(process, processStates, states, user){
         const label2 = createElements('label', {}, 'Obs:');
         const stateId = createElements('input', {type: 'hidden', name: 'elementid', value: i._id});
         const deleteState = createElements('input', {type: 'submit', class: 'delete_status', value: 'Apagar'});
-        const prgh1 = createElements('p', {style: 'font-size: 15px;'}, i.state);
-        const prgh2 = createElements('p', {style: 'font-size: 14px; font-style: italic;'}, 'Sem observações');
+        const prgh1 = createElements('p', {}, i.state);
+        const prgh2 = createElements('p', {style: 'font-style: italic;'}, 'Sem observações');
 
         if(i.anotation){
             setAttributes(prgh2, {style: 'font-size: 15px;'})

@@ -263,8 +263,10 @@ class AC {
 
     static #providerQnt(){
         const providers = this.columnsProvider;
-        let qnt = []   
-        for(let i = 0; i < providers[i].length; i++){
+        let qnt = []
+        const maxLength = providers.reduce((max, subarray) => Math.max(max, subarray.length), 0);
+
+        for(let i = 0; i < maxLength; i++){
             let valid = false
             for(let j = 0; j < providers.length; j++){
                 if(providers[j][i] != null){

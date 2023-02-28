@@ -122,7 +122,7 @@ function createBodyList(process){
     }
     
     if(process.status.length > 0){
-        const processStatus = createElements('label', {}, process.status.at(-1).state); 
+        const processStatus = createElements('p', {style:  'display:inline'}, process.status.at(-1).state); 
         const processStatusDate = createElements('small', {style: 'display:block; margin-top:5px;'}, `Atualizado em: ${process.status.at(-1).date}`)                                 
         div3.setAttribute('title', process.status.at(-1).anotation);        
         div3.appendChild(processStatus);                            
