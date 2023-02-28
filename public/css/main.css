@@ -1103,6 +1103,9 @@ select{
     .mainwindow p, a, label{
         font-size: 0.9vw;
     }
+    .mainwindow small{
+        font-size: 0.8vw;
+    }
     .mainwindow select{
         font-size: 0.8vw !important;
         max-width: 20vw !important;
@@ -1161,9 +1164,9 @@ select{
     .mainwindow textarea{
         font-size: 0.9vw !important;        
     }
-    .status_content p, label, small, b{
+    .status_content p, label, b{
         font-size: 0.9vw !important;
-    }
+    }    
     .content_window h2{
         font-size:  1.2vw;
         max-width: 49vw;
