@@ -39,12 +39,18 @@ async function getStates(){
 
 function generateFiles(documents){
     const list = document.getElementById('list');
-    const year = document.getElementById('year');    
-    for(let i of documents){
-        const file = createElements('input', {type: 'submit', class: 'manager_button highlighted', value: `${i.filename}${i.extension}`});       
-        const form = createContainer('form', {name: 'fileform', target: '_blank', method: 'POST', action: `/acompanharprocessos/${year.innerHTML}/${i.process}/${i._id}`}, [file]);
-        list.appendChild(form);       
-    }
+    const year = document.getElementById('year');
+    if(documents.length > 0){
+        for(let i of documents){
+            const file = createElements('input', {type: 'submit', class: 'manager_button highlighted', value: `${i.filename}${i.extension}`});       
+            const form = createContainer('form', {name: 'fileform', target: '_blank', method: 'POST', action: `/acompanharprocessos/${year.innerHTML}/${i.process}/${i._id}`}, [file]);
+            list.appendChild(form);       
+        }
+    }else{
+        const prgh = createElements('p', {style: 'display: inline'}, 'Este processo ainda não possuí arquivos.');
+        list.style = ''
+        list.appendChild(prgh);
+    }    
 }
 
 function generateStates(states){
@@ -53,11 +59,11 @@ function generateStates(states){
         const label1 = createElements('label', {}, 'Status:&ensp;');
         const label2 = createElements('label', {}, 'Obs:&ensp;');
         const stateId = createElements('input', {type: 'hidden', name: 'elementid', value: i._id});        
-        const prgh1 = createElements('p', {style: 'font-size: 15px;'}, i.state);        
-        const prgh2 = createElements('p', {style: 'font-size: 14px; font-style: italic;'}, 'Sem observações');
+        const prgh1 = createElements('p', {style: 'font-size: 0.8vw;'}, i.state);        
+        const prgh2 = createElements('p', {style: 'font-size: 0.7vw; font-style: italic;'}, 'Sem observações');
 
         if(i.anotation){
-            setAttributes(prgh2, {style: 'font-size: 15px;'})
+            setAttributes(prgh2, {style: 'font-size: 0.8vw;'})
             prgh2.innerHTML = i.anotation            
         }
 
