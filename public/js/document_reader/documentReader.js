@@ -12,6 +12,7 @@ document.addEventListener('click', (e) => {
     const local = getLocal();
     const processTitle = document.getElementById('processtitle').innerHTML;
     const statusButton = document.getElementById('statusbutton');
+    const descriptionButton = document.getElementById('descriptionbutton');
     const newStatusButton = document.getElementById('newstatusbutton');
     const sendFile = document.getElementById('sendfile');
     const sendButton =  document.getElementById('sendbutton');
@@ -35,6 +36,17 @@ document.addEventListener('click', (e) => {
         }else{
             states.setAttribute('class', 'display_none');
             statusButton.innerHTML = '<img src="/img/down.png" style="width: 9px;"/>';                               
+        }
+    }
+    if(element === descriptionButton || element.parentElement === descriptionButton){
+        e.preventDefault();        
+        const descriptions = document.getElementById('descriptions');
+        if(descriptions.getAttribute('class') == 'display_none'){
+            descriptions.setAttribute('class', 'description_list');
+            descriptionButton.innerHTML = '<img src="/img/up.png" style="width: 9px;"/>';
+        }else{
+            descriptions.setAttribute('class', 'display_none');
+            descriptionButton.innerHTML = '<img src="/img/down.png" style="width: 9px;"/>';
         }
     }
     if(element === sendFile){
@@ -152,7 +164,8 @@ async function getDocuments(){
 function generateElements(documents, process){
     generetaTitle(process.process);
     generateFiles(documents, process.process);
-    upload(process.process, 0);    
+    upload(process.process, 0);
+    generateDescription(process.process);  
     listStates(process.process, process.states, process.user);
     sendProcess(process.process);
     generateOptions(process.process);
@@ -276,6 +289,17 @@ function upload(process, index){
         fileLabel.setAttribute('disabled', '');
         inputFile.setAttribute('type', '');
     }      
+}
+
+function generateDescription(process){    
+    const descriptionsButtonDiv = document.getElementById('descriptionsbuttondiv');
+    const smallButton = createElements('small', {}, 'Descrição');
+    const descriptionButton = createElements('button', {class: 'button', id: 'descriptionbutton'}, '<img src="/img/down.png" style="width: 9px;"/>');
+    const description = createElements('p', {}, process.description);
+    const descriptions = document.getElementById('descriptions');
+    descriptions.setAttribute('class', 'display_none')
+    descriptions.appendChild(description);
+    appendElements(descriptionsButtonDiv, [smallButton, descriptionButton]);    
 }
 
 function listStates(process, processStates, user){

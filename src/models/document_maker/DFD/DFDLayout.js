@@ -1,4 +1,4 @@
-function generatorDFD(nup, divsionName, chDivisionName, dayDFD, monthDFD, yearDFD, sector, object, table, biNr, biDate){
+function generatorDFD(nup, divsionName, chDivisionName, chdvpg, dayDFD, monthDFD, yearDFD, sector, object, table, biNr, biDate){
     const docDefinitions = {
         content: [
             {image: './public/img/blazon.png',width:66, heigh: 99, alignment: 'center', margin: [1,1,1,4]},
@@ -45,7 +45,7 @@ function generatorDFD(nup, divsionName, chDivisionName, dayDFD, monthDFD, yearDF
                            {
                                 text: [
                                     {text: 'Responsável pela Demanda:  ', fontSize: 11, alignment: 'justify', bold: true},
-                                    {text: `${chDivisionName}`, fontSize: 11}
+                                    {text: `${chDivisionName}  - ${chdvpg}`, fontSize: 11}
                                     ],
                                      margin: [1,7,1,4],
                                      style: 'defaultStyle'
@@ -187,7 +187,7 @@ function generatorDFD(nup, divsionName, chDivisionName, dayDFD, monthDFD, yearDF
                 text: [
                     {text: '\n\n\n\nMunicípio de ', italics: true, fontSize: 11},
                     {text: `Barueri, ${dayDFD} de ${monthDFD} de ${yearDFD}.\n\n\n\n\n\n\n\n\n`, bold: true, fontSize: 11},
-                    {text: `${chDivisionName}\n`, alignment: 'center', bold: true},
+                    {text: `${chDivisionName} - ${chdvpg}\n`, alignment: 'center', bold: true},
                     {text: `Responsável pela Formalização da Demanda\n`, alignment: 'center'}                    
                     ],
                     style: 'defaultStyle',

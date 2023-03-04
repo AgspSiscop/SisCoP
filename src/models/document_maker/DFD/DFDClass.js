@@ -6,6 +6,7 @@ class DFD{
         this.nup = body.nup
         this.dvname = body.dvname
         this.chdvname = body.chdvname
+        this.chdvpg = body.chdvpg
         this.sector = body.sector
         this.object = body.object
         this.biNr = body.binr
@@ -43,7 +44,7 @@ class DFD{
     }
 
     static analysis(){
-        return generatorDFD(this.nup,this.dvname,this.chdvname,this.day,this.month,this.year,this.sector,this.object.toLowerCase(),this.table(), this.biNr, this.biDate)
+        return generatorDFD(this.nup,this.dvname,this.chdvname, this.chdvpg, this.day,this.month,this.year,this.sector,this.object.toLowerCase(),this.table(), this.biNr, this.biDate)
     }
 }
 
