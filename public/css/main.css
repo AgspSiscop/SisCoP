@@ -973,7 +973,13 @@ select{
     .small_content{
         width: 70vw;
     }
-    .content_window{
+    .mainwindow .content_window{
+        width: 60vw;
+    }
+    .window_medium .content_window{
+        width: 68vw;
+    }
+    .window_large .content_window{
         width: 68vw;
     }
     .bar_color{
