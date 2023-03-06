@@ -408,7 +408,8 @@ select{
     width: 266px;
 }
 .messenger_body{
-    width: 300px;
+    width: 266px;
+    padding-right: 35px;
     font-size: 12.5px;     
 }
 .header_color{
