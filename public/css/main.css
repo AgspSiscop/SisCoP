@@ -953,10 +953,10 @@ select{
 @media( max-width: 1600px){
     #agsplogo{
         width: 3.2vw;
-        height: 4.4vw;
+        height: 4.7vw;
     }
     .navbar_logo{
-        padding-bottom: 15px;
+        padding-bottom: 10px;
     }
     .header_color{
         width: 70vw;
