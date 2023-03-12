@@ -109,8 +109,7 @@ router.post('/DiexReq', isAuth, resolver((req, res) => {
 }));
 
 router.post('/analise_critica', isAuth, resolver( async(req,res) => {   
-    const file = await uploadAsync(req, res);
-    //AC.getValues(req.body)
+    const file = await uploadAsync(req, res);    
     AC.getMap(contentxlsx(XLSX.read(Buffer.from(file.buffer))));    
     if(AC.analysisParam() != null){
         req.session.file = file;
@@ -121,15 +120,13 @@ router.post('/analise_critica', isAuth, resolver( async(req,res) => {
     }
 }))
 
-router.post('/analise_critica1', isAuth, resolver( async(req,res) => {
-    console.log(req.session.bodyValues)
+router.post('/analise_critica1', isAuth, resolver( async(req,res) => {    
     if (req.session.bodyValues) {
         AC.getValues(req.session.bodyValues);
         AC.getMap(contentxlsx(XLSX.read(Buffer.from(req.session.file.buffer))));
         delete req.session.bodyValues;
         delete req.session.file;     
-    }
-    console.log(req.session.bodyValues)
+    }    
     AC.getValues(req.body);
     
     const values =  await ACDB.findMany(['1.1.1a', AC.item112(), AC.item113(), AC.item114(),
