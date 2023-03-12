@@ -60,10 +60,10 @@ function generateElements(messages, number){
     for(let i of messages.messages){        
         const delImg = createElements('img', {src: '/img/trash.png', style: 'height: 16px;'});
         const delButton = createContainer('button', {class: 'redbutton deletemsg', style: 'margin-top: 0px;'}, [delImg]);
-        const delForm = createContainer('form', {method: 'POST', action: `${document.URL}/${i._id}/delete`}, [delButton]);
+        const delForm = createContainer('form', {method: 'POST', action: `${document.URL}/${i._id}/delete`, class: 'formmessage'}, [delButton]);
         const archImg = createElements('img', {src: '/img/archive.png', style: 'height: 16px;'});
         const archButton = createContainer('button', {class: 'yellowbutton archivemsg', style: 'margin-top: 0px;'}, [archImg]);
-        const archForm = createContainer('form', {method: 'POST', action: `caixadeentrada/${i._id}/archive`}, [archButton]);
+        const archForm = createContainer('form', {method: 'POST', action: `caixadeentrada/${i._id}/archive`, class: 'formmessage'}, [archButton]);
         const divFather = createContainer('div', {class: 'flexorientation--spaceb list_iten'}, []);
         const a = createContainer('a', {href: `${document.URL}/${i._id}`, class: 'message_style'}, [divFather]);
         

@@ -14,8 +14,7 @@ const {isAuth} = require('../../../config/isAuth');
 const resolver =  require('../../../config/errorHandler');
 const uploadAsync = require('../../models/document_maker/uploadsMaker');
 const ACDB = require('../../models/document_maker/AnaliseCritica/AnaliseCriticaDB');
-//const TRDB = mongoose.model('tr');
-//const CADB = mongoose.model('certificadodeadocao');
+
 
 
 const printer = require('../../../public/js/builders/Printer');
@@ -72,11 +71,9 @@ router.post('/CA', isAuth, resolver( async (req,res) =>{
         pdfDoc.on('end', () => {
             const result = Buffer.concat(chunks);            
             res.end(result);
-        })
-
-    })
-
-}))
+        });
+    });
+}));
 
 router.post('/DFD', isAuth, resolver( async(req,res) => {    
     const file = await uploadAsync(req, res);
@@ -113,20 +110,31 @@ router.post('/DiexReq', isAuth, resolver((req, res) => {
 
 router.post('/analise_critica', isAuth, resolver( async(req,res) => {   
     const file = await uploadAsync(req, res);
-    AC.getValues(req.body)
+    //AC.getValues(req.body)
     AC.getMap(contentxlsx(XLSX.read(Buffer.from(file.buffer))));    
-    if(AC.analysisParam() != null){               
+    if(AC.analysisParam() != null){
+        req.session.file = file;
+        req.session.bodyValues = req.body;              
         res.render('document_maker/graphic', AC.analysisParam())
     }else{         
-        res.redirect(307, '/montagem/analise_critica1')
+        res.redirect(307, '/montagem/analise_critica1');
     }
 }))
 
-router.post('/analise_critica1', isAuth, resolver( async(req,res) => {    
+router.post('/analise_critica1', isAuth, resolver( async(req,res) => {
+    console.log(req.session.bodyValues)
+    if (req.session.bodyValues) {
+        AC.getValues(req.session.bodyValues);
+        AC.getMap(contentxlsx(XLSX.read(Buffer.from(req.session.file.buffer))));
+        delete req.session.bodyValues;
+        delete req.session.file;     
+    }
+    console.log(req.session.bodyValues)
     AC.getValues(req.body);
     
     const values =  await ACDB.findMany(['1.1.1a', AC.item112(), AC.item113(), AC.item114(),
-    AC.item115(),AC.item311(), AC.item312()]);    
+    AC.item115(),AC.item311(), AC.item312()]);
+
 
     const chunks = [];
         const pdfDoc = printer.createPdfKitDocument(AC.analysis(values));

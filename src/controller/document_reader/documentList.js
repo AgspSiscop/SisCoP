@@ -42,9 +42,12 @@ router.post('/:year/delete/:id', isAuth, resolver( async(req, res) => { ///ok
     res.redirect(`/meusprocessos`);      
 }));
 
-router.post('/:year/:id', isAuth, resolver( async(req, res) => {    
-    let message = req.session.error || null; //mudar isso
-    req.session.error = null;
+router.post('/:year/:id', isAuth, resolver( async(req, res) => {        
+    let message = null; 
+    if (req.session.error) {
+        message = req.session.error;
+        delete req.session.error
+    }
     res.render('document_reader/files', {error: message});
 }));
 
