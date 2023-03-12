@@ -1,4 +1,5 @@
 const express = require('express');
+const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoConnect = require('connect-mongo');
@@ -10,9 +11,10 @@ const passport = require('passport');
 require('./config/auth')(passport);
 require('./public/js/registerhelper/registerHelper');
 
+dotenv.config();
 const app = express();
-const PORT = 8904;
-const hostname = '127.0.0.1'
+const PORT = process.env.PORT;
+const hostname = process.env.HOST
 const dbUser = process.env.DB_USER;
 const dbPwd =  process.env.DB_PASSWORD;
 const secret = process.env.SISCOP_SECRET;

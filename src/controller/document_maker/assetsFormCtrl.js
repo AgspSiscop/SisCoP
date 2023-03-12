@@ -1,8 +1,5 @@
 const express = require('express');
-const mongoose =  require('mongoose');
 const XLSX = require('xlsx');
-const multer =  require('multer');
-const fs = require('fs');;
 const AC = require('../../models/document_maker/AnaliseCritica/AnaliseCriticaClass');
 const TR = require('../../models/document_maker/TR/TRClass');
 const DFD = require('../../models/document_maker/DFD/DFDClass');
@@ -18,7 +15,6 @@ const ACDB = require('../../models/document_maker/AnaliseCritica/AnaliseCriticaD
 
 
 const printer = require('../../../public/js/builders/Printer');
-//const { workerData } = require('worker_threads');
 
 const router = express.Router();
 
@@ -90,8 +86,7 @@ router.post('/DFD', isAuth, resolver( async(req,res) => {
             const result = Buffer.concat(chunks);
             res.end(result);
         })
-
-}))
+}));
 
 router.post('/DiexReq', isAuth, resolver((req, res) => {        
     DR.getValues(req.body);
