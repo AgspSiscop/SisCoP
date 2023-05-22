@@ -36,7 +36,7 @@ document.addEventListener('click', (e) => {
 });
 
 searchBar.addEventListener('keyup', async() => {    
-    await getSearchValues(0);   
+    await getSearchValues(0);
 });
 
 async function getSections(){

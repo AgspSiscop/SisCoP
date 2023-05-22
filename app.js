@@ -17,11 +17,13 @@ const PORT = process.env.PORT;
 const hostname = process.env.HOST
 const dbUser = process.env.DB_USER;
 const dbPwd =  process.env.DB_PASSWORD;
+const dbHost = process.env.DB_HOST;
+const dbPort = process.env.DB_PORT;
 const secret = process.env.SISCOP_SECRET;
 
 app.use(session({
     secret: secret,
-    store:  MongoConnect.create({mongoUrl: `mongodb://${dbUser}:${dbPwd}@127.0.0.1:27017/siscop?authSource=admin&w=1&`}),
+    store:  MongoConnect.create({mongoUrl: `mongodb://192.168.15.7:3002,192.168.15.7:3001,192.168.15.7:3003/siscop?replicaSet=siscop`}),
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -63,7 +65,7 @@ app.set('views', path.join(__dirname, '/src', 'views'));
 
 mongoose.Promise =  global.Promise;
 mongoose.set('strictQuery', false);
-mongoose.connect(`mongodb://${dbUser}:${dbPwd}@127.0.0.1:27017/siscop?authSource=admin&w=1&`).then(() => {
+mongoose.connect(`mongodb://192.168.15.7:3002,192.168.15.7:3001,192.168.15.7:3003/siscop?replicaSet=siscop`).then(() => {
     console.log('Conected to the Database');
     app.emit('done')
 }).catch((e) => {

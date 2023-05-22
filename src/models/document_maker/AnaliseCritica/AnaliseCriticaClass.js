@@ -42,18 +42,7 @@ class AC {
         this.columnsProvider = this.#columnsProvider(this.map)
     }
 
-    static resetValues(){
-        /*this.nup = undefined
-        this.resp = undefined
-        this.role = undefined
-        this.resppg = undefined
-        this.object = undefined  
-        this.graphic = undefined
-        this.review = undefined
-        this.map = undefined
-        this.columnsPublic = undefined;
-        this.columnsInternet =  undefined;
-        this.columnsProvider = undefined;*/   
+    static resetValues(){          
         this.providersArray = []
     }
     

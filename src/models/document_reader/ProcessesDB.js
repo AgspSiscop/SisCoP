@@ -67,11 +67,11 @@ class Processes {
             if(this.body.object.length < 15 || !this.body.object || this.body.object == null){
                 errors.push({text: 'Nome inválido! Nome precisa ter no mínimo 15 caracteres'});                
             }
-            if(this.body.nup.replace(/\./g, '').replace(/\//g, '').replace(/-/, '').length !== 17){
-                errors.push({text: 'Nup inválido.'});
+            if(this.body.nup.replace(/\./g, '').replace(/\//g, '').replace(/-/, '').trim().length !== 17){
+                errors.push({text: 'Nup inválido'});
             }
             if(!category.some(x => x == this.body.category)){
-                errors.push({text: 'Categoria inválida.'});
+                errors.push({text: 'Categoria inválida'});
             }            
             return errors            
         } catch (error) {
@@ -82,11 +82,11 @@ class Processes {
 
     async create(){
         try {
-            const errors = this.#checkUp();
-            if(errors.length > 0){
-                return {errors: errors};
+            const errors = this.#checkUp();            
+            if(errors.length > 0){                            
+                throw new Error(errors.map((error, index) => index == errors.length - 1 ? ` ${error.text}.` : ` ${error.text}`))
             }else{
-                this.body.nup = this.body.nup.replace(/\./g, '').replace(/\//g, '').replace(/-/, '');
+                this.body.nup = this.body.nup.replace(/\./g, '').replace(/\//g, '').replace(/-/, '').trim();
                 this.body.object = this.body.object.replace(/\./g, '').replace(/\_/g, ' ').replace(/\//g, '')
                 const process = {
                     user: this.locals.user,

@@ -19,7 +19,7 @@ router.post('/cadastro', isAuth, resolver( async(req, res) =>{
     }
     const process = new Processes(req.body, res.locals);
     const state = new ProcessStates(req.body, res.locals, req.params);
-    const processObj = await process.create();
+    const processObj = await process.create();    
     await state.registerState(processObj.process._id);
     if(processObj.errors.length > 0){
         res.render('document_reader/create', {errors: processObj.errors});

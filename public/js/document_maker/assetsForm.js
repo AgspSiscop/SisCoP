@@ -1,4 +1,5 @@
-import {createElements, createSelect, createContainer, setAttributes, clearContainer, appendElements} from '/js/builders/elementsFunctions.js';
+import {createElements, createSelect, createContainer} from '/js/builders/elementsFunctions.js';
+import {request} from '/js/builders/ajax.js'
 
 const formp = document.getElementById('formp')
 const inputFile = document.getElementById('file')
@@ -13,8 +14,37 @@ inputFile.value = '' //resets when page is reloaded
 
 window.addEventListener('load', () => {
     createMembers(1);
+    getSectionsValues();
     
-})
+});
+
+async function getSectionsValues() {
+    try {
+        const sections = await request({
+            method: 'POST',
+            url: '/requests/sections1',
+            params: ''
+        });
+
+        generateSectionsSelect(sections);        
+    } catch (error) {
+        console.log(error);     
+    }
+}
+
+function generateSectionsSelect(sections) {
+    const sectorSelect = document.getElementById('sectorselect')
+    const sectionsV = [];
+    const sectionsN = sections.map(element => element.name);
+    sections.forEach(element => {        
+        if (element.name.split(' ')[0] !== 'Divisão' && element.name.split(' ')[0] !== 'Companhia' ) {
+            element.name =`Seção de ${element.name}`;
+        }
+        sectionsV.push(element.name);
+    });
+    const sectionsSelect = createSelect(sectionsV, sectionsN, '', 'sector', '');
+    sectorSelect.appendChild(sectionsSelect);
+}
 
 function createMembers(number){
     const membersDiv = document.getElementById('membersdiv');
@@ -30,8 +60,7 @@ function createMembers(number){
     const div2 = createContainer('div', {}, [pstGLabel, pstGSelect]);
     const flexDiv = createContainer('div', { class: 'display-flex-start'}, [div1, div2]);
     const div3 = createContainer('div', {}, [functionLabel, functionInput]);
-    const mainDiv = createContainer('div', {}, [document.createElement('hr'), flexDiv, div3]);
-    const president = createElements('label', {style: 'text-align: center'}, 'Este deve ser o integrande mais antigo');
+    const mainDiv = createContainer('div', {}, [document.createElement('hr'), flexDiv, div3]);    
     if(number === 1){
         name.placeholder = 'Este Deve Ser O Integrante Mais Antigo'
     }

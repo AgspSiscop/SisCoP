@@ -17,7 +17,7 @@ router.post('/:id', isAuth, resolver( async(req, res) => {
   const state = new ProcessStates(req.body, res.locals, req.params);
   const states = await state.find();
   let processObj = await process.findOne(); 
-  processObj.nup = processObj.nup.replace(/([0-9]{5})([0-9]{6})([0-9]{4})([0-9]{2})/, '$1.$2/$3-$4');
+  processObj.nup ? processObj.nup.replace(/([0-9]{5})([0-9]{6})([0-9]{4})([0-9]{2})/, '$1.$2/$3-$4'): 0; // altered
   res.render('process_manager/managerstatus', {process: processObj, states: states});  
 }));
 

@@ -16,7 +16,7 @@ const Section = new Schema ({
 mongoose.model('section', Section);
 
 mongoose.Promise =  global.Promise;
-mongoose.connect('mongodb://localhost/siscop').then(() => {
+mongoose.connect('mongodb://master:lasciAfarE33@127.0.0.1:27017/siscop?authSource=admin&w=1&').then(() => {
     console.log('Conected to Database');
 }).catch((e) => {
     console.log('Erro: ' + e);
